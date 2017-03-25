@@ -15,6 +15,20 @@ using AJAX and static HTML templates.  You can keep your code clean
 while allowing designers to edit HTML templates without breaking your
 Javascript. Allows easy maintenance and updates of UIs.
 
+## Syntax
+
+```html
+    <element z-var="[!]VAR_NAME (TARGET|ACTION)[, ...]">...</element>
+
+    <element template="(NAME|[PROPERTY])">...</element>
+```
+
+- __VAR_NAME__ - variable Object's property name
+- __TARGET__ - `.` - to insert value as TextNode, `@ATTR_NAME` to insert value into attribute.
+- __ACTION__ - `?` - hide element if value is false, `!` - remove element if value is false, `.CLASS_NAME` - add/remove class if value is true/false, `+` - insert value as child HTML , `=` - set value as form field's value.
+- __!__ - "not" - negates the value
+
+
 ## Example
 
 Original HTML.
