@@ -23,10 +23,10 @@ Javascript. Allows easy maintenance and updates of UIs.
     <element template="(NAME|[PROPERTY])">...</element>
 ```
 
-- __VAR_NAME__ - variable Object's property name
-- __TARGET__ - `.` - to insert value as TextNode, `@ATTR_NAME` to insert value into attribute.
-- __ACTION__ - `?` - hide element if value is false, `!` - remove element if value is false, `.CLASS_NAME` - add/remove class if value is true/false, `+` - insert value as child HTML , `=` - set value as form field's value.
-- __!__ - "not" - negates the value
+- __`VAR_NAME`__ - variable Object's property name
+- __`TARGET`__ - `.` - to insert value as TextNode, `@ATTR_NAME` to insert value into attribute, `+` - insert value as child HTML , `=` - set value as form field's value.
+- __`ACTION`__ - `?` - hide element if value is false, `!` - remove element if value is false, `.CLASS_NAME` - add/remove class if value is true/false.
+- __`!`__ - "not" - negates the value for the purpose of evaluation what `ACTION` should be taken.
 
 
 ## Example
@@ -70,6 +70,23 @@ Resulting HTML.
       name into sentence in "title" attribute and
       "Example Co." as plain text of the link.
   </small>
+</div>
+```
+
+Other usage examples.
+
+```html
+<div id="example">
+  <a href="mailto:${email}" z-var="email @href, email .">Insert "${email}" into "href" and this text.</a>
+  <div><input type="checkbox" z-var="action @checked"> Checked if "action" is true</div>
+  <div><input type="checkbox" z-var="!action @checked"> Checked if "action" is NOT true</div>
+  <div><input type="checkbox" z-var="action @disabled"> Disabled if "action" is true</div>
+  <div z-var="action .error">Gains CSS class "error" if "action" is true</div>
+  <div z-var="action ?">Show if "action" is true otherwise hide</div>
+  <div z-var="action !">Show if "action" is true otherwise remove</div>
+  <div z-var="!action ?">Show if "action" is NOT true otherwise hide</div>
+  <div z-var="!action !">Show if "action" is NOT true otherwise remove</div>
+  <div><input z-var="phone =" /> Insert "phone" variable as value.</div>
 </div>
 ```
 
