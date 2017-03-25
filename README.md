@@ -2,11 +2,12 @@
 Incredibly simple and yet powerful javascript templating system written by a lazy programmer so he can stay lazy and yet be able to effortlessly build and manage UIs.
 
 ## Features
-- [x] Supports nested templates
-- [x] You can apply template multiple times to update only some values
+- [x] Supports nested templates with for-each-like behavior
+- [x] You can apply template multiple times to the same element to update UI with changed values
 - [x] Support for conditional classes
 - [x] Support for conditional attributes (e.g. check check-box if value is true)
-- [x] Support for conditional inserting values into strings in both attributes and text contents
+- [x] Support for conditional hidding/showing/removal of elements
+- [x] And more...
 
 ## Audience
 
