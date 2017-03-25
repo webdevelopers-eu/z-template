@@ -46,7 +46,10 @@ Resulting HTML.
 ```html
 <div id="example">
   <div>
-      Visit <a z-var="url @href, name ., name @title" title="Home of Example Co." href="http://example.com">Example Co.</a>
+      Visit
+      <a z-var="url @href, name ., name @title" title="Home of Example Co." href="http://example.com">
+        Example Co.
+      </a>
   </div>
   <small z-var="url ., name .">
       The code above inserts "http://example.com" into "href" attribute,
