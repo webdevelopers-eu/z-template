@@ -14,15 +14,14 @@ Original HTML.
 
 ```html
 <div id="example">
-  <b z-var="date ."></b>
-  <ul>
-    <li template="[people]">
-      <a href="mailto:${email}" z-var="email @href, name ."></a>
-    </li>
-  </ul>
-  <ul>
-    <li template="[numbers]" z-var="value ."></li>
-  </ul>
+  <div>
+      Visit <a z-var="url @href, name ., name @title" title="Home of ${name}"></a>
+  </div>
+  <small z-var="url ., name .">
+      The code above inserts "${url}" into "href" attribute,
+      name into sentance in "title" attribute and
+      "${name}" as plain text of the link.
+  </small>
 </div>
 ```
 
@@ -30,13 +29,8 @@ Applying template.
 
 ```javascript
 $("#example").template({
-    'date': new Date,
-    'people': [
-      {'name': 'John Doe', 'email': 'doe@example.com'},
-      {'name': 'Jane Roe', 'email': 'jane@example.com'},
-      {'name': 'Mary Major', 'email': 'mary@example.com'}
-    ],
-    'numbers': [23423, 9841, 20]
+    'url': 'http://example.com',
+    'name': 'Example Co.'
 });
 ```
 
@@ -44,28 +38,15 @@ Resulting HTML.
 
 ```html
 <div id="example">
-  <b z-var="date .">Sat Mar 25 2017 19:01:56 GMT+0100 (CET)</b>
-  <ul>
-    <li class="template-clone" template-clone="[people]">
-      <a href="mailto:doe@example.com" z-var="email @href, name .">John Doe</a>
-    </li>
-    <li class="template-clone" template-clone="[people]">
-      <a href="mailto:jane@example.com" z-var="email @href, name .">Jane Roe</a>
-    </li>
-    <li class="template-clone" template-clone="[people]">
-      <a href="mailto:mary@example.com" z-var="email @href, name .">Mary Major</a>
-    </li>
-    <li template="[people]">
-      <a href="mailto:${email}" z-var="email @href, name ."></a>
-    </li>
-  </ul>
-  <ul>
-    <li z-var="value ." class="template-clone" template-clone="[numbers]">23423</li>
-    <li z-var="value ." class="template-clone" template-clone="[numbers]">9841</li>
-    <li z-var="value ." class="template-clone" template-clone="[numbers]">20</li>
-    <li template="[numbers]" z-var="value ."></li>
-  </ul>
+  <div>
+      Visit <a z-var="url @href, name ., name @title" title="Home of Example Co." href="http://example.com">Example Co.</a>
+  </div>
+  <small z-var="url ., name .">
+      The code above inserts "http://example.com" into "href" attribute,
+      name into sentance in "title" attribute and
+      "Example Co." as plain text of the link.
+  </small>
 </div>
 ```
 
-For more examples and explanations see file <code>tutorial/index.html</code>.
+For more advanced examples and explanations see file <code>tutorial/index.html</code>.
