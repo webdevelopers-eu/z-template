@@ -5,7 +5,7 @@ Incredibly simple and yet powerful javascript templating system written by a laz
 - [x] Supports nested templates
 - [x] You can apply template multiple times to update only some values
 - [x] Support for conditional classes
-- [x] Support for conditional attributes (e.g. check checkbox if value is true)
+- [x] Support for conditional attributes (e.g. check check-box if value is true)
 - [x] Support for conditional inserting values into strings in both attributes and text contents
 
 ## Audience
@@ -13,7 +13,7 @@ Incredibly simple and yet powerful javascript templating system written by a laz
 It is meant for programmers dynamically building UIs on front end
 using AJAX and static HTML templates.  You can keep your code clean
 while allowing designers to edit HTML templates without breaking your
-Javascript. Allows easy maintanance and updates of UIs.
+Javascript. Allows easy maintenance and updates of UIs.
 
 ## Example
 
@@ -26,7 +26,7 @@ Original HTML.
   </div>
   <small z-var="url ., name .">
       The code above inserts "${url}" into "href" attribute,
-      name into sentance in "title" attribute and
+      name into sentence in "title" attribute and
       "${name}" as plain text of the link.
   </small>
 </div>
@@ -50,7 +50,7 @@ Resulting HTML.
   </div>
   <small z-var="url ., name .">
       The code above inserts "http://example.com" into "href" attribute,
-      name into sentance in "title" attribute and
+      name into sentence in "title" attribute and
       "Example Co." as plain text of the link.
   </small>
 </div>
