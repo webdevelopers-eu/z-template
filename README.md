@@ -8,6 +8,13 @@ Incredibly simple and yet powerful javascript templating system written by a laz
 - [x] Support for conditional attributes (e.g. check checkbox if value is true)
 - [x] Support for conditional inserting values into strings in both attributes and text contents
 
+## Audience
+
+It is meant for programmers dynamically building UIs on front end
+using AJAX and static HTML templates.  You can keep your code clean
+while allowing designers to edit HTML templates without breaking your
+Javascript. Allows easy maintanance and updates of UIs.
+
 ## Example
 
 Original HTML.
