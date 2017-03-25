@@ -24,7 +24,7 @@ Javascript. Allows easy maintenance and updates of UIs.
 ```
 
 - __`VAR_NAME`__ - variable Object's property name
-- __`TARGET`__ - `.` - to insert value as TextNode, `@ATTR_NAME` to insert value into attribute, `+` - insert value as child HTML , `=` - set value as form field's value.
+- __`TARGET`__ - `.` - to insert value as TextNode, `@ATTR_NAME` to insert value into attribute, `+` - load serialized HTML text in variable as child HTML, `=` - set variable's value as form field's value.
 - __`ACTION`__ - `?` - hide element if value is false, `!` - remove element if value is false, `.CLASS_NAME` - add/remove class if value is true/false.
 - __`!`__ - "not" - negates the value for the purpose of evaluation what `ACTION` should be taken.
 
