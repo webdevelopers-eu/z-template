@@ -19,6 +19,14 @@ Javascript. Allows easy maintenance and updates of UIs.
 
 ## Syntax
 
+```javascript
+ $(SELECTOR).template(VARIABLES [, IN_PLACE]);
+```
+
+- __`VARIABLES`__ - Object or array of Objects with properties and their values to be used when resolving `z-var` attributes.
+- __`IN_PLACE`__ - boolean value. `true`: don't clone the element prior to replacing, `false`: clone the element, `undefined`: clone if element has attribute `template` otherwise replace vars in-place without cloning.
+
+
 ```html
     <element z-var="[!]VAR_NAME (TARGET|ACTION)[, ...]">...</element>
 
@@ -30,12 +38,6 @@ Javascript. Allows easy maintenance and updates of UIs.
 - __`ACTION`__ - `?` - hide element if value is false, `!` - remove element if value is false, `.CLASS_NAME` - add/remove class if value is true/false.
 - __`!`__ - "not" - negates the value for the purpose of evaluation what `ACTION` should be taken.
 
-```javascript
- $(SELECTOR).template(VARIABLES [, IN_PLACE]);
-```
-
-- __`VARIABLES`__ - Object or array of Objects with properties and their values to be used when resolving `z-var` attributes.
-- __`IN_PLACE`__ - boolean value. `true`: don't clone the element prior to replacing, `false`: clone the element, `undefined`: clone if element has attribute `template` otherwise replace vars in-place without cloning.
 
 ## Example
 
