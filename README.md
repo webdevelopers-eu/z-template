@@ -9,6 +9,7 @@ __Lazy Template__
 - [Audience](#audience)
 - [Syntax](#syntax)
 - [Example](#example)
+- [More](#more)
 
 <!-- markdown-toc end -->
 
@@ -112,4 +113,8 @@ Other usage examples.
 </div>
 ```
 
-For more advanced examples and explanations see file <code>tutorial/index.html</code>.
+# More
+
+For more advanced examples and explanations see file
+<code>tutorial/index.html</code> or just drop me a message what part
+is unclear and I will update this documentation...
