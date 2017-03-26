@@ -3,7 +3,7 @@ __Lazy Template__
 *Incredibly simple and yet powerful javascript templating system
 written by a lazy programmer so he can stay lazy and yet be able to
 effortlessly build and manage UIs (or let web designers to do that
-without breaking your UI-building javascript code).*
+without breaking his UI-building javascript code).*
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
 **Table of Contents**
