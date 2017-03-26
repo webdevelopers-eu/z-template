@@ -7,6 +7,7 @@ Incredibly simple and yet powerful javascript templating system written by a laz
 - [x] Support for conditional classes
 - [x] Support for conditional attributes (e.g. check check-box if value is true)
 - [x] Support for conditional hidding/showing/removal of elements
+- [x] Super lightweight with only 2.5kB of compressed Javascript
 - [x] And more...
 
 ## Audience
