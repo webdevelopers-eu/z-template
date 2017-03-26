@@ -1,5 +1,5 @@
 #!/bin/bash
 DIR="`dirname $0`/.."
 echo $DIR
-uglifyjs -m -c --screw-ie8 --preamble "/*! Javascript DNA Template v1.0 | (c) Daniel Ševčík | www.webdevelopers.eu */" --lint "$DIR/jquery.template.js" -o "$DIR/jquery.template.min.js" --source-map "$DIR/jquery.template.min.map"
-
+pushd $DIR
+uglifyjs -m -c --screw-ie8 --preamble "/*! Javascript DNA Template v1.0 | (c) Daniel Ševčík | www.webdevelopers.eu */" --lint "jquery.template.js" -o "jquery.template.min.js" --source-map "jquery.template.min.map"
