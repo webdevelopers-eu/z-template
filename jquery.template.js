@@ -1,5 +1,7 @@
 /**
- * ZOLINGA DNA
+ * JQUERY TEMPLATE
+ * https://github.com/webdevelopers-eu/jquery-template
+ *
  * author Daniel Sevcik <sevcik@webdevelopers.cz>
  * copyright 2016 Daniel Sevcik
  * since 2016-07-11 08:57:48 UTC
