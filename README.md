@@ -60,9 +60,17 @@ Javascript. Allows easy maintenance and updates of UIs.
 - __`ACTION`__ - following actions are available
     * `?` - hide element if value is false,
     * `!` - remove element if value is false (note: this is destructive action - you cannot re-apply new dataset again with the same effect),
-    * `.CLASS_NAME` - add/remove class if value is true/false. Property is evaluated as `false` if it is an empty Array or Object, numeric zero (can be String or Number) or `false` or `null`.
-- __`!`__ - "not" - negates the value for the purpose of evaluation what `ACTION` should be taken.
+    * `.CLASS_NAME` - add/remove class if value is true/false.
+- __`!`__ - "not" - negates the `DATASET_PROPERTY` value for the purpose of evaluation what `ACTION` should be taken.
 
+To determine if `ACTION` should be taken `DATASET_PROPERTY` is converted into boolean `true` or `false`. Following values are considered `false`:
+* an empty `Array` or
+* an empty `Object` or
+* number `0` or
+* string representing numeric value zero (e.g. `"0.00"`) or
+* boolean `false` or
+* `null` or
+* empty string
 
 ```html
     <element template="(NAME|[PROPERTY])">...</element>
