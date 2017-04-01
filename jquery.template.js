@@ -32,7 +32,7 @@
  * TMPL_NAME - all elements with 'template' attriube are hidden by default.
  * RECURSIVE_VAR_NAME - recursive template. The variable value will be recursively re-applied to this element.
  *
- * Variable is evaluated to false if it is equal to 0 (numeric) or "0"
+ * Variable is evaluated to false if it is equal to 0 (numeric) or "0" or "0.00"...
  * (string) or empty Object or Array or anything else that evaluates
  * to false in javascript.
  *
@@ -193,7 +193,7 @@ $.fn.template = function(vars, inPlace) {
                         var mappings = $.trim(pairs[i]).split(/\s+/);
                         if (mappings[0] != name && mappings[0] != '!' + name) continue;
                         var target = mappings[1] || '.';
-                        var boolVal = !(typeof val == 'object' && $.isEmptyObject(val)) && val != '0' && val != 0 && val;
+                        var boolVal = !(typeof val == 'object' && $.isEmptyObject(val)) && !($.isNumeric(val) && !parseFloat(val)) && val;
                         boolVal = mappings[0].substr(0, 1) == '!' ? !boolVal : boolVal;
 
                         if (target == '?') {

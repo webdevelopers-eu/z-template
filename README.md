@@ -1,9 +1,9 @@
 __Lazy Template__
 
-*Incredibly simple and yet powerful javascript templating system
-written by a lazy programmer so he can stay lazy and yet be able to
-effortlessly build and manage UIs (or let web designers to do that
-without breaking his UI-building javascript code).*
+*Incredibly simple and yet powerful non-destructive javascript
+templating system written by a lazy programmer so he can stay lazy and
+yet be able to effortlessly build and manage UIs (or let web designers
+to do that without breaking his UI-building javascript code).*
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
 **Table of Contents**
@@ -59,11 +59,16 @@ Javascript. Allows easy maintenance and updates of UIs.
 
 Original HTML.
 
+Note: Elements with attribute `template` are automatically hidden by default.
+
 ```html
 <div id="example">
   <div>
-      Visit <a z-var="url @href, name ., name @title" title="Home of ${name}"></a>
+      Visit <a z-var="url @href, name ., name @title" title="Home of ${name}">...</a>
   </div>
+  <ul>
+    <li template="[myList]"  z-var="firstName ., lastName .">${firstName} ${lastName}</li>
+  </ul>
   <small z-var="url ., name .">
       The code above inserts "${url}" into "href" attribute,
       name into sentence in "title" attribute and
@@ -77,7 +82,11 @@ Applying template.
 ```javascript
 $("#example").template({
     'url': 'http://example.com',
-    'name': 'Example Co.'
+    'name': 'Example Co.',
+    'myList': [
+        {'firstName': 'John', 'lastName': 'Doe'},
+        {'firstName': 'Jane', 'lastName': 'Smith'}
+    ]
 });
 ```
 
@@ -91,6 +100,11 @@ Resulting HTML.
         Example Co.
       </a>
   </div>
+  <ul>
+    <li template="[myList]"  z-var="firstName ., lastName .">${firstName} ${lastName}</li>
+    <li class="template-clone" z-var="firstName ., lastName .">John Doe</li>
+    <li class="template-clone" z-var="firstName ., lastName .">Jane Smith</li>
+  </ul>
   <small z-var="url ., name .">
       The code above inserts "http://example.com" into "href" attribute,
       name into sentence in "title" attribute and
