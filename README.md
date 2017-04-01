@@ -59,10 +59,10 @@ Javascript. Allows easy maintenance and updates of UIs.
 
 The best example is the one you can play with.
 
-- [Basic example](https://codepen.io/webdevelopers/pen/PpVGde) - insert variable into attribute and text
-- [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ) - iterate through the array and generate list
-- [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR) - simple variables with nested array to generate list
-- [Form example](https://codepen.io/webdevelopers/pen/PpVGde) - toggle check-boxes, set values on select-boxes, change button labels and classes...
+- [Basic example](https://codepen.io/webdevelopers/pen/PpVGde?editors=1010#0) - insert variable into attribute and text
+- [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ?editors=1010#0) - iterate through the array and generate list
+- [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR?editors=1010#0) - simple variables with nested array to generate list
+- [Form example](https://codepen.io/webdevelopers/pen/PpVGde?editors=1010#0) - toggle check-boxes, set values on select-boxes, change button labels and classes...
 
 # More
 
