@@ -125,7 +125,7 @@ $.fn.template = function(vars, inPlace) {
             $ret.add($(this).template(vars[i], inPlace));
         }
     } else {
-        this.each(function() {
+        $(this).each(function() {
             var $this = $(this);
             var noClone = typeof inPlace == 'boolean' ? inPlace : !$this.is('[template]');
             var $subject = noClone ? $this : $this.clone().addClass('template-clone').attr('template-clone', $this.attr('template'));
