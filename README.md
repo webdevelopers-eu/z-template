@@ -57,7 +57,10 @@ Javascript. Allows easy maintenance and updates of UIs.
     * `@ATTR_NAME` to insert value into attribute (Note: If `DATASET_PROPERTY` si `true` then attribute's value will be same as attribute's name, e.g. `checked="checked"` for `z-var="isChecked @checked"` if `isChecked = true`.)
     * `+` - load serialized HTML text in variable as child HTML,
     * `=` - set variable's value as form field's value.
-- __`ACTION`__ - `?` - hide element if value is false, `!` - remove element if value is false, `.CLASS_NAME` - add/remove class if value is true/false.
+- __`ACTION`__ - following actions are available
+    * `?` - hide element if value is false,
+    * `!` - remove element if value is false (note: this is destructive action - you cannot re-apply new dataset again with the same effect),
+    * `.CLASS_NAME` - add/remove class if value is true/false. Property is evaluated as `false` if it is an empty Array or Object, numeric zero (can be String or Number) or `false` or `null`.
 - __`!`__ - "not" - negates the value for the purpose of evaluation what `ACTION` should be taken.
 
 
