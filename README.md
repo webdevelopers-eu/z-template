@@ -57,78 +57,12 @@ Javascript. Allows easy maintenance and updates of UIs.
 
 # Example
 
-Original HTML.
+The best example is the one you can play with yourself:
 
-Note: Elements with attribute `template` are automatically hidden by default.
-
-```html
-<div id="example">
-  <div>
-      Visit <a z-var="url @href, name ., name @title" title="Home of ${name}">...</a>
-  </div>
-  <ul>
-    <li template="[myList]"  z-var="firstName ., lastName .">${firstName} ${lastName}</li>
-  </ul>
-  <small z-var="url ., name .">
-      The code above inserts "${url}" into "href" attribute,
-      name into sentence in "title" attribute and
-      "${name}" as plain text of the link.
-  </small>
-</div>
-```
-
-Applying template.
-
-```javascript
-$("#example").template({
-    'url': 'http://example.com',
-    'name': 'Example Co.',
-    'myList': [
-        {'firstName': 'John', 'lastName': 'Doe'},
-        {'firstName': 'Jane', 'lastName': 'Smith'}
-    ]
-});
-```
-
-Resulting HTML.
-
-```html
-<div id="example">
-  <div>
-      Visit
-      <a z-var="url @href, name ., name @title" title="Home of Example Co." href="http://example.com">
-        Example Co.
-      </a>
-  </div>
-  <ul>
-    <li template="[myList]"  z-var="firstName ., lastName .">${firstName} ${lastName}</li>
-    <li class="template-clone" z-var="firstName ., lastName .">John Doe</li>
-    <li class="template-clone" z-var="firstName ., lastName .">Jane Smith</li>
-  </ul>
-  <small z-var="url ., name .">
-      The code above inserts "http://example.com" into "href" attribute,
-      name into sentence in "title" attribute and
-      "Example Co." as plain text of the link.
-  </small>
-</div>
-```
-
-Other usage examples.
-
-```html
-<div id="example">
-  <a href="mailto:${email}" z-var="email @href, email .">Insert "${email}" into "href" and this text.</a>
-  <div><input type="checkbox" z-var="action @checked"> Checked if "action" is true</div>
-  <div><input type="checkbox" z-var="!action @checked"> Checked if "action" is NOT true</div>
-  <div><input type="checkbox" z-var="action @disabled"> Disabled if "action" is true</div>
-  <div z-var="action .error">Gains CSS class "error" if "action" is true</div>
-  <div z-var="action ?">Show if "action" is true otherwise hide</div>
-  <div z-var="action !">Show if "action" is true otherwise remove</div>
-  <div z-var="!action ?">Show if "action" is NOT true otherwise hide</div>
-  <div z-var="!action !">Show if "action" is NOT true otherwise remove</div>
-  <div><input z-var="phone =" /> Insert "phone" variable as value.</div>
-</div>
-```
+- [Basic example](https://codepen.io/webdevelopers/pen/PpVGde) - insert variable into attribute and text
+- [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ) - iterate through the array and generate list
+- [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR) - simple variables with nested array to generate list
+- [Form example](https://codepen.io/webdevelopers/pen/PpVGde) - toggle check-boxes, set values on select-boxes, change button labels and classes...
 
 # More
 
