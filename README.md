@@ -52,7 +52,11 @@ Javascript. Allows easy maintenance and updates of UIs.
 ```
 
 - __`DATASET_PROPERTY`__ - property name on the object passed to `$(selector).template(DATASET)` method.
-- __`TARGET`__ - `.` - to insert value as TextNode, `@ATTR_NAME` to insert value into attribute, `+` - load serialized HTML text in variable as child HTML, `=` - set variable's value as form field's value.
+- __`TARGET`__ - use following notation
+    * `.` - to insert value as TextNode,
+    * `@ATTR_NAME` to insert value into attribute (note if `DATASET_PROPERTY` si `true` then attribute's value will be same as attribute's name, e.g. `checked="checked"` for `z-var="isChecked @checked"` if `isChecked = true`)
+    * `+` - load serialized HTML text in variable as child HTML,
+    * `=` - set variable's value as form field's value.
 - __`ACTION`__ - `?` - hide element if value is false, `!` - remove element if value is false, `.CLASS_NAME` - add/remove class if value is true/false.
 - __`!`__ - "not" - negates the value for the purpose of evaluation what `ACTION` should be taken.
 
