@@ -11,6 +11,8 @@ to do that without breaking his UI-building javascript code).*
 - [Features](#features)
 - [Audience](#audience)
 - [Syntax](#syntax)
+    - [Javacript](#javacript)
+    - [HTML](#html)
 - [Example](#example)
 - [More](#more)
 
@@ -35,24 +37,32 @@ Javascript. Allows easy maintenance and updates of UIs.
 
 # Syntax
 
+## Javacript
 ```javascript
- $(SELECTOR).template(VARIABLES [, IN_PLACE]);
+ $(SELECTOR).template(DATASET [, IN_PLACE]);
 ```
 
-- __`VARIABLES`__ - Object or array of Objects with properties and their values to be used when resolving `z-var` attributes.
+- __`DATASET`__ - Object or Array of Objects or Object with nested Arrays or Objects with properties and their values to be used when resolving `z-var` attributes.
 - __`IN_PLACE`__ - boolean value. `true`: don't clone the element prior to replacing variables, `false`: clone the element, `undefined`: clone if element has the attribute `template` otherwise replace vars in-place without cloning.
 
+## HTML
 
 ```html
-    <element z-var="[!]VAR_NAME (TARGET|ACTION)[, ...]">...</element>
-
-    <element template="(NAME|[PROPERTY])">...</element>
+    <element z-var="[!]DATASET_PROPERTY (TARGET|ACTION)[, ...]">...</element>
 ```
 
-- __`VAR_NAME`__ - variable Object's property name
+- __`DATASET_PROPERTY`__ - property name on the object passed to `$(selector).template(DATASET)` method.
 - __`TARGET`__ - `.` - to insert value as TextNode, `@ATTR_NAME` to insert value into attribute, `+` - load serialized HTML text in variable as child HTML, `=` - set variable's value as form field's value.
 - __`ACTION`__ - `?` - hide element if value is false, `!` - remove element if value is false, `.CLASS_NAME` - add/remove class if value is true/false.
 - __`!`__ - "not" - negates the value for the purpose of evaluation what `ACTION` should be taken.
+
+
+```html
+    <element template="(NAME|[PROPERTY])">...</element>
+```
+
+- __`NAME`__ - any name of your choice. All elements having attribute `template` are hidden by default. Applying template to such element will clone it, remove the `template` attribute and then apply the dataset. See [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ?editors=1010#0).
+- __`PROPERTY`__ - name of the property on `DATASET` object that holds nested Array or Object to be applied to this template. See [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR?editors=1010#0).
 
 
 # Example
