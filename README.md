@@ -57,7 +57,7 @@ Javascript. Allows easy maintenance and updates of UIs.
 
 # Example
 
-The best example is the one you can play with yourself:
+The best example is the one you can play with.
 
 - [Basic example](https://codepen.io/webdevelopers/pen/PpVGde) - insert variable into attribute and text
 - [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ) - iterate through the array and generate list
