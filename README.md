@@ -10,10 +10,11 @@ to do that without breaking his UI-building javascript code).*
 
 - [Features](#features)
 - [Audience](#audience)
+- [Quick Introduction](#quick-introduction)
+- [Interactive Examples](#interactive-examples)
 - [Syntax](#syntax)
     - [Javacript](#javacript)
     - [HTML](#html)
-- [Example](#example)
 - [More](#more)
 
 <!-- markdown-toc end -->
@@ -34,6 +35,35 @@ It is meant for programmers dynamically building UIs on front end
 using AJAX and static HTML templates.  You can keep your code clean
 while allowing designers to edit HTML templates without breaking your
 Javascript. Allows easy maintenance and updates of UIs.
+
+# Quick Introduction
+
+Add the `z-var="PROPERTY TARGET"` attribute to the element. The
+`TARGET` is usually `.` (dot) for inserting variable as element's text
+content or `@ATTR_NAME` to insert variable into named attribute on the
+element. You can specify more actions separated by comma.
+
+```HTML
+<div z-var="name ."></div>
+
+<script>
+    $('div').template({'name': 'John Smith'});
+</script>
+```
+
+Why to have `z-var` attribute? Because unlike other solutions using
+`z-var` attribute allows you to update the same HTML with new values
+because Lazy Template is non-destructive.
+
+# Interactive Examples
+
+The best example is the one you can play with.
+
+- [Basic example](https://codepen.io/webdevelopers/pen/PpVGde?editors=1010#0) - insert variable into attribute and text
+- [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ?editors=1010#0) - iterate through the array and generate list
+- [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR?editors=1010#0) - simple variables with nested array to generate list
+- [Form example](https://codepen.io/webdevelopers/pen/XMOjGm?editors=1010#0) - toggle check-boxes, set values on select-boxes, change button labels and classes...
+- [UI Updates](https://codepen.io/webdevelopers/pen/jBdyVm?editors=1010#0) - example of continuous live UI updates
 
 # Syntax
 
@@ -79,16 +109,6 @@ To determine if `ACTION` should be taken `DATASET_PROPERTY` is converted into bo
 - __`NAME`__ - any name of your choice. All elements having attribute `template` are hidden by default. Applying template to such element will clone it, remove the `template` attribute and then apply the dataset. See [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ?editors=1010#0).
 - __`PROPERTY`__ - name of the property on `DATASET` object that holds nested Array or Object to be applied to this template. See [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR?editors=1010#0).
 
-
-# Example
-
-The best example is the one you can play with.
-
-- [Basic example](https://codepen.io/webdevelopers/pen/PpVGde?editors=1010#0) - insert variable into attribute and text
-- [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ?editors=1010#0) - iterate through the array and generate list
-- [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR?editors=1010#0) - simple variables with nested array to generate list
-- [Form example](https://codepen.io/webdevelopers/pen/XMOjGm?editors=1010#0) - toggle check-boxes, set values on select-boxes, change button labels and classes...
-- [UI Updates](https://codepen.io/webdevelopers/pen/jBdyVm?editors=1010#0) - example of continuous live UI updates
 
 # More
 
