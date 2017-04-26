@@ -102,6 +102,8 @@ To determine if `ACTION` should be taken `DATASET_PROPERTY` is converted into bo
 * `null` or
 * empty string
 
+If you try to insert the plain Array object as text or value then its length gets inserted instead. You can use it to insert item counts.
+
 ```html
     <element template="(NAME|[PROPERTY])">...</element>
 ```
