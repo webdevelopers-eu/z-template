@@ -36,6 +36,9 @@
  * (string) or empty Object or Array or anything else that evaluates
  * to false in javascript.
  *
+ * If element is plain array then the text representation is its length. Example:
+ * $('<span z-var="list ."></span>').template({"list": [10, 20]}); // will output <span>2</span>
+ *
  * If the element that template is called on has an attribute 'template' then prior to replacement the element
  *
  *  - is cloned and reinserted before original element
@@ -125,7 +128,7 @@ $.fn.template = function(vars, inPlace) {
             $ret.add($(this).template(vars[i], inPlace));
         }
     } else {
-        $(this).each(function() {
+        this.each(function() {
             var $this = $(this);
             var noClone = typeof inPlace == 'boolean' ? inPlace : !$this.is('[template]');
             var $subject = noClone ? $this : $this.clone().addClass('template-clone').attr('template-clone', $this.attr('template'));
@@ -195,6 +198,10 @@ $.fn.template = function(vars, inPlace) {
                         var target = mappings[1] || '.';
                         var boolVal = !(typeof val == 'object' && $.isEmptyObject(val)) && !($.isNumeric(val) && !parseFloat(val)) && val;
                         boolVal = mappings[0].substr(0, 1) == '!' ? !boolVal : boolVal;
+
+                        if ($.isArray(val)) { // To be able to count number of results: <span z-var="list .">Found ${list} records</span>
+                            val = val.length;
+                        }
 
                         if (target == '?') {
                             show = (show === null ? true : show) && boolVal;
