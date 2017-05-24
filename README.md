@@ -45,6 +45,7 @@ element. You can specify more actions separated by comma.
 
 ```HTML
 <div z-var="name ."></div>
+<div z-var="name .">My name is ${name}</div>
 
 <script>
     $('div').template({'name': 'John Smith'});
@@ -54,6 +55,10 @@ element. You can specify more actions separated by comma.
 Why to have `z-var` attribute? Because unlike other solutions using
 `z-var` attribute allows you to update the same HTML with new values
 because Lazy Template is non-destructive.
+
+Note: You may use also `${PROP_NAME}` placeholder syntax on top of
+`z-var`. Lazy Templates will remember the template text so subsequent
+UI updates will work.
 
 # Interactive Examples
 
