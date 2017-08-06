@@ -70,7 +70,8 @@ element. You can specify more actions separated by comma.
 <div template="[list]" z-var="value ."></div>
 
 <!--
-  Duplicate DIV for each value inside "listExt" array and insert value as text in it.
+  Duplicate DIV for each value inside "listExt" array and use sub-object to insert
+  variables into duplicated DIV.
 
   "first ., last ." - add first and last name as text in indicated positions
   "last @title" - add last name into "title" attribute
