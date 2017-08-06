@@ -43,52 +43,60 @@ Add the `z-var="PROPERTY TARGET"` attribute to the element. The
 content or `@ATTR_NAME` to insert variable into named attribute on the
 element. You can specify more actions separated by comma.
 
+Assume that all examples in this section use this Javascript to apply
+the template.
+
+```javascript
+$('div').template({
+	'name': 'John Smith',
+	'validated': true,
+	'list': ['aa', 'bb'],
+	'listExt': [
+		{'first': 'John', 'last': 'Doe'}, 
+		{'first': 'Jane', 'last': 'Smith'}, 
+	]
+});
+```
+
+Now the examples that we apply the code above to.
+
+- "`name .`" - add value `name` as the text value
+- "`validated .lock-icon`" - add class `lock-icon` if `validated` is true
+- "`validated @checked`" - add `checked="checked"` attribute if true
+
 ```HTML
-<!-- 
-	"name ." - add value "name" as the text value
-	"validated .lock-icon" - add class "lock-icon" if "validated" is true
-	"validated @checked" - add 'checked="checked"' attribute if true
--->
 <div z-var="name ., validated .lock-icon"></div>
 <input type="checkbox" z-var="validated @checked"/><label>Checked</label>
+```
 
-<!-- 
-	"validated ?" - show element if "validated" is true, hide otherwise
-	"!validated ?" - the oposite of above - hide if true, show if false
--->
+- "`validated ?`" - show element if `validated` is true, hide otherwise
+- "`!validated ?`" - the oposite of above - hide if true, show if false
+
+```HTML
 <div z-var="validated ?">Validated</div>
 <div z-var="!validated ?">Not Validated</div>
+```
+ 
+- "`name .`" - add value of `name` in place of `${name}` placeholder
 
-<!-- 
-	"name ." - add value "name" in place of "${name}"
--->
+```HTML
 <div z-var="name .">My name is ${name}</div>
+```
 
-<!--
-  Duplicate DIV for each value inside "list" array and insert value as text in it.
--->
+Duplicate DIV for each value inside `list` array and insert value as text in it.
+
+```HTML
 <div template="[list]" z-var="value ."></div>
+```
 
-<!--
-  Duplicate DIV for each value inside "listExt" array and use sub-object to insert
-  variables into duplicated DIV.
+Duplicate `div` for each value inside `listExt` array and use sub-object to insert
+variables into duplicated `div`.
 
-  "first ., last ." - add first and last name as text in indicated positions
-  "last @title" - add last name into "title" attribute
--->
+-  "`first ., last .`" - add first and last name as text in positions indicated by placholders
+-  "`last @title`" - add last name into `title` attribute
+
+```HTML
 <div template="[listExt]" z-var="first ., last ., last @title">${first} ${last}</div>
-
-<script>
-    $('div').template({
-		'name': 'John Smith',
-		'validated': true,
-		'list': ['aa', 'bb'],
-		'listExt': [
-			{'first': 'John', 'last': 'Doe'}, 
-			{'first': 'Jane', 'last': 'Smith'}, 
-		]
-	});
-</script>
 ```
 
 Why to have `z-var` attribute? Because unlike other solutions using
