@@ -21,11 +21,11 @@ to do that without breaking his UI-building javascript code).*
 
 
 # Features
-- [x] Supports nested templates with for-each-like behavior
+- [x] Supports nested templates with for-each-like behavior (recursive templates supported)
 - [x] You can apply template multiple times to the same element to update UI with changed values
-- [x] Support for conditional classes
-- [x] Support for conditional attributes (e.g. check check-box if value is true)
-- [x] Support for conditional hidding/showing/removal of elements
+- [x] Support for adding/removing classes conditionaly (e.g. add this class if value is true )
+- [x] Support for conditional attributes (e.g. check the check-box if value is true)
+- [x] Support for conditional hidding/showing/removal of elements based on values
 - [x] Super lightweight with only 2.5kB of compressed Javascript
 - [x] And more...
 
@@ -44,11 +44,49 @@ content or `@ATTR_NAME` to insert variable into named attribute on the
 element. You can specify more actions separated by comma.
 
 ```HTML
-<div z-var="name ."></div>
+<!-- 
+	"name ." - add value "name" as the text value
+	"validated .lock-icon" - add class "lock-icon" if "validated" is true
+	"validated @checked" - add 'checked="checked"' attribute if true
+-->
+<div z-var="name ., validated .lock-icon"></div>
+<input type="checkbox" z-var="validated @checked"/><label>Checked</label>
+
+<!-- 
+	"validated ?" - show element if "validated" is true, hide otherwise
+	"!validated ?" - the oposite of above - hide if true, show if false
+-->
+<div z-var="validated ?">Validated</div>
+<div z-var="!validated ?">Not Validated</div>
+
+<!-- 
+	"name ." - add value "name" in place of "${name}"
+-->
 <div z-var="name .">My name is ${name}</div>
 
+<!--
+  Duplicate DIV for each value inside "list" array and insert value as text in it.
+-->
+<div template="[list]" z-var="value ."></div>
+
+<!--
+  Duplicate DIV for each value inside "listExt" array and insert value as text in it.
+
+  "first ., last ." - add first and last name as text in indicated positions
+  "last @title" - add last name into "title" attribute
+-->
+<div template="[listExt]" z-var="first ., last ., last @title">${first} ${last}</div>
+
 <script>
-    $('div').template({'name': 'John Smith'});
+    $('div').template({
+		'name': 'John Smith',
+		'validated': true,
+		'list': ['aa', 'bb'],
+		'listExt': [
+			{'first': 'John', 'last': 'Doe'}, 
+			{'first': 'Jane', 'last': 'Smith'}, 
+		]
+	});
 </script>
 ```
 
