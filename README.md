@@ -52,8 +52,8 @@ $('div').template({
 	'validated': true,
 	'list': ['aa', 'bb'],
 	'listExt': [
-		{'first': 'John', 'last': 'Doe'}, 
-		{'first': 'Jane', 'last': 'Smith'}, 
+		{'first': 'John', 'last': 'Doe', 'validated': true}, 
+		{'first': 'Jane', 'last': 'Smith', 'validated': false}, 
 	]
 });
 ```
@@ -97,6 +97,12 @@ variables into duplicated `div`.
 
 ```HTML
 <div template="[listExt]" z-var="first ., last ., last @title">${first} ${last}</div>
+```
+
+Same example as above but remove all items having `validated` set to false - `validated !`.
+
+```HTML
+<div template="[listExt]" z-var="first ., last ., last @title, validated !">${first} ${last}</div>
 ```
 
 Why to have `z-var` attribute? Because unlike other solutions using
