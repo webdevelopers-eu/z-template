@@ -107,7 +107,9 @@ Same example as above but remove all items having `validated` set to false - `va
 
 Why to have `z-var` attribute? Because unlike other solutions using
 `z-var` attribute allows you to update the same HTML with new values
-because Lazy Template is non-destructive.
+because Lazy Template is non-destructive. It allows you to do also
+other cool stuff like conditionally hidding the element or adding
+conditional classes to it and much more.
 
 Note: You may use also `${PROP_NAME}` placeholder syntax on top of
 `z-var`. Lazy Templates will remember the template text so subsequent
