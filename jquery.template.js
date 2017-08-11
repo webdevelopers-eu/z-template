@@ -205,6 +205,7 @@ $.fn.template = function(vars, inPlace) {
 			var target = mappings[1] || '.';
 			var boolVal = !(typeof val == 'object' && $.isEmptyObject(val)) && !($.isNumeric(val) && !parseFloat(val)) && val;
 			boolVal = mappings[0].substr(0, 1) == '!' ? !boolVal : boolVal;
+			var textVal=$.type(val).match(/string|number/) ? val : '';
 
 			if ($.isArray(val)) { // To be able to count number of results: <span z-var="list .">Found ${list} records</span>
 			    val = val.length;
@@ -215,7 +216,7 @@ $.fn.template = function(vars, inPlace) {
 			} else if (target == '!') {
 			    if (!boolVal) $this.remove();
 			} else if (target == '.') {
-			    $this.text(replaceText(getOriginalText($this, $this.text(), target, restored), name, val));
+			    $this.text(replaceText(getOriginalText($this, $this.text(), target, restored), name, textVal));
 			} else if (target == '+') {
 			    $this.html(val);
 			} else if (target == '=') {
@@ -234,7 +235,7 @@ $.fn.template = function(vars, inPlace) {
 			    if ($.type(val) == 'boolean') { // if true set attr val with the same name. E.g. selected="selected" otherwise remove attr.
 				$this.attr(target.substr(1), boolVal ? target.substr(1) : null);
 			    } else {
-				$this.attr(target.substr(1), replaceText(getOriginalText($this, $this.attr(target.substr(1)), target, restored), name, val));
+				$this.attr(target.substr(1), replaceText(getOriginalText($this, $this.attr(target.substr(1)), target, restored), name, textVal));
 			    }
 			} else {
 			    console.log('Error: replaceVars(): invalid target "' + target + '" for variable "' + name + '" in "' + $this.attr('z-var') + '"');
