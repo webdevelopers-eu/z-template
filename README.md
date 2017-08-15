@@ -13,8 +13,8 @@ to do that without breaking his UI-building javascript code).*
 - [Quick Introduction](#quick-introduction)
 - [Interactive Examples](#interactive-examples)
 - [Syntax](#syntax)
-    - [Javacript](#javacript)
-    - [HTML](#html)
+	- [Javacript](#javacript)
+	- [HTML](#html)
 - [More](#more)
 
 <!-- markdown-toc end -->
@@ -52,8 +52,8 @@ $('div').template({
 	'validated': true,
 	'list': ['aa', 'bb'],
 	'listExt': [
-		{'first': 'John', 'last': 'Doe', 'validated': true}, 
-		{'first': 'Jane', 'last': 'Smith', 'validated': false}, 
+		{'first': 'John', 'last': 'Doe', 'validated': true},
+		{'first': 'Jane', 'last': 'Smith', 'validated': false},
 	]
 });
 ```
@@ -76,7 +76,7 @@ Now the examples that we apply the code above to.
 <div z-var="validated ?">Validated</div>
 <div z-var="!validated ?">Not Validated</div>
 ```
- 
+
 - "`name .`" - add value of `name` in place of `${name}` placeholder
 
 ```HTML
@@ -138,19 +138,19 @@ The best example is the one you can play with.
 ## HTML
 
 ```html
-    <element z-var="[!]DATASET_PROPERTY (TARGET|ACTION)[, ...]">...</element>
+	<element z-var="[!]DATASET_PROPERTY (TARGET|ACTION)[, ...]">...</element>
 ```
 
 - __`DATASET_PROPERTY`__ - property name on the object passed to `$(selector).template(DATASET)` method.
 - __`TARGET`__ - use following notation
-    * `.` - to insert value as TextNode,
-    * `@ATTR_NAME` to insert value into attribute (Note: If `DATASET_PROPERTY` si `true` then attribute's value will be same as attribute's name, e.g. `checked="checked"` for `z-var="isChecked @checked"` if `isChecked = true`.)
-    * `+` - load serialized HTML text in variable as child HTML,
-    * `=` - set variable's value as form field's value.
+	* `.` - to insert value as TextNode,
+	* `@ATTR_NAME` to insert value into attribute (Note: If `DATASET_PROPERTY` si `true` then attribute's value will be same as attribute's name, e.g. `checked="checked"` for `z-var="isChecked @checked"` if `isChecked = true`.)
+	* `+` - load serialized HTML text in variable as child HTML,
+	* `=` - set variable's value as form field's value. If the field is a check-box or radio-box then (un)check it if value is boolean otherwise check it only if value equals to input's `value` attribute.
 - __`ACTION`__ - following actions are available
-    * `?` - hide element if value is false,
-    * `!` - remove element if value is false (note: this is destructive action - you cannot re-apply new dataset again with the same effect),
-    * `.CLASS_NAME` - add/remove class if value is true/false.
+	* `?` - hide element if value is false,
+	* `!` - remove element if value is false (note: this is destructive action - you cannot re-apply new dataset again with the same effect),
+	* `.CLASS_NAME` - add/remove class if value is true/false.
 - __`!`__ - "not" - negates the `DATASET_PROPERTY` value for the purpose of evaluation what `ACTION` should be taken.
 
 To determine if `ACTION` should be taken `DATASET_PROPERTY` is converted into boolean `true` or `false`. Following values are considered `false`:
@@ -165,7 +165,7 @@ To determine if `ACTION` should be taken `DATASET_PROPERTY` is converted into bo
 If you try to insert the plain Array object as text or value then its length gets inserted instead. You can use it to insert item counts.
 
 ```html
-    <element template="(NAME|[PROPERTY])">...</element>
+	<element template="(NAME|[PROPERTY])">...</element>
 ```
 
 - __`NAME`__ - any name of your choice. All elements having attribute `template` are hidden by default. Applying template to such element will clone it, remove the `template` attribute and then apply the dataset. See [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ?editors=1010#0).

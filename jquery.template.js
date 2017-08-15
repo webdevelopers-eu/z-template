@@ -220,7 +220,11 @@ $.fn.template = function(vars, inPlace) {
 			} else if (target == '+') {
 			    $this.html(val);
 			} else if (target == '=') {
-			    $this.val(val);
+			    if ($this.is(':checkbox, :radio')) {
+				$this.prop('checked', !$.type(val).match(/string|number/) ? boolVal : $this.val() == textVal);
+			    } else {
+				$this.val(val);
+			    }
 			} else if (target.substr(0, 1) == '.') { // add/remove class name
 			    var classNames = target.substr(1).replace('.', ' ');
 			    if (boolVal) {
