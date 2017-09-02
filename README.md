@@ -45,15 +45,13 @@ with the real path pointing to your files.
 <!doctype html>
 <html>
     <head>
-	    ...
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 		
         <link rel="stylesheet" type="text/css" href="…/template.css"/>
         <script src="…/jquery.template.min.js"></script>
-		...
     </head>
     <body>
-        ...
+
     </body>
 </html>
 ```
