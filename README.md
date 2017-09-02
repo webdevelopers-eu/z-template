@@ -38,7 +38,27 @@ Javascript. Allows easy maintenance and updates of UIs.
 
 # Quick Introduction
 
-Add the `z-var="PROPERTY TARGET"` attribute to the element. The
+First you need to include Lazy Templates on your page. Replace `…`
+with the real path pointing to your files.
+
+```HTML
+<!doctype html>
+<html>
+    <head>
+	    ...
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		
+        <link rel="stylesheet" type="text/css" href="…/template.css"/>
+        <script src="…/jquery.template.min.js"></script>
+		...
+    </head>
+    <body>
+        ...
+    </body>
+</html>
+```
+
+Now you can use add the `z-var="PROPERTY TARGET"` attribute to the element. The
 `TARGET` is usually `.` (dot) for inserting variable as element's text
 content or `@ATTR_NAME` to insert variable into named attribute on the
 element. You can specify more actions separated by comma.
