@@ -56,7 +56,7 @@ with the real path pointing to your files.
 </html>
 ```
 
-Now you can use add the `z-var="PROPERTY TARGET"` attribute to the element. The
+Now you can add the `z-var="PROPERTY TARGET"` attribute to the element. The
 `TARGET` is usually `.` (dot) for inserting variable as element's text
 content or `@ATTR_NAME` to insert variable into named attribute on the
 element. You can specify more actions separated by comma.
