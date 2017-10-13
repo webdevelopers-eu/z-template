@@ -139,6 +139,7 @@ The best example is the one you can play with.
 
 - [Basic example](https://codepen.io/webdevelopers/pen/PpVGde?editors=1010#0) - insert variable into attribute and text
 - [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ?editors=1010#0) - iterate through the array and generate list
+- [Simple Paging](https://codepen.io/webdevelopers/pen/XePggZ?editors=1010) - simple list with paging
 - [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR?editors=1010#0) - simple variables with nested array to generate list
 - [Form example](https://codepen.io/webdevelopers/pen/XMOjGm?editors=1010#0) - toggle check-boxes, set values on select-boxes, change button labels and classes...
 - [UI Updates](https://codepen.io/webdevelopers/pen/jBdyVm?editors=1010#0) - example of continuous live UI updates
