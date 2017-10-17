@@ -44,15 +44,15 @@ with the real path pointing to your files.
 ```HTML
 <!doctype html>
 <html>
-    <head>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-		
-        <link rel="stylesheet" type="text/css" href="…/template.css"/>
-        <script src="…/jquery.template.min.js"></script>
-    </head>
-    <body>
+	<head>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
-    </body>
+		<link rel="stylesheet" type="text/css" href="…/template.css"/>
+		<script src="…/jquery.template.min.js"></script>
+	</head>
+	<body>
+
+	</body>
 </html>
 ```
 
@@ -78,60 +78,54 @@ $('div').template({
 
 Now the examples that we apply the code above to.
 
-- "`name .`" - add value `name` as the text value
-- "`validated .lock-icon`" - add class `lock-icon` if `validated` is true
-- "`validated @checked`" - add `checked="checked"` attribute if true
-
 ```HTML
 <div z-var="name ., validated .lock-icon"></div>
 <input type="checkbox" z-var="validated @checked"/><label>Checked</label>
 ```
+Explanation:
+- "`name .`" - add value `name` as the text value
+- "`validated .lock-icon`" - add class `lock-icon` if `validated` is true
+- "`validated @checked`" - add `checked="checked"` attribute if true
 
-- "`validated ?`" - show element if `validated` is true, hide otherwise
-- "`!validated ?`" - the oposite of above - hide if true, show if false
 
 ```HTML
 <div z-var="validated ?">Validated</div>
 <div z-var="!validated ?">Not Validated</div>
 ```
+Explanation:
+- "`validated ?`" - show element if `validated` is true, hide otherwise
+- "`!validated ?`" - the oposite of above - hide if true, show if false
 
-- "`name .`" - add value of `name` in place of `${name}` placeholder
 
 ```HTML
 <div z-var="name .">My name is ${name}</div>
 ```
+Explanation:
+- "`name .`" - add value of `name` in place of `${name}` placeholder
 
-Duplicate DIV for each value inside `list` array and insert value as text in it.
 
 ```HTML
 <div template="[list]" z-var="value ."></div>
 ```
+Explanation:
+- Duplicate DIV for each value inside `list` array and insert value as text in it.
 
-Duplicate `div` for each value inside `listExt` array and use sub-object to insert
-variables into duplicated `div`.
-
--  "`first ., last .`" - add first and last name as text in positions indicated by placholders
--  "`last @title`" - add last name into `title` attribute
 
 ```HTML
 <div template="[listExt]" z-var="first ., last ., last @title">${first} ${last}</div>
 ```
+Explanation:
+- Duplicate `div` for each value inside `listExt` array and use sub-object to insert variables into duplicated `div`.
+- "`first ., last .`" - add first and last name as text in positions indicated by placholders
+- "`last @title`" - add last name into `title` attribute
 
-Same example as above but remove all items having `validated` set to false - `validated !`.
 
 ```HTML
 <div template="[listExt]" z-var="first ., last ., last @title, validated !">${first} ${last}</div>
 ```
-
-Why to have `z-var` attribute? Because unlike other solutions using
-`z-var` attribute allows you to update the same HTML with new values
-because Lazy Template is non-destructive. It allows you to do also
-other cool stuff like conditionally hidding the element or adding
-conditional classes to it and much more.
-
-Note: You may use also `${PROP_NAME}` placeholder syntax on top of
-`z-var`. Lazy Templates will remember the template text so subsequent
-UI updates will work.
+Explanation:
+- Same as the previous example but remove all items having `validated` set to false - `validated !`.
+- You may use also `${PROP_NAME}` placeholder syntax on top of `z-var`.
 
 # Interactive Examples
 
