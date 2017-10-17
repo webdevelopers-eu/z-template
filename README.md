@@ -78,6 +78,7 @@ $('div').template({
 
 Now the examples that we apply the code above to.
 
+**Example:**
 ```HTML
 <div z-var="name ., validated .lock-icon"></div>
 <input type="checkbox" z-var="validated @checked"/><label>Checked</label>
@@ -87,7 +88,7 @@ Explanation:
 - "`validated .lock-icon`" - add class `lock-icon` if `validated` is true
 - "`validated @checked`" - add `checked="checked"` attribute if true
 
-
+**Example:**
 ```HTML
 <div z-var="validated ?">Validated</div>
 <div z-var="!validated ?">Not Validated</div>
@@ -96,21 +97,21 @@ Explanation:
 - "`validated ?`" - show element if `validated` is true, hide otherwise
 - "`!validated ?`" - the oposite of above - hide if true, show if false
 
-
+**Example:**
 ```HTML
 <div z-var="name .">My name is ${name}</div>
 ```
 Explanation:
 - "`name .`" - add value of `name` in place of `${name}` placeholder
 
-
+**Example:**
 ```HTML
 <div template="[list]" z-var="value ."></div>
 ```
 Explanation:
 - Duplicate DIV for each value inside `list` array and insert value as text in it.
 
-
+**Example:**
 ```HTML
 <div template="[listExt]" z-var="first ., last ., last @title">${first} ${last}</div>
 ```
@@ -119,7 +120,7 @@ Explanation:
 - "`first ., last .`" - add first and last name as text in positions indicated by placholders
 - "`last @title`" - add last name into `title` attribute
 
-
+**Example:**
 ```HTML
 <div template="[listExt]" z-var="first ., last ., last @title, validated !">${first} ${last}</div>
 ```
