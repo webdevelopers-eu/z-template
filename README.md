@@ -65,7 +65,7 @@ Assume that all examples in this section use this Javascript to apply
 the template.
 
 ```javascript
-$('div').template({
+$('.target').template({
 	'name': 'John Smith',
 	'validated': true,
 	'list': ['aa', 'bb'],
@@ -80,8 +80,13 @@ Now the examples that we apply the code above to.
 
 **Example:**
 ```HTML
-<div z-var="name ., validated .lock-icon"></div>
-<input type="checkbox" z-var="validated @checked"/><label>Checked</label>
+<div class="target" z-var="name ., validated .lock-icon"></div>
+<input class="target" type="checkbox" z-var="validated @checked"/><label>Checked</label>
+```
+Result:
+```HTML
+<div class="target lock-icon" z-var="name ., validated .lock-icon">John Smith</div>
+<input class="target" type="checkbox" z-var="validated @checked" checked="checked"/><label>Checked</label>
 ```
 Explanation:
 - "`name .`" - add value `name` as the text value
@@ -90,43 +95,67 @@ Explanation:
 
 **Example:**
 ```HTML
-<div z-var="validated ?">Validated</div>
-<div z-var="!validated ?">Not Validated</div>
+<div class="target" z-var="validated ?">Validated</div>
+<div class="target" z-var="!validated ?">Not Validated</div>
+<div class="target" z-var="!validated !">Insecure</div>
+```
+Result:
+```HTML
+<div class="target" z-var="validated ?">Validated</div>
+<div class="target" z-var="!validated ?" style="display: none;">Not Validated</div>
 ```
 Explanation:
 - "`validated ?`" - show element if `validated` is true, hide otherwise
 - "`!validated ?`" - the oposite of above - hide if true, show if false
+- "`!validated !`" - remove (destructive) the element if `validated` is false
 
 **Example:**
 ```HTML
-<div z-var="name .">My name is ${name}</div>
+<div class="target" z-var="name .">My name is ${name}</div>
+```
+Result:
+```HTML
+<div class="target" z-var="name .">My name is John Smith</div>
 ```
 Explanation:
 - "`name .`" - add value of `name` in place of `${name}` placeholder
 
 **Example:**
 ```HTML
-<div template="[list]" z-var="value ."></div>
+<ul class="target">
+  <li template="[list]" z-var="value ."></li>
+</ul>
+```
+Result:
+```HTML
+<ul class="target">
+  <li z-var="value ." class="template-clone" template-clone="[list]">aa</li>
+  <li z-var="value ." class="template-clone" template-clone="[list]">bb</li>
+  <li template="[list]" z-var="value ."></li><!-- invisible -->
+</ul>
 ```
 Explanation:
 - Duplicate DIV for each value inside `list` array and insert value as text in it.
+- All elements with an attribute `template` are automatically hidden by `template.css` you've included on the page (see [above](#quick-introduction))
 
 **Example:**
 ```HTML
-<div template="[listExt]" z-var="first ., last ., last @title">${first} ${last}</div>
+<ul class="target">
+  <li template="[listExt]" z-var="first ., last ., last @title">${first} ${last}</li>
+</ul>
+```
+Result:
+```HTML
+<ul class="target">
+  <li z-var="first ., last ., last @title" class="template-clone" template-clone="[listExt]" title="Doe">John Doe</li>
+  <li z-var="first ., last ., last @title" class="template-clone" template-clone="[listExt]" title="Smith">Jane Smith</li>
+  <li template="[listExt]" z-var="first ., last ., last @title">${first} ${last}</li><!-- invisible -->
+</ul>
 ```
 Explanation:
 - Duplicate `div` for each value inside `listExt` array and use sub-object to insert variables into duplicated `div`.
 - "`first ., last .`" - add first and last name as text in positions indicated by placholders
 - "`last @title`" - add last name into `title` attribute
-
-**Example:**
-```HTML
-<div template="[listExt]" z-var="first ., last ., last @title, validated !">${first} ${last}</div>
-```
-Explanation:
-- Same as the previous example but remove all items having `validated` set to false - `validated !`.
-- You may use also `${PROP_NAME}` placeholder syntax on top of `z-var`.
 
 # Interactive Examples
 
