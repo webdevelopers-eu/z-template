@@ -168,12 +168,12 @@ The best example is the one you can play with.
 - __`!`__ - "not" - negates the `DATASET_PROPERTY` value for the purpose of evaluation what `ACTION` should be taken.
 
 To determine if `ACTION` should be taken `DATASET_PROPERTY` is converted into boolean `true` or `false`. Following values are considered `false`:
-* an empty `Array` or
-* an empty `Object` or
-* number `0` or
-* string representing numeric value zero (e.g. `"0.00"`) or
-* boolean `false` or
-* `null` or
+* an empty `Array`
+* an empty `Object`
+* number `0`
+* string representing numeric value zero (e.g. `"0.00"`)
+* boolean `false`
+* `null`
 * empty string
 
 If you try to insert the plain Array object as text or value then its length gets inserted instead. You can use it to insert item counts.
@@ -182,8 +182,8 @@ If you try to insert the plain Array object as text or value then its length get
 	<element template="(NAME|[PROPERTY])">...</element>
 ```
 
-- __`NAME`__ - any name of your choice. All elements having attribute `template` are hidden by default. Applying template to such element will clone it, remove the `template` attribute and then apply the dataset. See [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ?editors=1010#0).
-- __`PROPERTY`__ - name of the property on `DATASET` object that holds nested Array or Object to be applied to this template. See [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR?editors=1010#0).
+- __`NAME`__ - any name of your choice. All elements having attribute `template` are hidden by default (make sure to include the ```template.css```). Applying template to such element will clone it, remove the `template` attribute and then apply the dataset. See [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ?editors=1010#0).
+- __`PROPERTY`__ - name of the property on `DATASET` object that holds nested Array or Object to be automatically applied to this template. See [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR?editors=1010#0).
 
 
 # More
