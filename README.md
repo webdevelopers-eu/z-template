@@ -74,7 +74,7 @@ $('.target').template({
 		{'first': 'Jane', 'last': 'Smith', 'validated': false}
 	]
 });
-```
+	```
 
 Now the examples that we apply the code above to.
 
@@ -92,6 +92,7 @@ Explanation:
 - "`name .`" - add value `name` as the text value
 - "`validated .lock-icon`" - add class `lock-icon` if `validated` is true
 - "`validated @checked`" - add `checked="checked"` attribute if true
+[Try it now!](https://codepen.io/webdevelopers/pen/NaezoB?editors=1010)
 
 **Example:**
 ```HTML
@@ -108,6 +109,7 @@ Explanation:
 - "`validated ?`" - show element if `validated` is true, hide otherwise
 - "`!validated ?`" - the oposite of above - hide if true, show if false
 - "`!validated !`" - remove (destructive) the element if `validated` is false
+[Try it now!](https://codepen.io/webdevelopers/pen/JrwZqX?editors=1010)
 
 **Example:**
 ```HTML
@@ -119,6 +121,7 @@ Result:
 ```
 Explanation:
 - "`name .`" - add value of `name` in place of `${name}` placeholder
+[Try it now!](https://codepen.io/webdevelopers/pen/OxrEYv?editors=1010#0)
 
 **Example:**
 ```HTML
@@ -137,6 +140,7 @@ Result:
 Explanation:
 - Duplicate DIV for each value inside `list` array and insert value as text in it.
 - All elements with an attribute `template` are automatically hidden by `template.css` you've included on the page (see [above](#quick-introduction))
+[Try it now!](https://codepen.io/webdevelopers/pen/OxrEYv?editors=1010#0)
 
 **Example:**
 ```HTML
@@ -156,6 +160,7 @@ Explanation:
 - Duplicate `div` for each value inside `listExt` array and use sub-object to insert variables into duplicated `div`.
 - "`first ., last .`" - add first and last name as text in positions indicated by placholders
 - "`last @title`" - add last name into `title` attribute
+[Try it now!](https://codepen.io/webdevelopers/pen/dVwKBN?editors=1010#0)
 
 # Interactive Examples
 
