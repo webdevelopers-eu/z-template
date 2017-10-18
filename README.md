@@ -93,7 +93,7 @@ Explanation:
 - "`validated .lock-icon`" - add class `lock-icon` if `validated` is true
 - "`validated @checked`" - add `checked="checked"` attribute if true
 
-[Try it now!](https://codepen.io/webdevelopers/pen/NaezoB?editors=1010)
+[Try it now!](https://codepen.io/webdevelopers/pen/NaezoB)
 
 **Example:**
 ```HTML
@@ -111,7 +111,7 @@ Explanation:
 - "`!validated ?`" - the oposite of above - hide if true, show if false
 - "`!validated !`" - remove (destructive) the element if `validated` is false
 
-[Try it now!](https://codepen.io/webdevelopers/pen/JrwZqX?editors=1010)
+[Try it now!](https://codepen.io/webdevelopers/pen/JrwZqX)
 
 **Example:**
 ```HTML
@@ -124,7 +124,7 @@ Result:
 Explanation:
 - "`name .`" - add value of `name` in place of `${name}` placeholder
 
-[Try it now!](https://codepen.io/webdevelopers/pen/OxrEYv?editors=1010#0)
+[Try it now!](https://codepen.io/webdevelopers/pen/OxrEYv)
 
 **Example:**
 ```HTML
@@ -144,7 +144,7 @@ Explanation:
 - Duplicate DIV for each value inside `list` array and insert value as text in it.
 - All elements with an attribute `template` are automatically hidden by `template.css` you've included on the page (see [above](#quick-introduction))
 
-[Try it now!](https://codepen.io/webdevelopers/pen/OxrEYv?editors=1010#0)
+[Try it now!](https://codepen.io/webdevelopers/pen/dVwKBN)
 
 **Example:**
 ```HTML
@@ -165,7 +165,8 @@ Explanation:
 - "`first ., last .`" - add first and last name as text in positions indicated by placholders
 - "`last @title`" - add last name into `title` attribute
 
-[Try it now!](https://codepen.io/webdevelopers/pen/dVwKBN?editors=1010#0)
+[Try it now!](https://codepen.io/webdevelopers/pen/MEZBWN)
+
 
 # Interactive Examples
 
