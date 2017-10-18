@@ -71,7 +71,7 @@ $('.target').template({
 	'list': ['aa', 'bb'],
 	'listExt': [
 		{'first': 'John', 'last': 'Doe', 'validated': true},
-		{'first': 'Jane', 'last': 'Smith', 'validated': false},
+		{'first': 'Jane', 'last': 'Smith', 'validated': false}
 	]
 });
 ```

@@ -134,11 +134,8 @@ $.fn.template = function(vars, inPlace) {
 	this.each(function() {
 	    var $this = $(this);
 	    var noClone = typeof inPlace == 'boolean' ? inPlace : !$this.is('[template]');
-	    var $subject = noClone ? $this : $this.clone().addClass('template-clone').attr('template-clone', $this.attr('template'));
+	    var $subject = noClone ? $this : $this.clone().addClass('template-clone').attr('template-clone', $this.attr('template')).insertBefore(this);
 	    var $item = replaceVars(vars, $subject).removeAttr('template');
-	    if (!inPlace) {
-		$item.insertBefore(this);
-	    }
 	    $ret = $ret.add($item);
 	});
     }
