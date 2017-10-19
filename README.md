@@ -1,15 +1,14 @@
 __Lazy Template__
 
 *Incredibly simple and yet powerful non-destructive javascript
-templating system written by a lazy programmer so he can stay lazy and
-yet be able to effortlessly build and manage UIs (or let web designers
-to do that without breaking his UI-building javascript code).*
+templating system. Allows you to effortlessly build and effectively
+manage UIs (or let web designers to do that without breaking your
+UI-building javascript code).*
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
 **Table of Contents**
 
 - [Features](#features)
-- [Audience](#audience)
 - [Quick Introduction](#quick-introduction)
 - [Interactive Examples](#interactive-examples)
 - [Syntax](#syntax)
@@ -29,18 +28,13 @@ to do that without breaking his UI-building javascript code).*
 - [x] Super lightweight with only 2.5kB of compressed Javascript
 - [x] And more...
 
-# Audience
-
-It is meant for programmers dynamically building UIs on front end
-using AJAX and static HTML templates.  You can keep your code clean
-while allowing designers to edit HTML templates without breaking your
-Javascript. Allows easy maintenance and updates of UIs.
-
 # Quick Introduction
 
-First you need to include Lazy Templates on your page. Replace `…`
-with the real path pointing to your files.
+First you need to include Lazy Templates on your page. You just need
+to include one Javascript and CSS file provided you already use jQuery
+on your page.
 
+Example: Replace `…` with the real path pointing to your files.
 ```HTML
 <!doctype html>
 <html>
@@ -56,13 +50,23 @@ with the real path pointing to your files.
 </html>
 ```
 
-Now you can add the `z-var="PROPERTY TARGET"` attribute to the element. The
-`TARGET` is usually `.` (dot) for inserting variable as element's text
-content or `@ATTR_NAME` to insert variable into named attribute on the
-element. You can specify more actions separated by comma.
+Now you can add the `z-var="PROPERTY TARGET"` attribute to any element
+and then call `$(element).template(...)` on that element or any parent.
+
+The `z-var` attribute holds (comma-separated) instruction(s)
+specifying what should be replaced and where or what should be done.
+
+The `TARGET` is usually `.` (dot) to insert the value as text in the
+element or `@ATTR_NAME` to insert variable into attribute. It is
+simple and you will understand it in a minute by looking at examples
+bellow or by jumping to the [syntax](#syntax) section.
+
+Let's see how it works in real world.
 
 Assume that all examples in this section use this Javascript to apply
-the template.
+the template. We pass quite complex data object to the template. The
+values in the object will be inserted in various points defined by
+`z-var` in HTML as you will see bellow.
 
 ```javascript
 $('.target').template({
@@ -76,7 +80,7 @@ $('.target').template({
 });
 ```
 
-Now the examples that we apply the code above to.
+Now the examples that we apply the code to.
 
 **Example:**
 ```HTML
