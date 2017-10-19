@@ -1,8 +1,8 @@
 __Lazy Template__
 
 *Incredibly simple and yet powerful non-destructive javascript
-templating system. Allows you to effortlessly build and effectively
-manage UIs (or let web designers to do that without breaking your
+templating system. Allows you to effortlessly build and efficiently
+manage UI code (or let web designers to do that without breaking your
 UI-building javascript code).*
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
