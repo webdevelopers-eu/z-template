@@ -145,7 +145,9 @@ Result:
 </ul>
 ```
 Explanation:
-- Duplicate DIV for each value inside `list` array and insert value as text in it.
+
+Duplicate the element with `template="[list]"` attribute for each value inside `list` array and
+- `value .` insert the array value as plain text into the element
 - All elements with an attribute `template` are automatically hidden by `template.css` you've included on the page (see [above](#quick-introduction))
 
 [Try it now!](https://codepen.io/webdevelopers/pen/dVwKBN)
@@ -165,8 +167,11 @@ Result:
 </ul>
 ```
 Explanation:
-- Duplicate `div` for each value inside `listExt` array and use sub-object to insert variables into duplicated `div`.
-- "`first ., last .`" - add first and last name as text in positions indicated by placholders
+
+Duplicate the element with `template="[listExt]"` attribute for each
+value inside `listExt` array and use respective value object to insert
+variables into duplicated element as follows
+- "`first ., last .`" - add first and last name as text in positions indicated by `${PROP_NAME}` placeolders
 - "`last @title`" - add last name into `title` attribute
 
 [Try it now!](https://codepen.io/webdevelopers/pen/MEZBWN)
