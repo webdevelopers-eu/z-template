@@ -1,5 +1,5 @@
 /**
- * JQUERY LAZY TEMPLATE
+ * JQUERY DNA TEMPLATE
  * https://github.com/webdevelopers-eu/jquery-template
  *
  * author Daniel Sevcik <sevcik@webdevelopers.cz>
