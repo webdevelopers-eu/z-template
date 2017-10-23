@@ -1,4 +1,4 @@
-__Lazy Template__
+__jQuery DNA Template__
 
 *Incredibly simple and yet powerful non-destructive javascript
 templating system. Allows you to effortlessly build and efficiently
@@ -30,9 +30,8 @@ UI-building javascript code).*
 
 # Quick Introduction
 
-First you need to include Lazy Templates on your page. You just need
-to include one Javascript and CSS file provided you already use jQuery
-on your page.
+First you need to include one Javascript and CSS file provided you
+already use jQuery on your page.
 
 Example: Replace `…` with the real path pointing to your files.
 ```HTML
