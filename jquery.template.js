@@ -125,6 +125,7 @@
 $.fn.template = function(vars, inPlace) {
 
     var $ret = $();
+    $(this).add($ret).trigger('template:before', [vars, this, $ret, inPlace]);
 
     if ($.isArray(vars)) {
 	for (var i = 0; i < vars.length; i++) {
@@ -140,6 +141,7 @@ $.fn.template = function(vars, inPlace) {
 	});
     }
 
+    $(this).add($ret).trigger('template:after', [vars, this, $ret, inPlace]);
     return $ret;
 
     function replaceVars(vars, $context) {
@@ -255,6 +257,7 @@ $.fn.template = function(vars, inPlace) {
 		var subVars = vars[propName];
 
 		if (typeof subVars == 'undefined' || subVars === null) return; // do not deal with subtemplates of this type
+		if ($.isEmptyObject(subVars)) subVars=[]; // may be empty {}
 
 		// Remove clones
 		$this
