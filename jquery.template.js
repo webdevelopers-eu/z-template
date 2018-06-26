@@ -207,7 +207,7 @@ $.fn.template = function(vars, inPlace) {
 			var textVal=$.type(val).match(/string|number/) ? val : '';
 
 			if ($.isArray(val)) { // To be able to count number of results: <span z-var="list .">Found ${list} records</span>
-			    val = val.length;
+			    textVal = val.length;
 			}
 
 			if (target == '?') {
