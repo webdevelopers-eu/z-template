@@ -246,7 +246,16 @@ $.fn.template = function(vars, inPlace) {
 		    }
 		});
 
-		if (show !== null) $(el)[show ? 'show' : 'hide']();
+		if (show !== null) {
+		    if (show) { // we go with css class, because determining the needed "display" CSS property is problematic
+			$(el).removeClass('dna-template-hidden');
+			if (el.style.display == 'none') {
+			    $(el).css('display', '');
+			}
+		    } else {
+			$(el).addClass('dna-template-hidden');
+		    }
+		}
 	    });
 
 	// Subtemplates
