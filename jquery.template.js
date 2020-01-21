@@ -17,7 +17,8 @@
  * Syntax:
  * <ELEMENT z-var="[!]VAR_NAME (@ATTR|.|!|?|.CLASS), ..." ...>...</ELEMENT
  * <ELEMENT template="TMPL_NAME" ...>...</ELEMENT>
- * <ELEMENT template="[RECURSIVE_VAR_NAME]" ...>...</ELEMENT>
+ * <ELEMENT template="[ITERATE_VAR_NAME]" ...>...</ELEMENT>
+ * <ELEMENT template="{OBJECT_VAR_NAME}" ...>...</ELEMENT>
  *
  * Note: For debugging purposes the VAR_NAME "debugger" will start
  * Javascript debugging at that point.
@@ -33,7 +34,8 @@
  * "=" - set the value as the form field's value (using jQuery's .val())
  *
  * TMPL_NAME - all elements with 'template' attriube are hidden by default.
- * RECURSIVE_VAR_NAME - recursive template. The variable value will be recursively re-applied to this element.
+ * ITERATE_VAR_NAME - recursive iteration of an array. The variable value will be recursively re-applied to this element.
+ * OBJECT_VAR_NAME - property that is of type object will be applied to this element alone. You can use properties from this object inside that element.
  *
  * Variable is evaluated to false if it is equal to 0 (numeric) or "0" or "0.00"...
  * (string) or empty Object or Array or anything else that evaluates
@@ -179,10 +181,18 @@ $.fn.template = function(vars, inPlace) {
 	    }
 	}
 
-	var $subtempl = $context.find('*[template^="["]').not($context.find('*[template^="["] *[template^="["]'));
+	var $subtemplDeep = $context
+		.find('*[template^="["] *[template^="["], *[template^="{"] *[template^="["], *[template^="["] *[template^="{"], *[template^="{"] *[template^="{"]');
+
+	var $subtempl = $context
+		.find('*[template^="["], *[template^="{"]')
+		.not($subtemplDeep)
+	;
+
 	var cssSelect = $.map(vars, function(val, name) {
 	    return '*[z-var*="' + name + ' "]';
 	}).join(', ');
+
 	$context
 	    .find(cssSelect)
 	    .not($subtempl.find(cssSelect).add($subtempl)) // Not subtemplates @template="[...]"
@@ -262,11 +272,12 @@ $.fn.template = function(vars, inPlace) {
 	$subtempl
 	    .each(function() {
 		var $this = $(this);
-		var propName = $this.attr('template').match(/^\[(.*)\]$/)[1];
+		var matches = $this.attr('template').match(/^([{\[])(.*)[\]}]$/);
+		var isObject = matches[1] == "{";
+		var propName = matches[2];
 		var subVars = vars[propName];
 
 		if (typeof subVars == 'undefined' || subVars === null) return; // do not deal with subtemplates of this type
-		if ($.isEmptyObject(subVars)) subVars=[]; // may be empty {}
 
 		// Remove clones
 		$this
@@ -274,18 +285,29 @@ $.fn.template = function(vars, inPlace) {
 		    .filter(function() {return $(this).attr('template-clone') == $this.attr('template');})
 		    .remove();
 
-		switch ($.type(subVars)) {
-		case 'string':
-		case 'number':
-		case 'bool':
-		case 'object':
-		    subVars = [subVars];
-		    // break;
-		case 'array':
-		    $.each(subVars, function(k, v) {
-			$this.template($.isPlainObject(v) ? v : {'value': v});
-		    });
-		    break;
+		if (isObject) {
+		    if ($.type(subVars) != 'object') {
+			subVars = {"value": subVars};
+		    }
+		    $this.template(subVars, false);
+		} else {
+		    if ($.isEmptyObject(subVars)) {
+			subVars=[]; // may be empty {}
+		    }
+
+		    switch ($.type(subVars)) {
+		    case 'string':
+		    case 'number':
+		    case 'bool':
+		    case 'object':
+			subVars = [subVars];
+			// break;
+		    case 'array':
+			$.each(subVars, function(k, v) {
+			    $this.template($.isPlainObject(v) ? v : {'value': v});
+			});
+			break;
+		    }
 		}
 	    });
 

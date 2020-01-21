@@ -75,7 +75,11 @@ $('.target').template({
 	'listExt': [
 		{'first': 'John', 'last': 'Doe', 'validated': true},
 		{'first': 'Jane', 'last': 'Smith', 'validated': false}
-	]
+	],
+	'propObj': {
+		'first': 'Baby',
+		'last': 'Doe'
+	}
 });
 ```
 
@@ -173,6 +177,27 @@ variables into duplicated element as follows
 - "`first ., last .`" - add first and last name as text in positions indicated by `${PROP_NAME}` placeolders
 - "`last @title`" - add last name into `title` attribute
 
+**Example:**
+```HTML
+<ul class="target">
+  <li template="{listExt}" z-var="first ., last .">${first} ${last}</li>
+</ul>
+```
+Result:
+```HTML
+<ul class="target">
+  <li z-var="first ., last ., last @title" class="template-clone" template-clone="[listExt]" title="Doe">Baby Doe</li>
+  <li template="{listExt}" z-var="first ., last .">${first} ${last}</li><!-- invisible -->
+</ul>
+```
+Explanation:
+
+Duplicate the element with `template="{propObj}"` and use `propObj`
+to apply templates recursively to cloned element. It behaves as if you called
+`$('*[template="{propObj}"]').template(data.propObj, true);`
+- "`first ., last .`" - add first and last name as text in positions indicated by `${PROP_NAME}` placeolders
+- "`last @title`" - add last name into `title` attribute
+
 [Try it now!](https://codepen.io/webdevelopers/pen/MEZBWN)
 
 
@@ -227,11 +252,12 @@ To determine if `ACTION` should be taken `DATASET_PROPERTY` is converted into bo
 If you try to insert the plain Array object as text or value then its length gets inserted instead. You can use it to insert item counts.
 
 ```html
-	<element template="(NAME|[PROPERTY])">...</element>
+	<element template="(NAME|[PROPERTY]|{PROPERTY})">...</element>
 ```
 
 - __`NAME`__ - any name of your choice. All elements having attribute `template` are hidden by default (make sure to include the ```template.css```). Applying template to such element will clone it, remove the `template` attribute and then apply the dataset. See [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ?editors=1010#0).
-- __`PROPERTY`__ - name of the property on `DATASET` object that holds nested Array or Object to be automatically applied to this template. See [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR?editors=1010#0).
+- __`[PROPERTY]`__ - name of the property on `DATASET` object that holds nested Array or Object to be automatically applied to this template. See [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR?editors=1010#0).
+- __`{PROPERTY}`__ - name of the property that contains an object. Take this object and apply variables into it to this element.
 
 
 # More
