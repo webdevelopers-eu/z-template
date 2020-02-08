@@ -186,8 +186,7 @@ $.fn.template = function(vars, inPlace) {
 
 	var $subtempl = $context
 		.find('*[template^="["], *[template^="{"]')
-		.not($subtemplDeep)
-	;
+		.not($subtemplDeep);
 
 	var cssSelect = $.map(vars, function(val, name) {
 	    return '*[z-var*="' + name + ' "]';
@@ -196,7 +195,9 @@ $.fn.template = function(vars, inPlace) {
 	$context
 	    .find(cssSelect)
 	    .not($subtempl.find(cssSelect).add($subtempl)) // Not subtemplates @template="[...]"
-	    .add($context.filter(cssSelect)).each(function(k, el) {
+	    .add($context.filter(cssSelect))
+	    .not($context.find('*[template-scope] *[z-var]')) // Not elements having @template-scope and their contexts
+	    .each(function(k, el) {
 		var restored = {};
 		var show = null; // one hide is enough - "hide" has higher priority then "show"
 		var hideClass = {};

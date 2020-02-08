@@ -260,6 +260,12 @@ If you try to insert the plain Array object as text or value then its length get
 - __`{PROPERTY}`__ - name of the property that contains an object. Take this object and apply variables into it to this element.
 
 
+```html
+	<element template-scope>...</element>
+```
+
+- __`template-scope`__ - protect children of an element with attribute `template-scope` from being modified by template applied to such element's ancestor. DNA Template will ignore any `z-var` attributes on elements inside element with `template-scope` attribute.
+
 # More
 
 For more advanced examples and explanations see file
