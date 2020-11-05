@@ -200,7 +200,7 @@ $.fn.template = function(vars, inPlace) {
 	    .each(function(k, el) {
 		var restored = {};
 		var show = null; // one hide is enough - "hide" has higher priority then "show"
-		var hideClass = {};
+		var processedClass = {};
 
 		$.each(vars, function(name, val) {
 		    var $this = $(el);
@@ -238,11 +238,10 @@ $.fn.template = function(vars, inPlace) {
 			} else if (target.substr(0, 1) == '.') { // add/remove class name
 			    var classNames = target.substr(1).replace('.', ' ');
 			    if (boolVal) {
-				if (typeof hideClass[target] == 'undefined') {
-				    $this.addClass(classNames);
-				}
-			    } else {
-				hideClass[target] = true;
+				processedClass[target] = true;
+				$this.addClass(classNames);
+			    } else if (!processedClass[target]) {
+				processedClass[target] = true;
 				$this.removeClass(classNames);
 			    }
 			} else if (target.substr(0, 1) == '@') {
