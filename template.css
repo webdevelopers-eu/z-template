@@ -2,3 +2,16 @@
 [template] {
     display: none !important;
 }
+
+/* Nonessential */
+.dna-template-visible {
+    animation: dna-template-visible var(--dna-anim-speed, 2s);
+}
+@keyframes dna-template-visible {
+    0% {
+	opacity: 0;
+    }
+    100% {
+	opacity: 1;
+    }
+}
