@@ -239,7 +239,7 @@ $.fn.template = function(vars, inPlace) {
 				$this.val(val);
 			    }
 			} else if (target.substr(0, 1) == ':') { // trigger event
-			    $this.trigger(target.substr(1), []);
+			    $this.trigger(target.substr(1), [vars, name]);
 			} else if (target.substr(0, 1) == '.') { // add/remove class name
 			    var classNames = target.substr(1).replace('.', ' ');
 			    if (boolVal) {
