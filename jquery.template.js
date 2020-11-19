@@ -27,6 +27,7 @@
  * !VAR_NAME - if prefixed by '!' then the boolean NOT is applied on variable. E.g. z-var="!isPaid !" => remove element if element is NOT paid (isPaid=false)
  * @ATTR - attribute name e.g. '@title'
  * .CLASS[.CLASS[...]] - add this class name if variable evaluates to TRUE, remove it if FALSE
+ * :EVENT - fire the DOM event EVENT on the element.
  * "." - insert as text content of the current element (overwrites child nodes)
  * "+" - insert as HTML content of the current element (overwrites child nodes)
  * "!" - remove whole element if the VAR_NAME evaluates to FALSE
@@ -228,13 +229,17 @@ $.fn.template = function(vars, inPlace) {
 			} else if (target == '.') {
 			    $this.text(replaceText(getOriginalText($this, $this.text(), target, restored), name, textVal));
 			} else if (target == '+') {
-			    $this.html(val);
+			    // $this.html(val); // this does more then innerHTML... it kills events attached to parent node (wx="editor" problem)
+			    // $this.get(0).innerHTML=val;// - this does something else though :-( kills XML/html
+			    $this.get(0).innerHTML=$('<div></div>').html(val).html(); // workround - embed in other HTML let jQuery parse it and then use HTML.
 			} else if (target == '=') {
 			    if ($this.is(':checkbox, :radio')) {
 				$this.prop('checked', !$.type(val).match(/string|number/) ? boolVal : $this.val() == textVal);
 			    } else {
 				$this.val(val);
 			    }
+			} else if (target.substr(0, 1) == ':') { // trigger event
+			    $this.trigger(target.substr(1), []);
 			} else if (target.substr(0, 1) == '.') { // add/remove class name
 			    var classNames = target.substr(1).replace('.', ' ');
 			    if (boolVal) {
