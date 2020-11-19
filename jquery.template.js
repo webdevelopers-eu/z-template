@@ -201,68 +201,82 @@ $.fn.template = function(vars, inPlace) {
 	    .each(function(k, el) {
 		var restored = {};
 		var show = null; // one hide is enough - "hide" has higher priority then "show"
+		var events = [];
 		var processedClass = {};
 
-		$.each(vars, function(name, val) {
-		    var $this = $(el);
-		    var pairs = $.trim($this.attr('z-var')).split(',');
-		    for (var i = 0; i < pairs.length; i++) {
-			var mappings = $.trim(pairs[i]).split(/\s+/);
-			if (mappings[0] == "debugger") {
-			    debugger;
-			    continue;
-			}
-			if (mappings[0] != name && mappings[0] != '!' + name) continue;
-			var target = mappings[1] || '.';
-			var boolVal = !(typeof val == 'object' && $.isEmptyObject(val)) && !($.isNumeric(val) && !parseFloat(val)) && val;
-			boolVal = mappings[0].substr(0, 1) == '!' ? !boolVal : boolVal;
-			var textVal=$.type(val).match(/string|number/) ? val : '';
+		var $this = $(el);
+		var pairs = $.trim($this.attr('z-var')).split(',');
 
-			if ($.isArray(val)) { // To be able to count number of results: <span z-var="list .">Found ${list} records</span>
-			    textVal = val.length;
-			}
-
-			if (target == '?') {
-			    show = (show === null ? true : show) && boolVal;
-			} else if (target == '!') {
-			    if (!boolVal) $this.remove();
-			} else if (target == '.') {
-			    $this.text(replaceText(getOriginalText($this, $this.text(), target, restored), name, textVal));
-			} else if (target == '+') {
-			    // $this.html(val); // this does more then innerHTML... it kills events attached to parent node (wx="editor" problem)
-			    // $this.get(0).innerHTML=val;// - this does something else though :-( kills XML/html
-			    $this.get(0).innerHTML=$('<div></div>').html(val).html(); // workround - embed in other HTML let jQuery parse it and then use HTML.
-			} else if (target == '=') {
-			    if ($this.is(':checkbox, :radio')) {
-				$this.prop('checked', !$.type(val).match(/string|number/) ? boolVal : $this.val() == textVal);
-			    } else {
-				$this.val(val);
-			    }
-			} else if (target.substr(0, 1) == ':') { // trigger event
-			    if (boolVal) {
-				$this.trigger(target.substr(1), [vars, name]);
-			    }
-			} else if (target.substr(0, 1) == '.') { // add/remove class name
-			    var classNames = target.substr(1).replace('.', ' ');
-			    if (boolVal) {
-				processedClass[target] = true;
-				$this.addClass(classNames);
-			    } else if (!processedClass[target]) {
-				processedClass[target] = true;
-				$this.removeClass(classNames);
-			    }
-			} else if (target.substr(0, 1) == '@') {
-			    if ($.type(val) == 'boolean') { // if true set attr val with the same name. E.g. selected="selected" otherwise remove attr.
-				$this.attr(target.substr(1), boolVal ? target.substr(1) : null);
-			    } else {
-				$this.attr(target.substr(1), replaceText(getOriginalText($this, $this.attr(target.substr(1)), target, restored), name, textVal));
-			    }
-			} else {
-			    console.log('Error: replaceVars(): invalid target "' + target + '" for variable "' + name + '" in "' + $this.attr('z-var') + '"');
-			}
+		// $.each(vars, function(name, val) {
+		for (let i = 0; i < pairs.length; i++) {
+		    let mappings = $.trim(pairs[i]).split(/\s+/);
+		    if (mappings[0] == "debugger") {
+			debugger;
+			continue;
 		    }
-		});
 
+		    let negate, name;
+		    if (mappings[0].substr(0, 1) == '!') {
+			name = mappings[0].substr(1);
+			negate = true;
+		    } else {
+			name = mappings[0];
+			negate = false;
+		    }
+		    let val = vars[name];
+		    if (typeof val == undefined) continue;
+
+		    let target = mappings[1] || '.';
+		    let boolVal = !(typeof val == 'object' && $.isEmptyObject(val)) && !($.isNumeric(val) && !parseFloat(val)) && val;
+		    boolVal = negate ? !boolVal : !!boolVal;
+		    let textVal=$.type(val).match(/string|number/) ? val : '';
+
+		    if ($.isArray(val)) { // To be able to count number of results: <span z-var="list .">Found ${list} records</span>
+			textVal = val.length;
+		    }
+
+		    if (target == '?') {
+			show = (show === null ? true : show) && boolVal;
+		    } else if (target == '!') {
+			if (!boolVal) $this.remove();
+		    } else if (target == '.') {
+			$this.text(replaceText(getOriginalText($this, $this.text(), target, restored), name, textVal));
+		    } else if (target == '+') {
+			// $this.html(val); // this does more then innerHTML... it kills events attached to parent node (wx="editor" problem)
+			// $this.get(0).innerHTML=val;// - this does something else though :-( kills XML/html
+			$this.get(0).innerHTML=$('<div></div>').html(val).html(); // workround - embed in other HTML let jQuery parse it and then use HTML.
+		    } else if (target == '=') {
+			if ($this.is(':checkbox, :radio')) {
+			    $this.prop('checked', !$.type(val).match(/string|number/) ? boolVal : $this.val() == textVal);
+			} else {
+			    $this.val(val);
+			}
+		    } else if (target.substr(0, 1) == ':') { // trigger event
+			if (boolVal) {
+			    // trigger events after we are all done with this (and element is finally hid/shown)
+			    events.push(target.substr(1));
+			}
+		    } else if (target.substr(0, 1) == '.') { // add/remove class name
+			let classNames = target.substr(1).replace('.', ' ');
+			if (boolVal) {
+			    processedClass[target] = true;
+			    $this.addClass(classNames);
+			} else if (!processedClass[target]) {
+			    processedClass[target] = true;
+			    $this.removeClass(classNames);
+			}
+		    } else if (target.substr(0, 1) == '@') {
+			if ($.type(val) == 'boolean') { // if true set attr val with the same name. E.g. selected="selected" otherwise remove attr.
+			    $this.attr(target.substr(1), boolVal ? target.substr(1) : null);
+			} else {
+			    $this.attr(target.substr(1), replaceText(getOriginalText($this, $this.attr(target.substr(1)), target, restored), name, textVal));
+			}
+		    } else {
+			console.log('Error: replaceVars(): invalid target "' + target + '" for variable "' + name + '" in "' + $this.attr('z-var') + '"');
+		    }
+		}
+
+		// Show/hide once
 		if (show !== null) {
 		    $(el)
 			.toggleClass('dna-template-visible', show)
@@ -273,6 +287,11 @@ $.fn.template = function(vars, inPlace) {
 			}
 		    }
 		}
+
+		// Trigger events
+		events.forEach(function(ev) {
+		    $this.trigger(ev, [vars]);
+		});
 	    });
 
 	// Subtemplates
