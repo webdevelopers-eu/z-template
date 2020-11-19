@@ -238,7 +238,7 @@ The best example is the one you can play with.
 	* `?` - hide element if value is false,
 	* `!` - remove element if value is false (note: this is destructive action - you cannot re-apply new dataset again with the same effect),
 	* `.CLASS_NAME` - add/remove class if value is true/false.
-	* `:EVENT_NAME` - fire the DOM event `EVENT_NAME` on the element. E.g. `value :change` or `visible :scroll-into-view, !visible :hidden`. You have to implement your Javascript listeners on custom events (like `scroll-into-view` event).
+	* `:EVENT_NAME` - fire the DOM event `EVENT_NAME` on the element. E.g. `value :change` or `visible :scroll-into-view, !visible :hidden`. You have to implement your Javascript listeners on custom events (for example `$(el).on('scroll-into-view', function(ev, vars, varName) {this.scrollIntoView();})` event).
 - __`!`__ - "not" - negates the `DATASET_PROPERTY` value for the purpose of evaluation what `ACTION` should be taken.
 
 To determine if `ACTION` should be taken `DATASET_PROPERTY` is converted into boolean `true` or `false`. Following values are considered `false`:
