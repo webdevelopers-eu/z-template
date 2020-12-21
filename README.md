@@ -26,6 +26,7 @@ UI-building javascript code).*
 - [x] Support for conditional attributes (e.g. check the check-box if value is true)
 - [x] Support for conditional hidding/showing/removal of elements based on values
 - [x] Super lightweight with only 2.5kB of compressed Javascript
+- [x] Conditionally fire Javascript events on an element
 - [x] And more...
 
 # Quick Introduction
