@@ -27,7 +27,6 @@ UI-building javascript code).*
 - [x] Support for conditional hidding/showing/removal of elements based on values
 - [x] Support for conditional triggering of Javascript events on any element (e.g. focus/scroll)
 - [x] Super lightweight with only 2.5kB of compressed Javascript
-- [x] Conditionally fire Javascript events on an element
 - [x] And more...
 
 # Quick Introduction
