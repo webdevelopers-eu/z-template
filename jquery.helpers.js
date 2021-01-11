@@ -6,7 +6,10 @@
 /**
  * Event 'scroll-into-view' handler allowing to use
  *
- * <element z-var="something :scroll-into-view">
+ * <element z-var="something :scroll-into-view"> 
+ * (if `something` is true scroll the element into view)
+ *
+ * Requires jQuery SmartScroll https://github.com/webdevelopers-eu/DNA-Smart-Scroll
  */
 (function() {
     var scrollToElement;
@@ -22,10 +25,5 @@
     function scroll() {
 	console.log("dnaTemplate: Scrolling to %o", scrollToElement);
 	$(scrollToElement).smartScroll();
-	// (/* not smooth yet in Chrome 83: scrollToElement.scrollIntoViewIfNeeded || */ scrollToElement.scrollIntoView)
-	//     .bind(scrollToElement)({
-	//	block: scrollToElement.getAttribute('scroll-align') || "start",
-	//	behavior: 'smooth'
-	//     });
     }
 })();
