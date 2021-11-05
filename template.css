@@ -12,10 +12,10 @@
 @keyframes dna-template-visible {
     0% {
 	opacity: 0;
-	transform: translateY(10px);
+	transform: perspective(200px) rotateX(-90deg);
     }
     100% {
 	opacity: 1;
-	transform: translateY(0px);
+	transform: perspective(200px) rotateX(0deg);
     }
 }
