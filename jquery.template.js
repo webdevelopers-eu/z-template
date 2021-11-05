@@ -16,6 +16,7 @@
  *
  * Syntax:
  * <ELEMENT z-var="[!]VAR_NAME (@ATTR|.|!|?|.CLASS), ..." ...>...</ELEMENT
+ * <ELEMENT template-scope="inherit|TEMPLATE_SCOPE" ...>...</ELEMENT>
  * <ELEMENT template="TMPL_NAME" ...>...</ELEMENT>
  * <ELEMENT template="[ITERATE_VAR_NAME]" ...>...</ELEMENT>
  * <ELEMENT template="{OBJECT_VAR_NAME}" ...>...</ELEMENT>
@@ -37,6 +38,7 @@
  * TMPL_NAME - all elements with 'template' attriube are hidden by default.
  * ITERATE_VAR_NAME - recursive iteration of an array. The variable value will be recursively re-applied to this element.
  * OBJECT_VAR_NAME - property that is of type object will be applied to this element alone. You can use properties from this object inside that element.
+ * TEMPLATE_SCOPE - protect nested elements with @template-scope attribute from modification unless @template-scope explicitly contains keyword "inherit".
  *
  * Variable is evaluated to false if it is equal to 0 (numeric) or "0" or "0.00"...
  * (string) or empty Object or Array or anything else that evaluates
@@ -197,7 +199,7 @@ $.fn.template = function(vars, inPlace) {
 	    .find(cssSelect)
 	    .not($subtempl.find(cssSelect).add($subtempl)) // Not subtemplates @template="[...]"
 	    .add($context.filter(cssSelect))
-	    .not($context.find('*[template-scope] *[z-var]')) // Not elements having @template-scope and their contexts
+	    .not($context.find('*[template-scope]:not([template-scope="inherit"]) *[z-var]')) // Not elements having @template-scope and their contexts
 	    .each(function(k, el) {
 		var restored = {};
 		var show = null; // one hide is enough - "hide" has higher priority then "show"

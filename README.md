@@ -264,9 +264,13 @@ If you try to insert the plain Array object as text or value then its length get
 
 ```html
 	<element template-scope>...</element>
+	<element template-scope="my-name">...</element>
+	<element template-scope="inherit">...</element>
 ```
 
 - __`template-scope`__ - protect children of an element with attribute `template-scope` from being modified by template applied to such element's ancestor. DNA Template will ignore any `z-var` attributes on elements inside element with `template-scope` attribute.
+
+The value of this attribute can be any keyword or even empty. Although if the keyword is `inherit` then templates will behave as there was no @template-scope attribute at all.
 
 # More
 
