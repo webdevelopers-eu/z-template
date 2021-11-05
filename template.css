@@ -12,10 +12,10 @@
 @keyframes dna-template-visible {
     0% {
 	opacity: 0;
-	transform: perspective(200px) rotateX(-90deg);
+	transform: blur(1em);
     }
     100% {
 	opacity: 1;
-	transform: perspective(200px) rotateX(0deg);
+	transform: blur(0em);
     }
 }
