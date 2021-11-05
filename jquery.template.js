@@ -210,8 +210,8 @@ $.fn.template = function(vars, inPlace) {
 		var pairs = $.trim($this.attr('z-var')).split(',');
 
 		// $.each(vars, function(name, val) {
-		for (let i = 0; i < pairs.length; i++) {
-		    let mappings = $.trim(pairs[i]).split(/\s+/);
+		for (let idx = 0; idx < pairs.length; idx++) {
+		    let mappings = $.trim(pairs[idx]).split(/\s+/);
 		    if (mappings[0] == "debugger") {
 			debugger;
 			continue;
