@@ -199,7 +199,7 @@ $.fn.template = function(vars, inPlace) {
 	    .find(cssSelect)
 	    .not($subtempl.find(cssSelect).add($subtempl)) // Not subtemplates @template="[...]"
 	    .add($context.filter(cssSelect))
-	    .not($context.find('*[template-scope]:not([template-scope="inherit"]) *[z-var]')) // Not elements having @template-scope and their contexts
+	    .not($context.find('*[template-scope]:not([template-scope~="inherit"]) *[z-var]')) // Not elements having @template-scope and their contexts
 	    .each(function(k, el) {
 		var restored = {};
 		var show = null; // one hide is enough - "hide" has higher priority then "show"
