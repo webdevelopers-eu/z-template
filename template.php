@@ -226,17 +226,12 @@ class Template {
             }
             break;
         case '?': // hide element
-            $style = $element->getAttribute('style');
-            if (!$positiveAction) {
-                $style = preg_replace('/display\s*:[^;]+;/', '', $style);
-                $style = trim('display:none; '.$style);
+            if ($positiveAction) {
+                $this->removeAttrToken($element, 'class', 'dna-template-hidden');
+                $this->addAttrToken($element, 'class', 'dna-template-visible');
             } else {
-                $style = trim(preg_replace('/display\s*:\s*none\s*;/', '', $style));
-            }
-            if (strlen($style)) {
-                $element->setAttribute('style', $style);
-            } else {
-                $element->removeAttribute('style');
+                $this->removeAttrToken($element, 'class', 'dna-template-visible');
+                $this->addAttrToken($element, 'class', 'dna-template-hidden');
             }
             break;
         case '=': // set form element value
@@ -270,15 +265,15 @@ class Template {
             break;
         case '.*': // set class
             $className = substr($instruction, 1);
-            $classList = $element->getAttribute('class');
-            $classList = $positiveAction ? $this->addToken($classList, $className) : $this->removeToken($classList, $className);
-            $element->setAttribute('class', $classList);
+            if ($positiveAction) {
+                $this->addAttrToken($element, 'class', $className);
+            } else {
+                $this->removeAttrToken($element, 'class', $className);
+            }
             break;
         case ':*': // Not implementable in PHP - should fire named event on this element. We store it as "data-fire-event" attribute on the element.
             $eventName = substr($instruction, 1);
-            $eventList = $element->getAttribute('fire-event');
-            $eventList = $positiveAction ? $this->addToken($eventList, $eventName) : $this->removeToken($eventList, $eventName);
-            $element->setAttribute('data-fire-event', $eventList);
+            $this->addAttrToken($element, 'data-fire-event', $eventName);
             break;
         }
     }
@@ -301,6 +296,22 @@ class Template {
         return $newValueText;
     }
 
+    private function addAttrToken(DOMElement $element, $attrName, $token) {
+        $classList = $element->getAttribute($attrName) ?: '';
+        $classList = $this->addStringToken($classList, $token);
+        $element->setAttribute($attrName, $classList);
+    }
+
+    private function removeAttrToken(DOMElement $element, $attrName, $token) {
+        $classList = $element->getAttribute($attrName) ?: '';
+        $classList = $this->removeStringToken($classList, $token);
+        if (strlen($classList)) {
+            $element->setAttribute($attrName, $classList);
+        } else {
+            $element->removeAttribute($attrName);
+        }
+    }
+
     /**
      * Add token to a list of tokens
      *
@@ -308,7 +319,7 @@ class Template {
      * @param string $token Token to add
      * @return string New token list value
      */
-    private function addToken($listStr, $token) {
+    private function addStringToken($listStr, $token) {
         $listStr = trim($listStr);
         $list = strlen($listStr) ? explode(' ', $listStr) : array();
         $list[] = $token;
@@ -323,9 +334,9 @@ class Template {
      * @param string $token Token to remove
      * @return string New token list value
      */
-    private function removeToken($listStr, $token) {
+    private function removeStringToken($listStr, $token) {
         $listStr = trim($listStr);
-        $list = strlen($list) ? explode(' ', $listStr) : array();
+        $list = strlen($listStr) ? explode(' ', $listStr) : array();
         $list = array_diff($list, array($token));
         return implode(' ', $list);
     }
