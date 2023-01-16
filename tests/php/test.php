@@ -38,9 +38,17 @@ for($testNum=1;; $testNum++) {
     echo str_repeat('=', 80)."\n";
     echo "File: $templateFile\n";
     echo str_repeat('=', 80)."\n";
+
+    echo "VARIABLES:\n";
+    echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)."\n";
+
+    echo str_repeat('-', 80)."\n";
+
     echo "INPUT:\n";
     echo rtrim($template)."\n";
+
     echo str_repeat('-', 80)."\n";
+
     echo "OUTPUT:\n";
     echo rtrim($dnaTemplate->render()->saveHTML())."\n\n";
 }
