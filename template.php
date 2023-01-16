@@ -24,12 +24,22 @@ use \Exception;
  *     </body>
  * </html>
  * 
- * $template=file_get_contents('test.html');
- * $dnaTemplate=new DNA\Template($template, array(
+ * $template = file_get_contents('test.html');
+ * $data = array(
  *   'title' => 'Hello World',
  *   'content' => 'This is a test'
- * ));
- * echo $dnaTemplate->render()->saveHTML();
+ * );
+ * $dnaTemplate=new DNA\Template($template);
+ * echo $dnaTemplate->render($data)->saveHTML();
+ *
+ * There is also procedural wrapper so you can use \DNA\template($template, $data) instead of new (new \DNA\Template($template, $data))->render();
+ *
+ * You can revert the changes
+ *
+ * $dnaTemplate->render($data);
+ * $dnaTemplate->revert();
+ * $dnaTemplate->clean();
+ * echo $dnaTemplate->result->saveHTML();
  *
  * @module     DNATemplate
  * @author     Daniel Sevcik <sevcik@webdevelopers.cz>
@@ -69,14 +79,18 @@ class Template {
     private $result;
 
     /**
+     * @var int random number to be used as a suffix for temporary attributes
+     */
+    private $scopeIdx;
+
+    /**
      * Constructor
      *
      * @param mixed $template DOMDocument or DOMElement or string with template containing "z-var" attributes to be replaced. Note: if DOMDocument is passed, it will be modified.
-     * @param array $data Array of data to be used for replacing "z-var" attributes
      */
-    public function __construct($template, $data = array()) {
+    public function __construct($template) {
         $this->template = $template;
-        $this->data = $data;
+        $this->scopeIdx = rand(100000000, 999999999); // init random number to be used as a scope id
         
         if ($template instanceof DOMDocument) {
             $this->dom = $template;
@@ -98,10 +112,15 @@ class Template {
     /**
      * Render template.
      *
+     * @param array $data Array of data to be used for replacing "z-var" attributes
+     * @param bool $clean If true, the template will be cleaned of "z-var" attributes after rendering. Warning: You won't be able to call $template->render() with new data on the same object.
      * @return DOMDocument Rendered template - if DOMDocument or DOMElement was passed to constructor it will be modified returned otherwise new DOMDocument will be returned.
      */
-    public function render() {
-        $ctxAttr='data-template-scope-'.rand(10000000, 999999999);
+    public function render($data, $clean = false) {
+        $this->data = $data;
+        $this->revert();
+
+        $ctxAttr='data-template-scope-'.$this->scopeIdx++;
         $q="descendant-or-self::*[@z-var]
             [not(
                 ancestor-or-self::*[(@template-scope and @template-scope != 'inherit') or starts-with(@template, '[') or starts-with(@template, '{')]
@@ -124,7 +143,46 @@ class Template {
             $this->processTemplate($template);
         }
 
+        if ($clean) {
+            $this->clean();
+        }
+
         return $this->result;
+    }
+
+    /**
+     * Undo all changes made by previous call to $this->render() method.
+     */
+    public function revert() {
+        foreach ($this->xpath->query("descendant::*[@template-clone]", $this->scope) as $element) {
+            $element->parentNode->removeChild($element);
+        }
+        foreach ($this->xpath->query("descendant-or-self::*/@*[starts-with(local-name(), 'dna-template-orig')]", $this->scope) as $attr) {
+            $attrName=preg_replace('/^dna-template-orig-?/', '', $attr->nodeName);
+            if ($attrName) {
+                $attr->parentNode->setAttribute($attrName, $attr->nodeValue);
+            } else {
+                $attr->parentNode->nodeValue = $attr->nodeValue;
+            }
+            $attr->parentNode->removeAttributeNode($attr);
+        }
+        return $this->result;
+    }
+
+    /**
+     * Clean up the result of template markup.
+     *
+     * @param DOMElement $element
+     * @param string $zVar
+     */
+    public function clean() {
+        foreach ($this->xpath->query("descendant-or-self::*/@*[starts-with(local-name(), 'dna-template-orig')]|descendant-or-self::*/@z-var|descendant-or-self::*/@template-clone", $this->scope) as $attr) {
+            $attr->parentNode->removeAttributeNode($attr);
+        }
+
+        foreach ($this->xpath->query("descendant-or-self::*[@template]", $this->scope) as $element) {
+            $element->parentNode->removeChild($element);
+        }
     }
 
     private function processTemplate(DOMElement $template) {
@@ -152,13 +210,14 @@ class Template {
             $clone->setAttribute('template-clone', $clone->getAttribute('template'));
             $clone->removeAttribute('template');
             $template->parentNode->insertBefore($clone, $template);
-            $this->processTemplateInclude($clone, $data);
+
+            $dnaTemplate = new Template($clone);
+            $dnaTemplate->render($data, false);
         }
     }
 
     private function processTemplateInclude($template, $data) {
-        $dnaTemplate = new Template($template, $data);
-        $dnaTemplate->render();
+        $this->processTemplateRepeat($template, array($data));
     }
 
     /**
@@ -212,6 +271,10 @@ class Template {
 
         switch ($syntax) {
         case '.': // replace element content
+            $backupAttr = 'dna-template-orig';
+            if (!$element->hasAttribute($backupAttr)) {
+                $element->setAttribute($backupAttr, $element->nodeValue);
+            }
             $element->nodeValue = $this->replaceText($var, $value, $element->nodeValue);
             break;
         case '+': // embed value as HTML content
@@ -256,9 +319,14 @@ class Template {
         case '@*': // set attribute
             $attr = substr($instruction, 1);
             $newValue = $value === true ? $attr : $value;
+
+            $backupAttr = 'dna-template-orig-'.$attr;
+            if (!$element->hasAttribute($backupAttr)) {
+                $element->setAttribute($backupAttr, $element->getAttribute($attr));
+            }
+
             if (strlen($newValue)) {
-                $oldValue = $element->getAttribute($attr);
-                $element->setAttribute($attr, $this->replaceText($var, $newValue, $oldValue));
+                $element->setAttribute($attr, $this->replaceText($var, $newValue, $element->getAttribute($attr)));
             } else {
                 $element->removeAttribute($attr);
             }
@@ -327,6 +395,15 @@ class Template {
         return implode(' ', $list);
     }
 
+    public function __get($name) {
+        switch ($name) {
+        case 'result':
+            return $this->result;
+        defautl:
+            throw new Exception("Unknown property $name");
+        }
+    }
+
     /**
      * Remove token to a list of tokens
      *
@@ -343,3 +420,9 @@ class Template {
 }
 
 
+/**
+ * The procedural interface to the DNA Template engine.
+ */
+function template($template, $data, $clean = true) {
+    return (new Template($template))->render($data, $clean);
+}

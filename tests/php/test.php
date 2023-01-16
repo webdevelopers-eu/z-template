@@ -33,7 +33,7 @@ for($testNum=1;; $testNum++) {
     if (!file_exists($templateFile)) break;
     $template = file_get_contents($templateFile);
 
-    $dnaTemplate = new DNA\Template($template, $data);
+    $dnaTemplate = new DNA\Template($template);
     
     echo str_repeat('=', 80)."\n";
     echo "File: $templateFile\n";
@@ -50,5 +50,6 @@ for($testNum=1;; $testNum++) {
     echo str_repeat('-', 80)."\n";
 
     echo "OUTPUT:\n";
-    echo rtrim($dnaTemplate->render()->saveHTML())."\n\n";
+    $dnaTemplate->render($data);
+    echo rtrim($dnaTemplate->result->saveHTML())."\n\n";
 }
