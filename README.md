@@ -27,6 +27,7 @@ UI-building javascript code).*
 - [x] Support for conditional hidding/showing/removal of elements based on values
 - [x] Support for conditional triggering of Javascript events on any element (e.g. focus/scroll)
 - [x] Super lightweight with only 2.5kB of compressed Javascript
+- [x] PHP Class to process the HTML in PHP the same way as in Javascript
 - [x] And more...
 
 # Quick Introduction
@@ -271,6 +272,22 @@ If you try to insert the plain Array object as text or value then its length get
 - __`template-scope`__ - protect children of an element with attribute `template-scope` from being modified by template applied to such element's ancestor. DNA Template will ignore any `z-var` attributes on elements inside element with `template-scope` attribute.
 
 The value of this attribute can be any keyword or even empty. Although if the keyword is `inherit` then templates will behave as there was no @template-scope attribute at all.
+
+## PHP
+
+```php
+require('template.php');
+
+$template=file_get_contents('test.html');
+
+$dnaTemplate=new DNA\Template($template, array(
+    'title' => 'Hello World',
+    'content' => 'This is a test',
+    'bad' => true,
+));
+
+echo $dnaTemplate->render()->saveXML();
+```
 
 # More
 
