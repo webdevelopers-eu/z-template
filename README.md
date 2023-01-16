@@ -194,6 +194,8 @@ variables into duplicated element as follows
 - "`first ., last .`" - add first and last name as text in positions indicated by `${PROP_NAME}` placeolders
 - "`last @title`" - add last name into `title` attribute
 
+[Try it now!](https://codepen.io/webdevelopers/pen/MEZBWN)
+
 **Example:**
 ```HTML
 <ul class="target">
@@ -204,7 +206,7 @@ Result:
 ```HTML
 <ul class="target">
   <li z-var="first ., last ., last @title" class="template-clone" template-clone="[listExt]" title="Doe">Baby Doe</li>
-  <li template="{listExt}" z-var="first ., last .">${first} ${last}</li><!-- invisible -->
+  <li template="{propObj}" z-var="first ., last .">${first} ${last}</li><!-- invisible -->
 </ul>
 ```
 Explanation:
@@ -215,7 +217,7 @@ to apply templates recursively to cloned element. It behaves as if you called
 - "`first ., last .`" - add first and last name as text in positions indicated by `${PROP_NAME}` placeolders
 - "`last @title`" - add last name into `title` attribute
 
-[Try it now!](https://codepen.io/webdevelopers/pen/MEZBWN)
+[Try it now!](https://codepen.io/webdevelopers/pen/vYaJzrO)
 
 
 # Interactive Examples
@@ -274,7 +276,7 @@ If you try to insert the plain Array object as text or value then its length get
 ```
 
 - __`NAME`__ - any name of your choice. All elements having attribute `template` are hidden by default (make sure to include the ```template.css```). Applying template to such element will clone it, remove the `template` attribute and then apply the dataset. See [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ?editors=1010#0).
-- __`[PROPERTY]`__ - name of the property on `DATASET` object that holds nested Array or Object to be automatically applied to this template. See [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR?editors=1010#0).
+- __`[PROPERTY]`__ - name of the property on `DATASET` object that holds nested Array or Object to be automatically applied to this template. Current element will be duplicated for each array's element. See [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR?editors=1010#0).
 - __`{PROPERTY}`__ - name of the property that contains an object. Take this object and apply variables into it to this element.
 
 

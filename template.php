@@ -49,6 +49,11 @@ class Template {
     protected $data;
 
     /**
+     * @var DOMElement the scope to limit replacements to.
+     */
+    protected $scope;
+
+    /**
      * @var DOMDocument with processed content
      */
     protected $dom;
@@ -59,9 +64,14 @@ class Template {
     protected $xpath;
 
     /**
+     * @var DOMElement or DOMDocument to be returned.
+     */
+    private $result;
+
+    /**
      * Constructor
      *
-     * @param mixed $template DOMDocument or string with template containing "z-var" attributes to be replaced. Note: if DOMDocument is passed, it will be modified.
+     * @param mixed $template DOMDocument or DOMElement or string with template containing "z-var" attributes to be replaced. Note: if DOMDocument is passed, it will be modified.
      * @param array $data Array of data to be used for replacing "z-var" attributes
      */
     public function __construct($template, $data = array()) {
@@ -70,9 +80,17 @@ class Template {
         
         if ($template instanceof DOMDocument) {
             $this->dom = $template;
+            $this->scope = $template->documentElement;
+            $this->result = $template;
+        } elseif ($template instanceof DOMElement) {
+            $this->dom = $template->ownerDocument;
+            $this->scope = $template;
+            $this->result = $template;
         } else {
             $this->dom = new DOMDocument();
             $this->dom->loadHTML($template);
+            $this->scope = $this->dom->documentElement;
+            $this->result = $this->dom;
         }
         $this->xpath = new DOMXPath($this->dom);
     }
@@ -80,18 +98,78 @@ class Template {
     /**
      * Render template.
      *
-     * @return DOMDocument Rendered template - if DOMDocument was passed to constructor, it will be returned, otherwise new DOMDocument with rendered template
+     * @return DOMDocument Rendered template - if DOMDocument or DOMElement was passed to constructor it will be modified returned otherwise new DOMDocument will be returned.
      */
     public function render() {
-        $elements = $this->xpath->query("//*[@z-var]");
+        $ctxAttr='data-template-scope-'.rand(10000000, 999999999);
+        $q="descendant-or-self::*[@z-var]
+            [not(
+                ancestor-or-self::*[(@template-scope and @template-scope != 'inherit') or starts-with(@template, '[') or starts-with(@template, '{')]
+                    [not(descendant-or-self::*[@$ctxAttr])]
+            )]";
+
+        $this->scope->setAttribute($ctxAttr, '1'); // helper to limit replacements to the scope
+        $elements = $this->xpath->query($q, $this->scope);
+
         foreach ($elements as $element) {
             $zVar = $element->getAttribute('z-var');
             $this->processElement($element, $zVar);
-            $element->removeAttribute('z-var');
         }
-        return $this->dom;
+
+        $templates = $this->xpath->query("descendant-or-self::*[starts-with(@template, '[') or starts-with(@template, '{')]", $this->scope);
+
+        $this->scope->removeAttribute($ctxAttr);
+
+        foreach ($templates as $template) {
+            $this->processTemplate($template);
+        }
+
+        return $this->result;
     }
 
+    private function processTemplate(DOMElement $template) {
+        $nameFull = $template->getAttribute('template');
+        $name = substr($nameFull, 1, -1);
+        $type = substr($nameFull, 0, 1);
+
+        if (!isset($this->data[$name]) || !is_array($this->data[$name])) {
+            return;
+        }
+
+        $list=$this->data[$name];
+
+        if ($type == '[') {
+            $this->processTemplateRepeat($template, $list);
+        } elseif ($type == '{') {
+            $this->processTemplateInclude($template, $list);
+        }
+    }
+
+    private function processTemplateRepeat($template, $list) {
+        foreach($list as $data) {
+            if (!is_array($data)) $data=array('value' => $data);
+            $clone = $template->cloneNode(true);
+            $clone->setAttribute('template-clone', $clone->getAttribute('template'));
+            $clone->removeAttribute('template');
+            $template->parentNode->insertBefore($clone, $template);
+            $this->processTemplateInclude($clone, $data);
+        }
+    }
+
+    private function processTemplateInclude($template, $data) {
+        $dnaTemplate = new Template($template, $data);
+        $dnaTemplate->render();
+    }
+
+    /**
+     * Return the scope element to limit replacements to.
+     *
+     * @param DOMNode scope
+     */
+    public function getScope() {
+        return $this->scope;
+    }
+    
     /**
      * Process element
      *
@@ -103,11 +181,16 @@ class Template {
         foreach ($rules as $rule) {
             $rule = trim($rule);
             list($var, $instruction) = explode(' ', $rule);
-            if (strpos($var, 0, 1) == '!') {
+            if (substr($var, 0, 1) == '!') {
                 $var = substr($var, 1);
                 $negate = true;
             } else {
                 $negate = false;
+            }
+
+            if (!isset($this->data[$var])) {
+                trigger_error("Variable '$var' not found in data: ".json_encode($this->data)." while processing element ".$element->ownerDocument->saveXML($element), E_USER_WARNING);
+                continue;
             }
             $value = $this->data[$var];
             $this->replaceElement($element, $var, $value, $instruction, $negate);
@@ -129,7 +212,7 @@ class Template {
 
         switch ($syntax) {
         case '.': // replace element content
-            $element->nodeValue = $value;
+            $element->nodeValue = $this->replaceText($var, $value, $element->nodeValue);
             break;
         case '+': // embed value as HTML content
             $element->nodeValue = '';
@@ -146,19 +229,23 @@ class Template {
             $style = $element->getAttribute('style');
             if (!$positiveAction) {
                 $style = preg_replace('/display\s*:[^;]+;/', '', $style);
-                $style = 'display:none; '.$style;
+                $style = trim('display:none; '.$style);
             } else {
-                $style = preg_replace('/display\s*:\s*none\s*;/', '', $style);
+                $style = trim(preg_replace('/display\s*:\s*none\s*;/', '', $style));
             }
-            $element->setAttribute('style', $style);
+            if (strlen($style)) {
+                $element->setAttribute('style', $style);
+            } else {
+                $element->removeAttribute('style');
+            }
             break;
         case '=': // set form element value
             $tagName = strtolower($element->localName);
             if ($tagName == 'select') { // <select>
-                foreach($this->xpath->query("option[@selected]", $element) as $selectedNode) {
+                foreach($this->xpath->query(".//option[@selected]", $element) as $selectedNode) {
                     $selectedNode->removeAttribute('selected');
                 }
-                $this->xpath->evaluate("node((option[@value='".addslashes($value)."'])[1])", $element)->setAttribute('selected', 'selected');
+                $this->xpath->evaluate("node((.//option[@value='".addslashes($value)."'])[1])", $element)->setAttribute('selected', 'selected');
             } elseif ($tagName == 'textarea') { // <textarea>
                 $element->nodeValue = $value;
             } elseif (in_array($element->getAttribute('type'), array('checkbox', 'radio'))) { // <input type="checkbox|radio">
@@ -173,26 +260,45 @@ class Template {
             break;
         case '@*': // set attribute
             $attr = substr($instruction, 1);
-            $strValue = $value === true ? $attr : $value;
-            if (strlen($strValue)) {
-                $element->setAttribute($attr, $strValue);
+            $newValue = $value === true ? $attr : $value;
+            if (strlen($newValue)) {
+                $oldValue = $element->getAttribute($attr);
+                $element->setAttribute($attr, $this->replaceText($var, $newValue, $oldValue));
             } else {
                 $element->removeAttribute($attr);
             }
             break;
         case '.*': // set class
             $className = substr($instruction, 1);
-            $classList = $this->getAttribute('class');
+            $classList = $element->getAttribute('class');
             $classList = $positiveAction ? $this->addToken($classList, $className) : $this->removeToken($classList, $className);
             $element->setAttribute('class', $classList);
             break;
         case ':*': // Not implementable in PHP - should fire named event on this element. We store it as "data-fire-event" attribute on the element.
             $eventName = substr($instruction, 1);
-            $eventList = $this->getAttribute('fire-event');
+            $eventList = $element->getAttribute('fire-event');
             $eventList = $positiveAction ? $this->addToken($eventList, $eventName) : $this->removeToken($eventList, $eventName);
             $element->setAttribute('data-fire-event', $eventList);
             break;
         }
+    }
+
+    /**
+     * If $oldValue contains ${$var} placholder then return $oldValew with replaced placeholders. Otherwise return $newValue.
+     *
+     * @param string $var Variable name
+     * @param mixed $value Variable value
+     * @param string $text Text to replace
+     * @return string Replaced text
+     */
+    private function replaceText($var, $newValue, $oldValue) {
+        $newValueText = is_array($newValue) ? count($newValue) : $newValue;
+
+        if (strpos($oldValue, '${'.$var.'}') !== false) { // Old text is a template with ${VAR} placeholders
+            return str_replace('${'.$var.'}', $newValueText, $oldValue);
+        }
+
+        return $newValueText;
     }
 
     /**
@@ -204,9 +310,9 @@ class Template {
      */
     private function addToken($listStr, $token) {
         $listStr = trim($listStr);
-        $list = strlen($list) ? explode(' ', $listStr) : array();
+        $list = strlen($listStr) ? explode(' ', $listStr) : array();
         $list[] = $token;
-        unique($list);
+        array_unique($list);
         return implode(' ', $list);
     }
 
