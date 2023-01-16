@@ -1,9 +1,19 @@
 __jQuery DNA Template__
 
-*Incredibly simple and yet powerful non-destructive javascript
-templating system. Allows you to effortlessly build and efficiently
-manage UI code (or let web designers to do that without breaking your
-UI-building javascript code).*
+*Introducing a revolutionary new way to simplify your UI development
+process. Our templating library (you can choose PHP or Javascript
+implementation) allows you to build and manage your code with ease,
+without the fear of any layout changes made by designers breaking your
+hard-written code.*
+
+*The library's powerful yet simple design makes it
+easy for developers to create beautiful, functional interfaces without
+worrying about the impact of design changes on their code. This means
+you can focus on writing clean, efficient code, while designers can
+make changes to the layout without any risk of disrupting your
+work. Don't let the fear of layout changes hold you back any longer,
+try our javascript templating library today and experience the freedom
+and flexibility it offers!*
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
 **Table of Contents**
@@ -20,22 +30,25 @@ UI-building javascript code).*
 
 
 # Features
-- [x] Supports nested templates with for-each-like behavior (recursive templates supported)
-- [x] You can apply template multiple times to the same element to update UI with changed values
-- [x] Support for adding/removing classes conditionaly (e.g. add this class if value is true )
-- [x] Support for conditional attributes (e.g. check the check-box if value is true)
-- [x] Support for conditional hidding/showing/removal of elements based on values
-- [x] Support for conditional triggering of Javascript events on any element (e.g. focus/scroll)
-- [x] Super lightweight with only 2.5kB of compressed Javascript
-- [x] PHP Class to process the HTML in PHP the same way as in Javascript
-- [x] And more...
+Introducing a cutting-edge features that takes UI development to the
+next level. With our library, you'll have access to:
+
+- [x] The ability to apply templates multiple times to the same element to update the UI with changed values
+- [x] Support for adding/removing classes conditionally (e.g. add this class if value is true)
+- [x] Conditional attributes (e.g. check the check-box if value is true)
+- [x] Conditional hiding/showing/removal of elements based on values
+- [x] Conditional triggering of Javascript events on any element (e.g. focus/scroll, not available in PHP implementation)
+- [x] Nested templates with for-each-like behavior (recursive templates supported)
+- [x] Super lightweight
+- [x] A PHP class to process the HTML in PHP the same way as in javascript
+- [x] And much more! With our library, you'll be able to create beautiful, functional interfaces with ease. Try it out today and see the difference it can make in your development process!
 
 # Quick Introduction
 
-First you need to include one Javascript and CSS file provided you
-already use jQuery on your page.
+To get started, simply include our provided javascript and CSS file on your page.
 
 Example: Replace `…` with the real path pointing to your files.
+
 ```HTML
 <!doctype html>
 <html>
@@ -51,23 +64,23 @@ Example: Replace `…` with the real path pointing to your files.
 </html>
 ```
 
-Now you can add the `z-var="PROPERTY TARGET"` attribute to any element
-and then call `$(element).template(...)` on that element or any parent.
+To use the templating library, add the `z-var="{{PROPERTY}}
+{{TARGET/ACTION}}"` attribute to any element in your HTML. Then call
+`$(element).template(...)` on that element or any parent element. The
+z-var attribute holds instructions, separated by commas, specifying
+what should be replaced and where, or what action should be taken.
 
-The `z-var` attribute holds (comma-separated) instruction(s)
-specifying what should be replaced and where or what should be done.
+The TARGET/ACTION is usually `.` (dot) to insert the value as text in
+the element or `@ATTR_NAME` to insert a variable into an attribute. It's
+simple and easy to understand, as you'll see in the examples below or
+in the syntax section.
 
-The `TARGET` is usually `.` (dot) to insert the value as text in the
-element or `@ATTR_NAME` to insert variable into attribute. It is
-simple and you will understand it in a minute by looking at examples
-bellow or by jumping to the [syntax](#syntax) section.
-
-Let's see how it works in real world.
-
-Assume that all examples in this section use this Javascript to apply
-the template. We pass quite complex data object to the template. The
+Let's see how the library works in a real-world scenario. In the
+examples below, we pass a complex data object to the template. The
 values in the object will be inserted in various points defined by
-`z-var` in HTML as you will see bellow.
+`z-var` in the HTML.
+
+Here is the javascript code with variables to apply the template:
 
 ```javascript
 $('.target').template({
