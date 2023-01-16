@@ -72,9 +72,10 @@ what should be replaced and where, or what action should be taken.
 
 The way to insert a value or variable into an element or attribute is
 by specifying the `TARGET/ACTION` value. You will usually use `.`
-(dot) or `@ATTR_NAME`, respectively. Additionally, using = (equal
-sign) sets the form input field to the variable value. The examples and
-syntax section will further illustrate this concept.
+(dot) to insert the value as text or `@ATTR_NAME` to insert the value
+into attribute, respectively. Additionally, using = (equal sign) sets
+the form input field to the variable value. The examples and syntax
+section will further illustrate this concept.
 
 Let's see how the library works in a real-world scenario. In the
 examples below, we pass a complex data object to the template. The
