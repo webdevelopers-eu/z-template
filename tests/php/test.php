@@ -1,7 +1,7 @@
 <?php
 // Run as `php test.php`
 
-require(__DIR__.'/../../template.php');
+require(__DIR__.'/../../php/template.php');
 
 $data=array (
     'name' => 'John Smith',

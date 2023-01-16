@@ -279,12 +279,14 @@ class Template {
             break;
         case '+': // embed value as HTML content
             $element->nodeValue = '';
-            $fragment = $this->dom->createDocumentFragment();
-            $fragment->appendXML($value);
-            $element->appendChild($fragment);
+            if (strlen($value)) {
+                $fragment = $this->dom->createDocumentFragment();
+                $fragment->appendXML($value);
+                $element->appendChild($fragment);
+            }
             break;
         case '!': // remove element
-            if (!$positiveAction) {
+            if (!$positiveAction && $element->parentNode) {
                 $element->parentNode->removeChild($element);
             }
             break;
