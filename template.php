@@ -114,7 +114,7 @@ class Template {
      *
      * @param array $data Array of data to be used for replacing "z-var" attributes
      * @param bool $clean If true, the template will be cleaned of "z-var" attributes after rendering. Warning: You won't be able to call $template->render() with new data on the same object.
-     * @return DOMDocument Rendered template - if DOMDocument or DOMElement was passed to constructor it will be modified returned otherwise new DOMDocument will be returned.
+     * @return mixed if DOMDocument or DOMElement was passed to constructor then the same modified object will be returned, otherwise new DOMDocument will be returned if $template was string.
      */
     public function render($data, $clean = false) {
         $this->data = $data;
@@ -422,7 +422,11 @@ class Template {
 
 /**
  * The procedural interface to the DNA Template engine.
+ * @param string $template Template string
+ * @param array $data Data to use in the template
+ * @param bool $clen Clean the template after processing of all templating markup
+ * @return mixed if DOMDocument or DOMElement was passed to constructor then the same modified object will be returned, otherwise new DOMDocument will be returned if $template was string.
  */
-function template($template, $data, $clean = true) {
+function template($template, $data, $clean = false) {
     return (new Template($template))->render($data, $clean);
 }
