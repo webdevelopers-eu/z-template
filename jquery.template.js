@@ -21,6 +21,8 @@
  * <ELEMENT template="[ITERATE_VAR_NAME]" ...>...</ELEMENT>
  * <ELEMENT template="{OBJECT_VAR_NAME}" ...>...</ELEMENT>
  *
+ * The HTML <template template="..."> element is supported as well.
+ *
  * Note: For debugging purposes the VAR_NAME "debugger" will start
  * Javascript debugging at that point.
  *
@@ -140,7 +142,7 @@ $.fn.template = function(vars, inPlace) {
 	this.each(function() {
 	    var $this = $(this);
 	    var noClone = typeof inPlace == 'boolean' ? inPlace : !$this.is('[template]');
-	    var $subject = noClone ? $this : $this.clone().addClass('template-clone').attr('template-clone', $this.attr('template')).insertBefore(this);
+	    var $subject = noClone ? $this : clone($this).addClass('template-clone').attr('template-clone', $this.attr('template')).insertBefore(this);
 	    var $item = replaceVars(vars, $subject).removeAttr('template');
 	    $ret = $ret.add($item);
 	});
@@ -342,4 +344,11 @@ $.fn.template = function(vars, inPlace) {
 	return $context;
     };
 
+    function clone($el) {
+	if ($el.is('template')) {
+	    return $el.contents('*').clone();
+	} else {
+	    return $el.clone();
+	}
+    }
 };

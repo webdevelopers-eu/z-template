@@ -206,13 +206,26 @@ class Template {
     private function processTemplateRepeat($template, $list) {
         foreach($list as $data) {
             if (!is_array($data)) $data=array('value' => $data);
-            $clone = $template->cloneNode(true);
-            $clone->setAttribute('template-clone', $clone->getAttribute('template'));
-            $clone->removeAttribute('template');
-            $template->parentNode->insertBefore($clone, $template);
+            $clones=array();
 
-            $dnaTemplate = new Template($clone);
-            $dnaTemplate->render($data, false);
+            if ($template->localName == 'template') { // HTML <template> element - copy only first element
+                foreach($template->childNodes as $child) {
+                    if ($child->nodeType === 1) {
+                        $clones[]=$child->cloneNode(true);
+                    }
+                }
+            } else {
+                $clones[] = $template->cloneNode(true);
+            }
+
+            foreach($clones as $clone) {
+                $clone->setAttribute('template-clone', $clone->getAttribute('template'));
+                $clone->removeAttribute('template');
+                $template->parentNode->insertBefore($clone, $template);
+
+                $dnaTemplate = new Template($clone);
+                $dnaTemplate->render($data, false);
+            }
         }
     }
 
