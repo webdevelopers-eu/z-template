@@ -302,7 +302,8 @@ $.fn.template = function(vars, inPlace) {
 	$subtempl
 	    .each(function() {
 		var $this = $(this);
-		var matches = $this.attr('template').match(/^([{\[])(.*)[\]}]$/);
+		var templateValue = $this.attr('template');
+		var matches = templateValue.match(/^([{\[])(.*)[\]}]$/);
 		var isObject = matches[1] == "{";
 		var propName = matches[2];
 		var subVars = vars[propName];
@@ -311,7 +312,7 @@ $.fn.template = function(vars, inPlace) {
 
 		// Remove clones
 		$this
-		    .siblings('[template-clone]')
+		    .prevUntil(':not([template-clone="' + templateValue + '"])', '[template-clone="' + templateValue + '"]') /* only previous siblings as there can be multiple template="[abc]" elements with the same subelent so we need to know whose what */
 		    .filter(function() {return $(this).attr('template-clone') == $this.attr('template');})
 		    .remove();
 
