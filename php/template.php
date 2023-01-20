@@ -269,6 +269,7 @@ class Template {
             $value = $this->data[$var];
             $this->replaceElement($element, $var, $value, $instruction, $negate);
         }
+        $element->removeAttribute('dna-removed');
     }
 
     /**
@@ -307,11 +308,14 @@ class Template {
             break;
         case '?': // hide element
             if ($positiveAction) {
-                $this->removeAttrToken($element, 'class', 'dna-template-hidden');
-                $this->addAttrToken($element, 'class', 'dna-template-visible');
+                if (!$element->hasAttribute('dna-removed')) {
+                    $this->removeAttrToken($element, 'class', 'dna-template-hidden');
+                    $this->addAttrToken($element, 'class', 'dna-template-visible');
+                }
             } else {
                 $this->removeAttrToken($element, 'class', 'dna-template-visible');
                 $this->addAttrToken($element, 'class', 'dna-template-hidden');
+                $element->setAttribute('dna-removed', 'true');
             }
             break;
         case '=': // set form element value
