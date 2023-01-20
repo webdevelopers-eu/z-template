@@ -117,6 +117,8 @@ class Template {
      * @return mixed if DOMDocument or DOMElement was passed to constructor then the same modified object will be returned, otherwise new DOMDocument will be returned if $template was string.
      */
     public function render($data, $clean = false) {
+        // Convert data to json and back because there can be jsonSerializable objects...
+        $data = json_decode(json_encode($data), true);
         $this->data = $data;
         $this->revert();
 
