@@ -8,6 +8,17 @@ use \DOMAttr;
 use \Exception;
 
 /**
+ * The procedural interface to the DNA Template engine.
+ * @param string $template Template string
+ * @param array $data Data to use in the template
+ * @param bool $clen Clean the template after processing of all templating markup
+ * @return mixed if DOMDocument or DOMElement was passed to constructor then the same modified object will be returned, otherwise new DOMDocument will be returned if $template was string.
+ */
+function template($template, $data, $clean = false) {
+    return (new Template($template))->render($data, $clean);
+}
+
+/**
  * PHP re-implamentation of jquery.template.php
  *
  * See https://github.com/webdevelopers-eu/jquery-dna-template
@@ -441,13 +452,3 @@ class Template {
 }
 
 
-/**
- * The procedural interface to the DNA Template engine.
- * @param string $template Template string
- * @param array $data Data to use in the template
- * @param bool $clen Clean the template after processing of all templating markup
- * @return mixed if DOMDocument or DOMElement was passed to constructor then the same modified object will be returned, otherwise new DOMDocument will be returned if $template was string.
- */
-function template($template, $data, $clean = false) {
-    return (new Template($template))->render($data, $clean);
-}

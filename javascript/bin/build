@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# This script is used to build one template.min.js that contains all the templates.
+pushd `dirname "$0"` > /dev/null 2>&1;
+trap "popd > /dev/null" EXIT;
+
+function demodule {
+    # Remove the module wrapper
+    cat "$1" | grep -vE "^\s*(import|export|module)\s";
+}
+
+SCRIPT_TOKENIZE="`demodule ../tokenize.js`";
+SCRIPT_EVALUATE="`demodule ../evaluate.js`";
+SCRIPT_TEMPLATE="`demodule ../template.js`";
+
+# Print all up to a line having keyword @INSERT
+(
+    echo "/*! DNA Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/dna-template */";
+    echo "window.dnaTemplate = (function() {";
+    echo "$SCRIPT_TOKENIZE";
+    echo "$SCRIPT_EVALUATE";
+    echo "$SCRIPT_TEMPLATE";
+    echo " return dnaTemplate;})();";
+    echo "if (typeof jQuery !== 'undefined') {jQuery.fn.template = function(vars) {this.each((i, el) => dnaTemplate(el, vars)); return this;};}";
+) | uglifyjs --source-map "url='template.min.js.map'" --comments "/^!/" -o ../template.min.js --compress --mangle;
+
+ls -lah ../template.min.js;
+
+popd > /dev/null;
+trap "" EXIT;
