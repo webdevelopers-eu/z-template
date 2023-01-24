@@ -73,28 +73,29 @@ class Template {
     // We don't want to apply changes incrementally like adding/removing the same class
     // so we pre-prepare the element and then apply the changes at once.
     const zProto = this.cloneProto(zElement);
+    const noVal = (command.value === null || command.value === undefined);
     
     // todo: process commands
     commands
       .forEach((command) => {
         switch (command.keyword) {
-        case "debugger":
-          debugger;
-          break;
         case "attr":
-          this.cmdAttr(zProto, command);
+          if (!noVal) this.cmdAttr(zProto, command);
           break;
         case "text":
-          this.cmdText(zProto, command);
+          if (!noVal) this.cmdText(zProto, command);
           break;
         case "value":
-          this.cmdValue(zProto, command);
+          if (!noVal) this.cmdValue(zProto, command);
           break;
         case "class":
-          this.cmdClass(zProto, command);
+          if (!noVal) this.cmdClass(zProto, command);
           break;
         case "html":
-          this.cmdHtml(zProto, command);
+          if (!noVal) this.cmdHtml(zProto, command);
+          break;
+        case "toggle":
+          if (!noVal) this.cmdToggle(zProto, command);
           break;
         case "event":
           this.cmdEvent(zProto, command);
@@ -102,8 +103,8 @@ class Template {
         case "remove":
           this.cmdRemove(zProto, command);
           break;
-        case "toggle":
-          this.cmdToggle(zProto, command);
+        case "debugger":
+          debugger;
           break;
         }
       });
@@ -112,15 +113,41 @@ class Template {
     this.mergeProto(zElement, zProto);
   }
 
+  cmdValue(zProto, command) {
+    // Set form field's value to command.value be it <select>, <input> or <textarea>
+    // Alternative to jQuery.val(value)
+    if (zProto.matches('input[type="chekbox"], input[type="radio"]')) {
+      const checked = typeof command.value === 'boolean' ? command.value : zProto.getAttribute('value') === command.value;
+      if (checked) {
+        zProto.setAttribute('checked', 'checked');
+      } else {
+        zProto.removeAttribute('checked');
+      }
+      zProto.value = command.value;
+    } else if (zProto.matches('input')) {
+      zProto.value = command.value;
+    } else if (zProto.matches('select')) {
+      zProto.setAttribute('z-var-force-content', 'true'); // subtree change, force subtree merge from zProto to zElement
+      zProto.querySelectorAll('option')
+        .filter((option) => option.value === command.value)
+        .forEach((option) => option.setAttribute('selected', 'selected'));
+    } else if (zProto.matches('textarea')) {
+      zProto.textContent = command.value;
+    } else {
+      zProto.setAttribute(command.name, command.value);
+    }
+  }
+
+  cmdHtml(zProto, command) {
+    zProto.setAttribute('z-var-force-content', 'true');
+    zProto.innerHTML = command.value;
+  }
+
   cmdText(zProto, command) {
     zProto.textContent = this.getReplaceText(zProto, zProto.textContent, command.variable, command.value || '', '');
   }
 
   cmdAttr(zProto, command) {
-    if (command.value === null || command.value === undefined) {
-      return;
-    }
-
     if (command.value === true) {
       zProto.setAttribute(command.target, command.target);
     } else if (command.value === false) {
@@ -152,6 +179,12 @@ class Template {
   }
 
   mergeProto(zElement, zProto) {
+    // Merge text content
+    if (zProto.hasAttribute('z-var-force-content') || zElement.childElementCount !== zProto.childElementCount || zElement.textContent !== zProto.textContent) {
+      zProto.removeAttribute('z-var-force-content');
+      zElement.textContent = zProto.textContent;
+    }
+
     // Merge attributes
     for (let i = 0; i < zProto.attributes.length; i++) {
       const attr = zProto.attributes[i];
@@ -168,10 +201,6 @@ class Template {
       }
     }
 
-    // Merge text content
-    if (zElement.textContent !== zProto.textContent) {
-      zElement.textContent = zProto.textContent;
-    }
   }
 
   cloneProto(zElement) {
