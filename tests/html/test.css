@@ -1,0 +1,66 @@
+html {
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+#tests {
+    margin: 2em 0em;
+    padding: 0em;
+    list-style-type: none;
+    list-style: none;
+    position: relative;
+}
+
+#tests > li {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+#tests > li:before {
+    content: "Test #" counter(test);
+    counter-increment: test;
+    display: block;
+    background: #eee;
+    padding: 0.5em;
+    color: #333;
+}
+
+#tests > li > * {
+    border: 1px dotted black;
+    padding: 1em 1em;
+    flex: 1;
+    min-width: 360px;
+}
+
+#tests > li > *:first-child {
+   border-right: 1px dotted black
+}
+
+
+#tests > li.fail:before,
+#tests > li.fail > * {
+    background: #FCC;
+}
+
+#tests > li.pass:before,
+#tests > li.pass > * {
+    background: #CFC;
+}
+
+#tests > li.pass:not(:hover) > * {
+    display: none;
+}
+
+#tests > li > *[data-source]::after {
+    content: attr(data-source);
+    display: block;
+    font-family: monospace;
+    font-size: 0.8em;
+    background: #eee;
+    margin-top: 1em;
+    padding: 0.5em;
+    color: #333;
+    white-space: pre;
+    overflow: auto;
+}
