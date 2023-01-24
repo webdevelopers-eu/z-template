@@ -22,7 +22,8 @@ SCRIPT_TEMPLATE="`demodule ../template.js`";
     echo "$SCRIPT_TEMPLATE";
     echo " return dnaTemplate;})();";
     echo "if (typeof jQuery !== 'undefined') {jQuery.fn.template = function(vars) {this.each((i, el) => dnaTemplate(el, vars)); return this;};}";
-) | uglifyjs --source-map "url='template.min.js.map'" --comments "/^!/" -o ../template.min.js --compress --mangle;
+) | uglifyjs --source-map "url='template.min.js.map'" --comments "/^!/" -o ../template.min.js --compress --mangle --rename --toplevel --mangle-props --ecma 6;
+#) > ../template.min.js;
 
 ls -lah ../template.min.js;
 

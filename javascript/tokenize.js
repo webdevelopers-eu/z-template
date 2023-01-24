@@ -54,7 +54,7 @@ class Tokenizer extends Array {
 
   tokenizeUntil(until=",") {
     const result = new Tokenizer(this.input);
-    let current = {type: "command", value: ""};
+    let current = {type: "generic", value: ""};
     let escaped = false;
 
     for (let value = this.next(); value !== null; value = this.next()) {
@@ -65,29 +65,29 @@ class Tokenizer extends Array {
         escaped = true;
       } else if (current.type == "text" && value == current.delimiter) { // End of string
         this.pushSmart(result, current);
-        current = {type: "command", value: ""};
+        current = {type: "generic", value: ""};
       } else if (value === until) { // End of subrequest
         break;
       } else if (value in this.blockChars) {// Statement start
         this.pushSmart(result, current);
         result.push({"type": "block", "value": this.tokenizeUntil(this.blockChars[value]), "start": value, "end": this.blockChars[value]});
-        current = {type: "command", value: ""};
+        current = {type: "generic", value: ""};
       } else if (this.quoteChars.includes(value)) { // String start
         this.pushSmart(result, current);
         current = {type: "text", value: "", delimiter: value};
-      } else if (current.type == 'command' && this.hardSeparatorChars.includes(value)) { // Significant separator
+      } else if (current.type == 'generic' && this.hardSeparatorChars.includes(value)) { // Significant separator
         this.pushSmart(result, current);
         this.pushSmart(result, {type: "separator", value: value});
-        current = {"type": 'command', "value": ""};
-      } else if (current.type == 'command' && this.softSeparatorChars.includes(value)) { // Insignificant separator
+        current = {"type": 'generic', "value": ""};
+      } else if (current.type == 'generic' && this.softSeparatorChars.includes(value)) { // Insignificant separator
         this.pushSmart(result, current);
-        current = {"type": 'command', "value": ""};
+        current = {"type": 'generic', "value": ""};
       } else if (current.type !== 'operator' && this.operatorChars.includes(value)) { // Operator
         this.pushSmart(result, current);
         current = {"type": 'operator', "value": value};
       } else if (current.type === 'operator' && !this.operatorChars.includes(value)) { // End of operator
         this.pushSmart(result, current);
-        current = {"type": "command", "value": ""};
+        current = {"type": "generic", "value": ""};
         this.prev();
       } else {
         current.value += value;
@@ -98,12 +98,12 @@ class Tokenizer extends Array {
   }
 
   pushSmart(result, current) {
-    if (current.type == 'command') {
+    if (current.type == 'generic') {
       current.value = current.value.trim();
       if (!current.value.length) {
         return;
       }
-      // If numeric then it is not a command but 'text'
+      // If numeric then it is not a generic but 'text'
       if (!isNaN(current.value)) {
         current.type = 'text';
         current.value = new Number(current.value);

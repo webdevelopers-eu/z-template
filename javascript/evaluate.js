@@ -41,8 +41,8 @@ class Evaluator {
     "condition": null, // token
     "keyword": "", // string
     "target": null, // string
-    "param": null, // string
     "value": null, // string or token
+    "variable": null, // string variable name in value or condition
   }
   
   constructor(tokens) {
@@ -69,23 +69,31 @@ class Evaluator {
    * (?<target>"@{attr}"|"+"|"."|"=")|(?<action>":{event}"|"?"|"!"|".{class}")
    *
    * @access private
-   * @param int
-   * @param
    * @return void
    */
   normalize() {
     const tokens = Array.from(this.tokens);
-    let token = this.nextToken(tokens, ["operator", "command", "block"]);
+    let token = this.nextToken(tokens, ["operator", "generic", "block"]);
+
+    if (tokens.length === 0 && token.value === "debugger") {
+      this.data.condition = {"type": "special", "value": "debugger"};
+      this.data.keyword = 'debugger';
+      return;
+    }
 
     // negate
-    if (token.type === 'operator' && token.value === '!') {
-      this.data.negate = true;
-      token = this.nextToken(tokens, ["command", "block"]);
+    if (token.type === 'operator' && ["!", "!!"].includes(token.value)) {
+      this.data.negate = token.value.length;
+      token = this.nextToken(tokens, ["generic", "block"]);
     }
 
     // condition
     this.data.condition = token;
-    token = this.nextToken(tokens, ["command"]);
+    if (this.data.condition.type === 'generic') {
+      // first variable if any - used for ${var} replacements
+      this.data.variable = this.data.condition.value; 
+    }
+    token = this.nextToken(tokens, ["generic"]);
 
     // shortcut: "${keywordShortcut}${target}" or "${keyword}"
     const shortcut = token.value.substr(0, 1) + (token.value.length > 1 ? '*' : '');
@@ -94,35 +102,36 @@ class Evaluator {
       switch (this.data['keyword']) {
       case 'attr':
       case 'event':
-        tokens.unshift({type: 'block', value: [{"type": "command", "value": token.value.substr(1)}]}); 
+        tokens.unshift({type: 'block', value: [{"type": "generic", "value": token.value.substr(1)}]}); 
         break;
       case 'class':
         tokens.unshift({"type": "text", "value": token.value.substr(1).replace(/\./g, ' ')});
         break;
       }
-    } else if (this.targetShortcuts.values().includes(token.value)) { // full: "${keyword}" next: "${target}"
+    } else if (Object.values(this.targetShortcuts).includes(token.value)) { // full: "${keyword}" next: "${target}"
       this.data['keyword'] = token.value;
     } else {
       throw new Error(`Invalid keyword: ${token.value} . Supported keywords: ${Object.keys(this.targetShortcuts).join(', ')}`);
     }
-    token = this.nextToken(tokens, ["block", "text", "command", null]);
+    token = this.nextToken(tokens, ["block", "text", "generic", null]);
 
-    // Next can be option "block" delimited by "(", ")" or "text" or "command" or nothing
+    // Next can be option "block" delimited by "(", ")" or "text" or "generic" or nothing
     // "block": probably "attr(attrName)" or "event(eventName)"
     // "text": the value like in "class 'class1 class2'"
     if (!token) { // the end
       return;
     } else if (token.type === 'block') { // "block"
       this.data['target'] = token.value[0].value;
-      token = this.nextToken(tokens, ["text", "command", null]);
+      token = this.nextToken(tokens, ["text", "generic", null]);
     }
 
-    // text or command
+    // text or generic
     if (!token) { // the end
       return;
     } else if (token.type === 'text') { // "text"
       this.data['value'] = token.value;
-    } else if (token.type === 'command') { // "command"
+    } else if (token.type === 'generic') { // "generic"
+      this.data.variable = token.value; // for ${var} replacements
       this.data['value'] = token;
     }
   }
@@ -139,10 +148,14 @@ class Evaluator {
     const result = {...this.data};
 
     // Before resolving conditions
-    if (result.value === null && result.condition.type == "command") {
-      result.value = this.toValue(result.condition);
+    if (result.condition.type === 'special') {
+      result.keyword = result.condition.value;
+      result.condition = true;
+      return result;
+    } else if (result.value === null && result.condition.type == "generic") {
+      result.value = this.toValue(result.condition, result.negate);
     } else if (typeof result.value == 'object') {
-      result.value = this.toValue(result.value);
+      result.value = this.toValue(result.value, result.negate);
     } 
 
     // Resolve conditions
@@ -150,12 +163,12 @@ class Evaluator {
     case "block":
       result.condition = !!this.evaluateBlock(result.condition.value);
       break;
-    case "command":
+    case "generic":
       result.condition = !!this.evaluateVariable(result.condition.value);
       break;
     }
 
-    if (result.negate) {
+    if (result.negate == 1) {
       result.condition = !result.condition;
     }
 
@@ -176,7 +189,7 @@ class Evaluator {
 
   evaluateBlock(tokens) {
     const expression = this.mkExpression(tokens);
-    console.log("expression", expression);
+    // console.log("expression", expression);
     return eval(expression);
   }
 
@@ -185,7 +198,7 @@ class Evaluator {
     // safe and it's not needed and we want it to be portable to other langs.
     let result = '';
     while (true) {
-      const token = this.nextToken(tokens, ["command", "block", "text", "operator", null]);
+      const token = this.nextToken(tokens, ["generic", "block", "text", "operator", null]);
       if (!token) {
         break;
       }
@@ -193,7 +206,7 @@ class Evaluator {
       // Arithmetic operators look ahead
       if (tokens.length > 1 && tokens[0].type === 'operator' && this.operatorsCompare.includes(tokens[0].value)) {
         const operator = this.nextToken(tokens, ["operator"]);
-        const token2 = this.nextToken(tokens, ["command", "text"]);
+        const token2 = this.nextToken(tokens, ["generic", "text"]);
         result += this.compare(token, operator, token2) ? 1 : 0;
         continue;
       }
@@ -209,7 +222,7 @@ class Evaluator {
       case "block":
         result += this.mkExpression(token.value);
         break;
-      case "command":
+      case "generic":
         result += this.evaluateVariable(token.value) ? 1 : 0;
         break;
       case "text":
@@ -220,10 +233,10 @@ class Evaluator {
     return "(" + (result || '0') + ")";
   }
 
-  toValue(token) {
+  toValue(token, negate = 0) {
     let value;
     switch (token.type) {
-    case "command":
+    case "generic":
       value = this.getVariableValue(token.value);
       break;
     case "text":
@@ -235,8 +248,17 @@ class Evaluator {
     default:
       throw new Error(`Invalid token type: ${token.type} (value: ${JSON.stringify(token)}).`);
     }
+    if (value === null) {
+      return value; // Number(null) === 0a
+    }
     const num = Number(value);
-    return isNaN(num) ? value : num;
+    let ret = isNaN(num) ? value : num;
+
+    for (let c = negate; c; c--) {
+      ret = !ret;
+    }
+
+    return ret;
   }
 
   compare(token1, operator, token2) {
@@ -264,7 +286,7 @@ class Evaluator {
   nextToken(tokens, expectType = []) {
     const token = tokens.shift();
     if (!expectType.includes(token ? token.type : null)) {
-      throw new Error(`Invalid z-var value: (${token.type}) "${token.value}". Command or block expected: "${this.tokens.input}"`);
+      throw new Error(`Invalid z-var value: (${token && token.type}) "${token && token.value}". Generic or block expected: "${this.tokens.input}"`);
     }
     return token;
   }

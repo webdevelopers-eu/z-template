@@ -66,10 +66,131 @@ class Template {
   processZElement(zElement) {
     const zVar = zElement.getAttribute('z-var');
     const tokens = tokenize(zVar);
-    const commands = Array.from(tokens).map((expression) => evaluate(expression, this.vars));
+    const commands = Array
+          .from(tokens)
+          .map((expression) => evaluate(expression, this.vars));
 
-    commands.forEach((command) => console.log('zVar', command, zVar, zElement));
+    // We don't want to apply changes incrementally like adding/removing the same class
+    // so we pre-prepare the element and then apply the changes at once.
+    const zProto = this.cloneProto(zElement);
+    
     // todo: process commands
+    commands
+      .forEach((command) => {
+        switch (command.keyword) {
+        case "debugger":
+          debugger;
+          break;
+        case "attr":
+          this.cmdAttr(zProto, command);
+          break;
+        case "text":
+          this.cmdText(zProto, command);
+          break;
+        case "value":
+          this.cmdValue(zProto, command);
+          break;
+        case "class":
+          this.cmdClass(zProto, command);
+          break;
+        case "html":
+          this.cmdHtml(zProto, command);
+          break;
+        case "event":
+          this.cmdEvent(zProto, command);
+          break;
+        case "remove":
+          this.cmdRemove(zProto, command);
+          break;
+        case "toggle":
+          this.cmdToggle(zProto, command);
+          break;
+        }
+      });
+
+    console.log('zProto', zProto);
+    this.mergeProto(zElement, zProto);
+  }
+
+  cmdText(zProto, command) {
+    zProto.textContent = this.getReplaceText(zProto, zProto.textContent, command.variable, command.value || '', '');
+  }
+
+  cmdAttr(zProto, command) {
+    if (command.value === null || command.value === undefined) {
+      return;
+    }
+
+    if (command.value === true) {
+      zProto.setAttribute(command.target, command.target);
+    } else if (command.value === false) {
+      zProto.removeAttribute(command.target);
+    } else {
+      const value = this.getReplaceText(zProto, zProto.getAttribute(command.target), command.variable, command.value, command.target);
+      zProto.setAttribute(command.target, value);
+    }
+  }
+
+  getReplaceText(element, template, varName, value, id = '') {
+    const varNameStr = '${' + varName + '}';
+    const bakAttrName = 'z-var-content' + (id ? '-' + id : '');
+
+    let result;
+    // Does template contain the variable?
+    if (varName && template && template.indexOf(varNameStr) !== -1) {
+        result = (template || '').replace(varNameStr, value);
+    } else {
+        result = value;
+    }
+
+    // Backup
+    if (template !== result && template && !element.hasAttribute(bakAttrName)) {
+      element.setAttribute(bakAttrName, template);
+    }
+
+    return result;
+  }
+
+  mergeProto(zElement, zProto) {
+    // Merge attributes
+    for (let i = 0; i < zProto.attributes.length; i++) {
+      const attr = zProto.attributes[i];
+      if (zElement.getAttribute(attr.name) !== attr.value) {
+        zElement.setAttribute(attr.name, attr.value);
+      }
+    }
+
+    // Remove removed attributes
+    for (let i = 0; i < zElement.attributes.length; i++) {
+      const attr = zElement.attributes[i];
+      if (!zProto.hasAttribute(attr.name)) {
+        zElement.removeAttribute(attr.name);
+      }
+    }
+
+    // Merge text content
+    if (zElement.textContent !== zProto.textContent) {
+      zElement.textContent = zProto.textContent;
+    }
+  }
+
+  cloneProto(zElement) {
+    const proto = zElement.cloneNode(); // no deep - only attrs
+    proto.textContent = zElement.textContent; // only text contents, subtree can be huge
+
+    // Restore the original content if any - search for all z-var-content-* attributes
+    const contentAttrs = Array.from(zElement.attributes)
+          .filter((attr) => {
+            // Restore z-var-content-{ATRR_NAME} attribute
+            const attrName = attr.name.replace(/^z-var-content-?/);
+            if (!attrName) { // contents
+              proto.textContent = attr.value;
+            } else {
+              proto.setAttribute(attrName, attr.value);
+            }
+          });
+
+    return proto;
   }
 
   query(xpath, context = null) {
