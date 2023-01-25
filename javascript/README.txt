@@ -1,11 +1,11 @@
-Document
-
-debugger keyword
-!!prop @something
+------------------------------------------------------------------------
 
 GENERAL SYNTAX
+change in evaluate.js normalize() function
+rename evaluate.js to prepare.js
+
 --------------------------------------------
-{VALUE|TOGGLE} ACTION [PARAM {CONDITION}]
+[NEGATE]{VALUE|TOGGLE} ACTION [SUBJECT] [CONDITION]
 --------------------------------------------
 
  remove [cond]                | !
@@ -16,7 +16,7 @@ GENERAL SYNTAX
  html [cond]                  | +
  -----------------------
  attr attrName [cond]         | @attrName
- class 'class1 class2' [cond] | .class1.class2
+ class 'class1 class2' [cond] | .class1.class2; support "class1 !class3" to invert toggling
  event name [cond]            | :name
  callback name [cond]         | *name
 
@@ -29,5 +29,10 @@ Examples:
  somevar value
  else html
 
+------------------------------------------------------------------------
 
+DOCUMENT
+
+debugger keyword
+!!prop @something
 
