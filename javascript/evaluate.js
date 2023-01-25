@@ -13,6 +13,7 @@ class Evaluator {
   targetShortcuts = {
     "@*": "attr",
     ":*": "event",
+    "**": "callback",
     ".*": "class",
     "+": "html",
     ".": "text",
@@ -52,21 +53,6 @@ class Evaluator {
 
   /**
    * Normalize this.tokens so it has fixed elements that reflect the syntax like this:
-   * @todo
-   * Always normalize first to syntax
-   * {keyword} {target} = {value}
-   * e.g.
-   * [keyword]([target]?) [value]
-   *  attr(attrName) title         | @attrName
-   *  text 'something'             | .
-   *  value something              | =
-   *  class 'class1 class2'        | .class1.class2
-   *  html something               | +
-   *  event(something) something   | :something
-   *  remove                       | !
-   *  toggle                       | ?  => toggle "dna-hide-something"
-   * 
-   * (?<target>"@{attr}"|"+"|"."|"=")|(?<action>":{event}"|"?"|"!"|".{class}")
    *
    * @access private
    * @return void
