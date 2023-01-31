@@ -10,7 +10,7 @@ function demodule {
 }
 
 SCRIPT_TOKENIZE="`demodule ../tokenize.js`";
-SCRIPT_EVALUATE="`demodule ../evaluate.js`";
+SCRIPT_EVALUATE="`demodule ../prepare.js`";
 SCRIPT_TEMPLATE="`demodule ../template.js`";
 
 # Print all up to a line having keyword @INSERT
@@ -22,7 +22,7 @@ SCRIPT_TEMPLATE="`demodule ../template.js`";
     echo "$SCRIPT_TEMPLATE";
     echo " return dnaTemplate;})();";
     echo "if (typeof jQuery !== 'undefined') {jQuery.fn.template = function(vars) {this.each((i, el) => dnaTemplate(el, vars)); return this;};}";
-) | uglifyjs --source-map "url='template.min.js.map'" --comments "/^!/" -o ../template.min.js --compress --mangle --rename --toplevel --mangle-props --ecma 6;
+) | uglifyjs --source-map "url='template.min.js.map'" --comments "/^!/" -o ../template.min.js --compress --mangle --rename --toplevel --mangle-props;
 #) > ../template.min.js;
 
 ls -lah ../template.min.js;

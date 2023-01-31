@@ -18,296 +18,300 @@ and flexibility it offers!*
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
 **Table of Contents**
 
-- [Features](#features)
-- [Quick Introduction](#quick-introduction)
-- [Interactive Examples](#interactive-examples)
-- [Syntax](#syntax)
-	- [Javacript](#javacript)
-	- [HTML](#html)
-- [More](#more)
-
 <!-- markdown-toc end -->
 
+## Installation
 
-# Features
-Introducing a cutting-edge features that takes UI development to the
-next level. With our library, you'll have access to:
+### Javascript
 
-- [x] The ability to apply templates multiple times to the same element to update the UI with changed values
-- [x] Support for adding/removing classes conditionally (e.g. add this class if value is true)
-- [x] Conditional attributes (e.g. check the check-box if value is true)
-- [x] Conditional hiding/showing/removal of elements based on values
-- [x] Conditional triggering of Javascript events on any element (e.g. focus/scroll, not available in PHP implementation)
-- [x] Nested templates with for-each-like behavior (recursive templates supported)
-- [x] Super lightweight
-- [x] A PHP class to process the HTML in PHP the same way as in javascript
-- [x] And much more! With our library, you'll be able to create beautiful, functional interfaces with ease. Try it out today and see the difference it can make in your development process!
+Non-module version:
 
-# Quick Introduction
+    <script src="…/javascript/template.min.js"></script>
 
-To get started, simply include our provided javascript and CSS file on your page.
+Module version:
 
-Example: Replace `…` with the real path pointing to your files.
+    import { dnaTemplate } from '…/javascript/template.min.js';
 
-```HTML
-<!doctype html>
-<html>
-	<head>
-		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+## Syntax
 
-		<link rel="stylesheet" type="text/css" href="…/template.css"/>
-		<script src="…/jquery.template.min.js"></script>
-	</head>
-	<body>
+Template instructions are stored as comma-separated commands in a `z-var` attribute.
 
-	</body>
-</html>
-```
+    <div z-var="COMMAND, COMMAND [, …]"></div>
 
-To use the templating library, add the `z-var="{{PROPERTY}}
-{{TARGET/ACTION}}"` attribute to any element in your HTML. Then call
-`$(element).template(...)` on that element or any parent element. The
-z-var attribute holds instructions, separated by commas, specifying
-what should be replaced and where, or what action should be taken.
 
-The way to insert a value or variable into an element or attribute is
-by specifying the `TARGET/ACTION` value. You will usually use `.`
-(dot) to insert the value as text or `@ATTR_NAME` to insert the value
-into attribute, respectively. Additionally, using = (equal sign) sets
-the form input field to the variable value. The examples and syntax
-section will further illustrate this concept.
+The structure of the COMMAND is as follows: a value or boolean expression is followed by an action selector and an optional condition. 
 
-Let's see how the library works in a real-world scenario. In the
-examples below, we pass a complex data object to the template. The
-values in the object will be inserted in various points defined by
-`z-var` in the HTML.
+    COMMAND: VALUE ACTION [ CONDITION ]
 
-Here is the javascript code with variables to apply the template:
+The `VALUE` can be an expression enclosed in curly braces, a variable name, a boolean value, or a string. Examples: `{foo < 10}`, `bar`, `true`, `"foo"`.
+The `!` or `!!` operators can be used to negate the value. Examples: `!{foo < 10}`, `!!foo`. The `!!` operator is used to convert a value to a boolean.
 
-```javascript
-$('.target').template({
-	'name': 'John Smith',
-	'validated': true,
-	'list': ['aa', 'bb'],
-	'listExt': [
-		{'first': 'John', 'last': 'Doe', 'validated': true},
-		{'first': 'Jane', 'last': 'Smith', 'validated': false}
-	],
-	'propObj': {
-		'first': 'Baby',
-		'last': 'Doe'
-	}
-});
-```
+The `ACTION` can be one of the following: `attr ATTR_NAME`, `class CLASS_NAME`, `callback CALLBACK_NAME`, `event EVENT_NAME`, `text`, `html`, `value`, `toggle`, or `remove`.
 
-Now the examples that we apply the code to.
+The `CONDITION` is an expression. Expressions can be nested within parentheses. Operators in the EXPRESSION include `==`, `!=`, `>`, `<`, `>=`, `<=`, `&&`, and `||`.
 
-**Example:**
-```HTML
-<div class="target" z-var="name ., validated .lock-icon"></div>
-<input class="target" type="checkbox" z-var="validated @checked"/><label>Checked</label>
-```
+A `STRING` is defined within double quotes (".\*") or single quotes ('.*').
+
+### Examples
+
+Simplistic example of the command structure to insert variable `foo` into the `title` attribute of the current element and also as the text content of the current element:
+
+    <script>dnaTemplate(document.querySelector('div'), {foo: 'bar'})</script>
+    <div z-var="foo attr title, foo text"></div>
+
+Example of a more complex command structure to insert variable `foo` into the `title` attribute of the current element if the variable `bar` is true:
+
+    <script>dnaTemplate(document.querySelector('div'), {foo: 'boo', bar: true})</script>
+    <div z-var="foo attr title {bar}"></div>
+
+Example of a more complex command structure to insert variable `foo` into the `title` attribute of the current element if the variable `bar` is true and the variable `qux` is false or the variable `baz` equals the string "boo":
+
+    <script>dnaTemplate(document.querySelector('div'), {foo: 'boo', bar: true, qux: true, baz: 'boo'})</script>
+    <div z-var="foo attr title {bar && (!qux || baz == 'boo')}"></div>
+
+
+## Actions
+
+### Insert Attribute
+
+Insert the value of a variable into an attribute of the current element or toggle a boolean attribute should the value be boolean true or false.
+
+Syntax:
+
+    VALUE attr ATTRIBUTE_NAME [ CONDITION ]
+
+Syntax sugar:
+
+    VALUE @ATTRIBUTE_NAME [ CONDITION ]
+
+Example:
+
+    <script>dnaTemplate(document.querySelector('div'), {"foo": "bar"});</script>
+    <div z-var="foo attr title"></div>
+
 Result:
-```HTML
-<div class="target lock-icon" z-var="name ., validated .lock-icon">John Smith</div>
-<input class="target" type="checkbox" z-var="validated @checked" checked="checked"/><label>Checked</label>
-```
-Explanation:
-- "`name .`" - add value `name` as the text value
-- "`validated .lock-icon`" - add class `lock-icon` if `validated` is true
-- "`validated @checked`" - add `checked="checked"` attribute if true
 
-[Try it now!](https://codepen.io/webdevelopers/pen/NaezoB)
+    <div title="bar"></div>
 
-**Example:**
-```HTML
-<div class="target" z-var="validated ?">Validated</div>
-<div class="target" z-var="!validated ?">Not Validated</div>
-<div class="target" z-var="!validated !">Insecure</div>
-```
+If the value evaluates to a boolean, the attribute will be either removed or added depending on the value.
+
+    <script>dnaTemplate(document.querySelector('div'), {"foo": true});</script>
+    <input type="checkbox" z-var="foo attr checked"/>
+
 Result:
-```HTML
-<div class="target" z-var="validated ?">Validated</div>
-<div class="target" z-var="!validated ?" style="display: none;">Not Validated</div>
-```
-Explanation:
-- "`validated ?`" - show element if `validated` is true, hide otherwise
-- "`!validated ?`" - the oposite of above - hide if true, show if false
-- "`!validated !`" - remove (destructive) the element if `validated` is false
 
-[Try it now!](https://codepen.io/webdevelopers/pen/JrwZqX)
+    <input type="checkbox" checked/>
 
-**Example:**
-```HTML
-<div class="target" z-var="name .">My name is ${name}</div>
-```
+### Insert Text Content
+
+Insert the value of a variable into the text content of the current element.
+
+Syntax:
+
+    VALUE text [ CONDITION ]
+
+Syntax sugar:
+    
+        VALUE . [ CONDITION ]
+
+Example:
+
+    <script>dnaTemplate(document.querySelector('div'), {"foo": "bar"});</script>
+    <div z-var="foo text"></div>
+
 Result:
-```HTML
-<div class="target" z-var="name .">My name is John Smith</div>
-```
-Explanation:
-- "`name .`" - add value of `name` in place of `${name}` placeholder
+    
+        <div>bar</div>
 
-[Try it now!](https://codepen.io/webdevelopers/pen/OxrEYv)
+### Insert HTML Content
 
-**Example:**
-```HTML
-<ul class="target">
-  <li template="[list]" z-var="value ."></li>
-</ul>
-```
+Insert the value of a variable into the HTML content of the current element.
+
+Syntax:
+
+    VALUE html [ CONDITION ]
+
+Syntax sugar:
+
+    VALUE + [ CONDITION ]
+
+Example:
+
+    <script>dnaTemplate(document.querySelector('div'), {"foo": "<b>bar</b>"});</script>
+    <div z-var="foo html"></div>
+
 Result:
-```HTML
-<ul class="target">
-  <li z-var="value ." class="template-clone" template-clone="[list]">aa</li>
-  <li z-var="value ." class="template-clone" template-clone="[list]">bb</li>
-  <li template="[list]" z-var="value ."></li><!-- invisible -->
-</ul>
-```
-Explanation:
+    
+        <div><b>bar</b></div>
 
-Duplicate the element with `template="[list]"` attribute for each value inside `list` array and
-- `value .` insert the array value as plain text into the element
-- All elements with an attribute `template` are automatically hidden by `template.css` you've included on the page (see [above](#quick-introduction))
+### Insert Value
 
-[Try it now!](https://codepen.io/webdevelopers/pen/dVwKBN)
+Insert the value of a variable into the form's field.
 
-**Example:**
-```HTML
-<ul class="target">
-  <li template="[listExt]" z-var="first ., last ., last @title">${first} ${last}</li>
-</ul>
-```
+Syntax:
+
+    VALUE value [ CONDITION ]
+
+Syntax sugar:
+
+    VALUE = [ CONDITION ]
+
+Example:
+
+    <script>dnaTemplate(document.querySelector('select'), {"foo": "bar"});</script>
+    <select z-var="foo value">
+        <option value="bar">Bar</option>
+        <option value="baz">Baz</option>
+    </select>
+
 Result:
-```HTML
-<ul class="target">
-  <li z-var="first ., last ., last @title" class="template-clone" template-clone="[listExt]" title="Doe">John Doe</li>
-  <li z-var="first ., last ., last @title" class="template-clone" template-clone="[listExt]" title="Smith">Jane Smith</li>
-  <li template="[listExt]" z-var="first ., last ., last @title">${first} ${last}</li><!-- invisible -->
-</ul>
-```
-Explanation:
+    
+        <select>
+            <option value="bar" selected>Bar</option>
+            <option value="baz">Baz</option>
+        </select>
 
-Duplicate the element with `template="[listExt]"` attribute for each
-value inside `listExt` array and use respective value object to insert
-variables into duplicated element as follows
-- "`first ., last .`" - add first and last name as text in positions indicated by `${PROP_NAME}` placeolders
-- "`last @title`" - add last name into `title` attribute
+### Toggle CSS Class
 
-[Try it now!](https://codepen.io/webdevelopers/pen/MEZBWN)
+Toggle a CSS class on the current element.
 
-**Example:**
-```HTML
-<ul class="target">
-  <li template="{listExt}" z-var="first ., last .">${first} ${last}</li>
-</ul>
-```
+Syntax:
+
+    BOOL_EXPRESSION class "[!]CLASS_NAME1 CLASS_NAME2 …" [ CONDITION ]
+
+Syntax sugar:
+
+    BOOL_EXPRESSION .CLASS_NAME1.CLASS_NAME2… [ CONDITION ]
+
+Example:
+
+    <script>dnaTemplate(document.querySelector('div'), {"foo": true});</script>
+    <div z-var="foo class 'bar baz'"></div>
+
 Result:
-```HTML
-<ul class="target">
-  <li z-var="first ., last ., last @title" class="template-clone" template-clone="[listExt]" title="Doe">Baby Doe</li>
-  <li template="{propObj}" z-var="first ., last .">${first} ${last}</li><!-- invisible -->
-</ul>
-```
-Explanation:
 
-Duplicate the element with `template="{propObj}"` and use `propObj`
-to apply templates recursively to cloned element. It behaves as if you called
-`$('*[template="{propObj}"]').template(data.propObj, true);`
-- "`first ., last .`" - add first and last name as text in positions indicated by `${PROP_NAME}` placeolders
-- "`last @title`" - add last name into `title` attribute
+        <div class="bar baz"></div>
 
-[Try it now!](https://codepen.io/webdevelopers/pen/vYaJzrO)
+The `BOOL_EXPRESSION` is converted to a boolean as per the rules in the [Boolean Conversion](#boolean-conversion) section. It can be an expression
+enclosed in curly braces, a variable name, a boolean value, or a string. Examples: `{foo < 10 || foo == 'bar'}`, `bar`, `true`, `"foo"`.
 
+Example:
+    
+        <script>dnaTemplate(document.querySelector('div'), {"foo": true, "bar": "baz"});</script>
+        <div z-var="{foo && bar == 'baz'} 'bar-class baz-class'"></div>
 
-# Interactive Examples
+Result:
 
-The best example is the one you can play with.
+        <div class="bar-class baz-class"></div>
 
-- [Basic example](https://codepen.io/webdevelopers/pen/PpVGde?editors=1010#0) - insert variable into attribute and text
-- [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ?editors=1010#0) - iterate through the array and generate list
-- [Simple Paging](https://codepen.io/webdevelopers/pen/XePggZ?editors=1010) - simple list with paging
-- [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR?editors=1010#0) - simple variables with nested array to generate list
-- [Form example](https://codepen.io/webdevelopers/pen/XMOjGm?editors=1010#0) - toggle check-boxes, set values on select-boxes, change button labels and classes...
-- [UI Updates](https://codepen.io/webdevelopers/pen/jBdyVm?editors=1010#0) - example of continuous live UI updates
+You can inverse the logic of adding/removing the class by prefixing the particular class name with "!" symbol.
 
-# Syntax
+Example:
 
-## Javacript
-```javascript
- $(SELECTOR).template(DATASET [, IN_PLACE]);
-```
+    <script>dnaTemplate(document.querySelector('div'), {"foo": true});</script>
+    <div z-var="foo class 'bar-class !baz-class'"></div>
 
-- __`DATASET`__ - Object or Array of Objects or Object with nested Arrays or Objects with properties and their values to be used when resolving `z-var` attributes.
-- __`IN_PLACE`__ - boolean value. `true`: don't clone the element prior to replacing variables, `false`: clone the element, `undefined`: clone if element has the attribute `template` otherwise replace vars in-place without cloning.
+Result:
 
-## HTML
+        <div class="bar-class"></div>
 
-```html
-	<element z-var="[!]DATASET_PROPERTY (TARGET|ACTION)[, ...]">...</element>
-```
+### Toggle Visibility
 
-- __`DATASET_PROPERTY`__ - property name on the object passed to `$(selector).template(DATASET)` method.
-- __`TARGET`__ - use following notation
-	* `.` - to insert value as TextNode,
-	* `@ATTR_NAME` to insert value into attribute (Note: If `DATASET_PROPERTY` si `true` then attribute's value will be same as attribute's name, e.g. `checked="checked"` for `z-var="isChecked @checked"` if `isChecked = true`.)
-	* `+` - load serialized HTML text in variable as child HTML,
-	* `=` - set variable's value as form field's value. If the field is a check-box or radio-box then (un)check it if value is boolean otherwise check it only if value equals to input's `value` attribute.
-- __`ACTION`__ - following actions are available
-	* `?` - hide element if value is false,
-	* `!` - remove element if value is false (note: this is destructive action - you cannot re-apply new dataset again with the same effect),
-	* `.CLASS_NAME` - add/remove class if value is true/false.
-	* `:EVENT_NAME` - fire the DOM event `EVENT_NAME` on the element. E.g. `value :change` or `visible :scroll-into-view, !visible :hidden`. You have to implement your Javascript listeners on custom events (for example `$(el).on('scroll-into-view', function(ev, vars) {this.scrollIntoView();})` event).
-- __`!`__ - "not" - negates the `DATASET_PROPERTY` value for the purpose of evaluation what `ACTION` should be taken.
+Toggle the visibility of the current element. The visibility is controlled by adding/removing the CSS classes `dna-template-hidden` and `dna-template-visible`. The CSS definition is in `template.css` file.
 
-To determine if `ACTION` should be taken `DATASET_PROPERTY` is converted into boolean `true` or `false`. Following values are considered `false`:
-* an empty `Array`
-* an empty `Object`
-* number `0`
-* string representing numeric value zero (e.g. `"0.00"`)
-* boolean `false`
-* `null`
-* empty string
+Syntax:
 
-If you try to insert the plain Array object as text or value then its length gets inserted instead. You can use it to insert item counts.
+    BOOL_EXPRESSION toggle [ CONDITION ]
 
-```html
-	<element template="(NAME|[PROPERTY]|{PROPERTY})">...</element>
-```
+Syntax sugar:
 
-- __`NAME`__ - any name of your choice. All elements having attribute `template` are hidden by default (make sure to include the ```template.css```). Applying template to such element will clone it, remove the `template` attribute and then apply the dataset. See [Simple list example](https://codepen.io/webdevelopers/pen/PpVZOQ?editors=1010#0).
-- __`[PROPERTY]`__ - name of the property on `DATASET` object that holds nested Array or Object to be automatically applied to this template. Current element will be duplicated for each array's element. See [Mixed list example](https://codepen.io/webdevelopers/pen/jBdMXR?editors=1010#0).
-- __`{PROPERTY}`__ - name of the property that contains an object. Take this object and apply variables into it to this element.
+    BOOL_EXPRESSION ? [ CONDITION ]
 
+Example:
 
-```html
-	<element template-scope>...</element>
-	<element template-scope="my-name">...</element>
-	<element template-scope="inherit">...</element>
-```
+    <script>dnaTemplate(document.querySelector('div'), {"foo": true});</script>
+    <div z-var="foo toggle"></div>
 
-- __`template-scope`__ - protect children of an element with attribute `template-scope` from being modified by template applied to such element's ancestor. DNA Template will ignore any `z-var` attributes on elements inside element with `template-scope` attribute.
+Result:
 
-The value of this attribute can be any keyword or even empty. Although if the keyword is `inherit` then templates will behave as there was no @template-scope attribute at all.
+        <div class="dna-template-visible"></div>
 
-## PHP
+### Remove Element
 
-```php
-require('template.php');
+Remove the current element from the DOM. 
 
-$template=file_get_contents('test.html');
+WARNING: This action is destructive. The element is removed from the DOM and cannot be restored and templates cannot be re-applied to update the HTML structure.
 
-$dnaTemplate=new DNA\Template($template, array(
-    'title' => 'Hello World',
-    'content' => 'This is a test',
-    'bad' => true,
-));
+Syntax:
 
-echo $dnaTemplate->render()->saveXML();
-```
+    BOOL_EXPRESSION remove [ CONDITION ]
 
-# More
+Syntax sugar:
 
-For more advanced examples and explanations see file
-<code>tutorial/index.html</code> or just drop me a message what part
-is unclear and I will update this documentation...
+    BOOL_EXPRESSION ! [ CONDITION ]
+
+Example:
+
+    <script>dnaTemplate(document.querySelector('div'), {"foo": true});</script>
+    <div z-var="foo remove"></div>
+    <div z-var="{foo == true} remove"></div>
+    <div z-var="!foo remove"></div>
+
+Result:
+
+    <div z-var="!foo remove"></div>
+
+### Fire Javascript Event
+
+Fire a Javascript event on the current element and pass the `VALUE` as the detail paramteter to the event.
+
+Syntax:
+
+    VALUE event EVENT_NAME [ CONDITION ]
+
+Syntax sugar:
+
+    VALUE :EVENT_NAME [ CONDITION ]
+
+Example:
+
+    <script>
+        document.querySelector('div').addEventListener('my-event', function(event) {
+            console.log('EVENT', event.target, event.detail);
+        });
+        dnaTemplate(document.querySelector('div'), {"foo": "bar"});
+    </script>
+    <div z-var="foo event my-event"></div>
+
+### Custom Callback Call
+
+Call a custom callback and pass the element and value as parameters to the callback. The list of callbacks is passed as a third argument to `dnaTemplate` function.
+
+Syntax:
+
+    VALUE callback CALLBACK_NAME [ CONDITION ]
+
+Syntax sugar:
+
+    VALUE *CALLBACK_NAME [ CONDITION ]
+
+Example:
+    
+        <script>
+            function myCallback(element, value) {
+                console.log('CALLBACK', element, value);
+            }
+            dnaTemplate(document.querySelector('div'), {"foo": "bar"}, {"myCallback": myCallback});
+        </script>
+        <div z-var="foo callback myCallback"></div>
+
+## Boolean Conversion
+
+The value is converted to a boolean as follows:
+
+* If the value is a boolean, it is returned as is.
+* If the value is a number, it is converted to a boolean where 0 is false and all other numbers are true.
+* If the value is a string, it is converted to a boolean where the empty string is false and all other strings are true.
+* If the value is an object, it is converted to a boolean if the object has no properties.
+* If the value is an array, it is converted to a boolean if the array has no elements.
+

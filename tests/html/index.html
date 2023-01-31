@@ -15,8 +15,115 @@
         <li data='{"name": "John Doe"}'>
             <article z-var="name @title, name .">???</article>
         </li>
+        <li data='{"magic": "is real"}'>
+            <article>
+                <div z-var="magic event test1"></div>
+                <div z-var="magic :test2"></div>
+            </article>
+            <article>
+                <div z-var="magic event test1" data-event-test1="is real"></div>
+                <div z-var="magic :test2" data-event-test2="is real"></div>
+            </article>
+        </li>
+        <li data='{"magic": "is real"}'>
+            <article>
+                <div z-var="magic callback onTest1"></div>
+                <div z-var="magic *onTest2"></div>
+            </article>
+            <article>
+                <div z-var="magic callback onTest1" data-test1="is real"></div>
+                <div z-var="magic *onTest2" data-test2="is real"></div>
+            </article>
+        </li>
+        <li data='{"state": true}'>
+            <article>
+                <div z-var="!state !"></div>
+                <div z-var="!state remove"></div>
+                <div z-var="state !"></div>
+                <div z-var="state remove"></div>
+            </article>
+            <article>
+                <div z-var="!state !"></div>
+                <div z-var="!state remove"></div>
+            </article>
+        </li>
+        <li data='{"state": true}'>
+            <article>
+                <div z-var="!state ?"></div>
+                <div z-var="!state toggle"></div>
+                <div z-var="state ?"></div>
+                <div z-var="state toggle"></div>
+            </article>
+            <article>
+                <div z-var="!state ?" class="dna-template-hidden"></div>
+                <div z-var="!state toggle" class="dna-template-hidden"></div>
+                <div z-var="state ?" class="dna-template-visible"></div>
+                <div z-var="state toggle" class="dna-template-visible"></div>
+            </article>
+        </li>
+        <li data='{"state": true}'>
+            <article>
+                <div z-var="state .foo.bar"></div>
+                <div z-var="state class 'foo bar'"></div>
+                <div z-var="state class 'foo !bar'" class="foo bar"></div>
+                <div z-var="state class '!foo !bar'" class="foo bar"></div>
+            </article>
+            <article>
+                <div z-var="state .foo.bar" class="foo bar"></div>
+                <div z-var="state class 'foo bar'" class="foo bar"></div>
+                <div z-var="state class 'foo !bar'" class="foo"></div>
+                <div z-var="state class '!foo !bar'" class=""></div>
+            </article>
+        </li>
         <li data='{"name": "John Doe"}'>
             <article z-var="name @title, name ." title="Mr.${name}">Mr.${name}</article>
+        </li>
+        <li data='{"isEnabled": true}'>
+            <article>
+                <input type="checkbox" z-var="isEnabled @checked"/>
+                <input type="checkbox" z-var="!isEnabled @checked"/>
+                <input type="checkbox" z-var="!!isEnabled @checked"/>
+            </article>
+        </li>
+        <li data='{"message": "<b>Hello <i>world</i>!</b>"}'>
+            <article z-var="message +"></article>
+        </li>
+        <li data='{"preference": "option-b"}'>
+            <article>
+                <form>
+                    <select z-var="preference =">
+                        <option value="option-a">Option A</option>
+                        <option value="option-b">Option B</option>
+                        <option value="option-c">Option C</option>
+                    </select>
+                    <input type="text" z-var="preference ="/>
+                    <input type="radio" z-var="preference =" name="test-1252" value="option-a"/>
+                    <input type="radio" z-var="preference =" name="test-1252" value="option-b"/>
+                    <input type="radio" z-var="preference =" name="test-1252" value="option-c"/>
+                    <input type="checkbox" z-var="preference =" name="test-1252" value="option-b"/>
+                    <textarea z-var="preference ="></textarea>
+                </form>
+            </article>
+            <article>
+                <form>
+                    <select z-var="preference =">
+                        <option value="option-a">Option A</option>
+                        <option value="option-b" selected="selected">Option B</option>
+                        <option value="option-c">Option C</option>
+                    </select>
+                    <input type="text" z-var="preference =" value="option-b"/>
+                    <input type="radio" z-var="preference =" name="test-1252" value="option-a"/>
+                    <input type="radio" z-var="preference =" name="test-1252" value="option-b" checked="checked"/>
+                    <input type="radio" z-var="preference =" name="test-1252" value="option-c"/>
+                    <input type="checkbox" z-var="preference =" name="test-1252" value="option-b" checked="checked"/>
+                    <textarea z-var="preference =">option-b</textarea>
+                </form>
+            </article>
+        </li>
+
+        <li data='{"name": "John Doe"}'>
+            <article z-var="name attr title, name text">???</article>
+            <article z-var="name attr title, name text" title="John Doe">John Doe</article>
         </li>
     </ol>
 

@@ -15,11 +15,11 @@ html {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: stretch;
+    counter-increment: test;
 }
 
 #tests > li:before {
     content: "Test #" counter(test);
-    counter-increment: test;
     display: block;
     background: #eee;
     padding: 0.5em;
