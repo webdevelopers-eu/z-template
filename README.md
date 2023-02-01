@@ -1,4 +1,4 @@
-__jQuery DNA Template__
+__Z Template__
 
 *Introducing a revolutionary new way to simplify your UI development
 process. Our templating library (you can choose PHP or Javascript
@@ -15,10 +15,32 @@ work. Don't let the fear of layout changes hold you back any longer,
 try our javascript templating library today and experience the freedom
 and flexibility it offers!*
 
-<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
+**Table of Contents**
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [Features](#features)
+- [Installation](#installation)
+    - [Javascript](#javascript)
+- [Syntax](#syntax)
+    - [Examples](#examples)
+- [Actions](#actions)
+    - [Insert Attribute](#insert-attribute)
+    - [Insert Text Content](#insert-text-content)
+    - [Insert HTML Content](#insert-html-content)
+    - [Insert Value](#insert-value)
+    - [Toggle CSS Class](#toggle-css-class)
+    - [Toggle Visibility](#toggle-visibility)
+    - [Remove Element](#remove-element)
+    - [Fire Javascript Event](#fire-javascript-event)
+    - [Custom Function Call](#custom-function-call)
+- [Boolean Conversion](#boolean-conversion)
+
 <!-- markdown-toc end -->
+
+
+## Features
+
 
 ## Installation
 
@@ -26,11 +48,11 @@ and flexibility it offers!*
 
 Non-module version:
 
-    <script src="…/javascript/template.min.js"></script>
+    <script src="…/javascript/template.bundle.min.js"></script>
 
 Module version:
 
-    import { dnaTemplate } from '…/javascript/template.min.js';
+    import { zTemplate } from '…/javascript/template.js';
 
 ## Syntax
 
@@ -46,7 +68,7 @@ The structure of the COMMAND is as follows: a value or boolean expression is fol
 The `VALUE` can be an expression enclosed in curly braces, a variable name, a boolean value, or a string. Examples: `{foo < 10}`, `bar`, `true`, `"foo"`.
 The `!` or `!!` operators can be used to negate the value. Examples: `!{foo < 10}`, `!!foo`. The `!!` operator is used to convert a value to a boolean.
 
-The `ACTION` can be one of the following: `attr ATTR_NAME`, `class CLASS_NAME`, `callback CALLBACK_NAME`, `event EVENT_NAME`, `text`, `html`, `value`, `toggle`, or `remove`.
+The `ACTION` can be one of the following: `attr ATTR_NAME`, `class CLASS_NAME`, `call CALLBACK_NAME`, `event EVENT_NAME`, `text`, `html`, `value`, `toggle`, or `remove`.
 
 The `CONDITION` is an expression. Expressions can be nested within parentheses. Operators in the EXPRESSION include `==`, `!=`, `>`, `<`, `>=`, `<=`, `&&`, and `||`.
 
@@ -56,17 +78,17 @@ A `STRING` is defined within double quotes (".\*") or single quotes ('.*').
 
 Simplistic example of the command structure to insert variable `foo` into the `title` attribute of the current element and also as the text content of the current element:
 
-    <script>dnaTemplate(document.querySelector('div'), {foo: 'bar'})</script>
+    <script>zTemplate(document.querySelector('div'), {foo: 'bar'})</script>
     <div z-var="foo attr title, foo text"></div>
 
 Example of a more complex command structure to insert variable `foo` into the `title` attribute of the current element if the variable `bar` is true:
 
-    <script>dnaTemplate(document.querySelector('div'), {foo: 'boo', bar: true})</script>
+    <script>zTemplate(document.querySelector('div'), {foo: 'boo', bar: true})</script>
     <div z-var="foo attr title {bar}"></div>
 
 Example of a more complex command structure to insert variable `foo` into the `title` attribute of the current element if the variable `bar` is true and the variable `qux` is false or the variable `baz` equals the string "boo":
 
-    <script>dnaTemplate(document.querySelector('div'), {foo: 'boo', bar: true, qux: true, baz: 'boo'})</script>
+    <script>zTemplate(document.querySelector('div'), {foo: 'boo', bar: true, qux: true, baz: 'boo'})</script>
     <div z-var="foo attr title {bar && (!qux || baz == 'boo')}"></div>
 
 
@@ -86,7 +108,7 @@ Syntax sugar:
 
 Example:
 
-    <script>dnaTemplate(document.querySelector('div'), {"foo": "bar"});</script>
+    <script>zTemplate(document.querySelector('div'), {"foo": "bar"});</script>
     <div z-var="foo attr title"></div>
 
 Result:
@@ -95,12 +117,17 @@ Result:
 
 If the value evaluates to a boolean, the attribute will be either removed or added depending on the value.
 
-    <script>dnaTemplate(document.querySelector('div'), {"foo": true});</script>
+    <script>zTemplate(document.querySelector('div'), {"foo": true});</script>
     <input type="checkbox" z-var="foo attr checked"/>
 
 Result:
 
     <input type="checkbox" checked/>
+
+If the target attribute already exists and the string value contains variable placeholders (e.g. `${foo}`), the placeholders will be replaced with the value of the variable.
+
+    <script>zTemplate(document.querySelector('div'), {"foo": "bar"});</script>
+    <div title="Hello ${foo}!" z-var="foo attr title"></div>
 
 ### Insert Text Content
 
@@ -116,12 +143,17 @@ Syntax sugar:
 
 Example:
 
-    <script>dnaTemplate(document.querySelector('div'), {"foo": "bar"});</script>
+    <script>zTemplate(document.querySelector('div'), {"foo": "bar"});</script>
     <div z-var="foo text"></div>
 
 Result:
     
         <div>bar</div>
+
+If the text content already exists and the string value contains variable placeholders (e.g. `${foo}`), the placeholders will be replaced with the value of the variable.
+
+    <script>zTemplate(document.querySelector('div'), {"foo": "bar"});</script>
+    <div z-var="foo text">Hello ${foo}!</div>
 
 ### Insert HTML Content
 
@@ -137,8 +169,8 @@ Syntax sugar:
 
 Example:
 
-    <script>dnaTemplate(document.querySelector('div'), {"foo": "<b>bar</b>"});</script>
-    <div z-var="foo html"></div>
+    <script>zTemplate(document.querySelector('div'), {"foo": "<b>bar</b>"});</script>
+    <div z-var="foo html">This text will be replaced with inserted HTML.</div>
 
 Result:
     
@@ -158,7 +190,7 @@ Syntax sugar:
 
 Example:
 
-    <script>dnaTemplate(document.querySelector('select'), {"foo": "bar"});</script>
+    <script>zTemplate(document.querySelector('select'), {"foo": "bar"});</script>
     <select z-var="foo value">
         <option value="bar">Bar</option>
         <option value="baz">Baz</option>
@@ -185,7 +217,7 @@ Syntax sugar:
 
 Example:
 
-    <script>dnaTemplate(document.querySelector('div'), {"foo": true});</script>
+    <script>zTemplate(document.querySelector('div'), {"foo": true});</script>
     <div z-var="foo class 'bar baz'"></div>
 
 Result:
@@ -197,7 +229,7 @@ enclosed in curly braces, a variable name, a boolean value, or a string. Example
 
 Example:
     
-        <script>dnaTemplate(document.querySelector('div'), {"foo": true, "bar": "baz"});</script>
+        <script>zTemplate(document.querySelector('div'), {"foo": true, "bar": "baz"});</script>
         <div z-var="{foo && bar == 'baz'} 'bar-class baz-class'"></div>
 
 Result:
@@ -208,7 +240,7 @@ You can inverse the logic of adding/removing the class by prefixing the particul
 
 Example:
 
-    <script>dnaTemplate(document.querySelector('div'), {"foo": true});</script>
+    <script>zTemplate(document.querySelector('div'), {"foo": true});</script>
     <div z-var="foo class 'bar-class !baz-class'"></div>
 
 Result:
@@ -229,7 +261,7 @@ Syntax sugar:
 
 Example:
 
-    <script>dnaTemplate(document.querySelector('div'), {"foo": true});</script>
+    <script>zTemplate(document.querySelector('div'), {"foo": true});</script>
     <div z-var="foo toggle"></div>
 
 Result:
@@ -252,7 +284,7 @@ Syntax sugar:
 
 Example:
 
-    <script>dnaTemplate(document.querySelector('div'), {"foo": true});</script>
+    <script>zTemplate(document.querySelector('div'), {"foo": true});</script>
     <div z-var="foo remove"></div>
     <div z-var="{foo == true} remove"></div>
     <div z-var="!foo remove"></div>
@@ -279,17 +311,17 @@ Example:
         document.querySelector('div').addEventListener('my-event', function(event) {
             console.log('EVENT', event.target, event.detail);
         });
-        dnaTemplate(document.querySelector('div'), {"foo": "bar"});
+        zTemplate(document.querySelector('div'), {"foo": "bar"});
     </script>
     <div z-var="foo event my-event"></div>
 
-### Custom Callback Call
+### Custom Function Call
 
-Call a custom callback and pass the element and value as parameters to the callback. The list of callbacks is passed as a third argument to `dnaTemplate` function.
+Call a custom callback and pass the element and value as parameters to the callback. The list of callbacks is passed as a third argument to `zTemplate` function.
 
 Syntax:
 
-    VALUE callback CALLBACK_NAME [ CONDITION ]
+    VALUE call CALLBACK_NAME [ CONDITION ]
 
 Syntax sugar:
 
@@ -301,9 +333,9 @@ Example:
             function myCallback(element, value) {
                 console.log('CALLBACK', element, value);
             }
-            dnaTemplate(document.querySelector('div'), {"foo": "bar"}, {"myCallback": myCallback});
+            zTemplate(document.querySelector('div'), {"foo": "bar"}, {"myCallback": myCallback});
         </script>
-        <div z-var="foo callback myCallback"></div>
+        <div z-var="foo call myCallback"></div>
 
 ## Boolean Conversion
 
@@ -314,4 +346,7 @@ The value is converted to a boolean as follows:
 * If the value is a string, it is converted to a boolean where the empty string is false and all other strings are true.
 * If the value is an object, it is converted to a boolean if the object has no properties.
 * If the value is an array, it is converted to a boolean if the array has no elements.
+
+Any value can be converted into boolean by enclosing it in curly braces or by prefixing it with "!!" symbols. Example: `{foo}`, `!!foo`.
+
 

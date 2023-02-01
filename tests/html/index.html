@@ -1,17 +1,98 @@
 <html>
     <head>
-        <title>DNA Template Tests</title>
+        <title>Z Template Tests</title>
         <script src="https://code.jquery.com/jquery-3.6.3.slim.js" integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="../../jquery.template.js"></script>
-        <link type="stylesheet" href="../../template.css"/>
-        
+
+        <script type="text/javascript" src="./jquery.template.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="../../javascript/template.css"/>
+        <script type="module" src="../../javascript/template.bundle.min.js"></script>
+
         <script type="module" src="./test.js"></script>
+
         <link rel="stylesheet" type="text/css" href="./test.css"/>
     </head>
 <body>
-    <h1>DNA Template 2.0 Tests</h1>
+    <h1>Z Template 2.0 Tests</h1>
+    <div id="switch-bundle">
+        Using a module loader.
+        <a  href="?bundle">Test minified non-module bundle</a>
+    </div>
+    <div id="switch-module">
+        Using a minified non-module bundle.
+        <a href="?module">Test a module version</a>
+    </div>
 
     <ol id="tests">
+        <!--
+            <li data="INPUT_VARS">
+                <article>HTML TO APPLY TEMPLATE TO</article>
+                [<article>EXPECTED OUTPUT. IF MISSING OLD $.template() WILL BE USED TO GENERATE IT</article>]
+            </li>
+        -->
+        <li data='{"isEnabled": true}'>
+            <article>
+                <input type="checkbox" z-var="isEnabled @checked" template-scope="inherit"/>
+                <div template-scope="inherit">
+                    <input type="checkbox" z-var="!!isEnabled @checked"/>
+                </div>
+            </article>
+            <article>
+                <input type="checkbox" z-var="isEnabled @checked" template-scope="inherit" checked="checked"/>
+                <div template-scope="inherit">
+                    <input type="checkbox" z-var="!!isEnabled @checked" checked="checked"/>
+                </div>
+            </article>
+        </li>
+        <li data='{"isEnabled": true}'>
+            <article>
+                <input type="checkbox" z-var="isEnabled @checked" template-scope="test"/>
+                <div template-scope="test">
+                    <input type="checkbox" z-var="!!isEnabled @checked"/>
+                </div>
+            </article>
+            <article>
+                <input type="checkbox" z-var="isEnabled @checked" template-scope="test"/>
+                <div template-scope="test">
+                    <input type="checkbox" z-var="!!isEnabled @checked"/>
+                </div>
+            </article>
+        </li>
+        <li data='{"isEnabled": true}'>
+            <article template-scope="test">
+                <input type="checkbox" z-var="isEnabled @checked"/>
+                <input type="checkbox" z-var="!isEnabled @checked"/>
+                <input type="checkbox" z-var="!!isEnabled @checked"/>
+            </article>
+        </li>
+        <li data='{"sub": {"foo": "bar", "baz": "boo"}}'>
+            <article>
+                <template template="{sub}">
+                    <h2 z-var="foo .">Test ${foo}</h2>
+                    <p z-var="baz .">Looping through a list #${baz}</p>
+                </template>
+            </article>
+            <article>
+                <h2 z-var="foo ." class="template-clone" template-clone="{sub}" template-clone-pos="1" z-var-content="Test ${foo}">Test bar</h2><p z-var="baz ." class="template-clone" template-clone="{sub}" template-clone-pos="1" z-var-content="Looping through a list #${baz}">Looping through a list #boo</p><template template="{sub}">
+                <h2 z-var="foo .">Test ${foo}</h2>
+                <p z-var="baz .">Looping through a list #${baz}</p>
+            </template>
+            </article>
+        </li>
+        <li data='{"list": [11,12,13,14]}'>
+            <article>
+                <template template="[list]">
+                    <h2 z-var="value .">Test ${value}</h2>
+                    <p z-var="value .">Looping through a list #${value}</p>
+                </template>
+            </article>
+            <article>
+                <h2 z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="1" z-var-content="Test ${value}">Test 11</h2><p z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="1" z-var-content="Looping through a list #${value}">Looping through a list #11</p><h2 z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="2" z-var-content="Test ${value}">Test 12</h2><p z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="2" z-var-content="Looping through a list #${value}">Looping through a list #12</p><h2 z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="3" z-var-content="Test ${value}">Test 13</h2><p z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="3" z-var-content="Looping through a list #${value}">Looping through a list #13</p><h2 z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="4" z-var-content="Test ${value}">Test 14</h2><p z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="4" z-var-content="Looping through a list #${value}">Looping through a list #14</p><template template="[list]">
+                <h2 z-var="value .">Test ${value}</h2>
+                <p z-var="value .">Looping through a list #${value}</p>
+            </template>
+            </article>
+        </li>
         <li data='{"name": "John Doe"}'>
             <article z-var="name @title, name .">???</article>
         </li>
@@ -27,11 +108,11 @@
         </li>
         <li data='{"magic": "is real"}'>
             <article>
-                <div z-var="magic callback onTest1"></div>
+                <div z-var="magic call onTest1"></div>
                 <div z-var="magic *onTest2"></div>
             </article>
             <article>
-                <div z-var="magic callback onTest1" data-test1="is real"></div>
+                <div z-var="magic call onTest1" data-test1="is real"></div>
                 <div z-var="magic *onTest2" data-test2="is real"></div>
             </article>
         </li>
@@ -55,10 +136,10 @@
                 <div z-var="state toggle"></div>
             </article>
             <article>
-                <div z-var="!state ?" class="dna-template-hidden"></div>
-                <div z-var="!state toggle" class="dna-template-hidden"></div>
-                <div z-var="state ?" class="dna-template-visible"></div>
-                <div z-var="state toggle" class="dna-template-visible"></div>
+                <div z-var="!state ?" class="z-template-hidden"></div>
+                <div z-var="!state toggle" class="z-template-hidden"></div>
+                <div z-var="state ?" class="z-template-visible"></div>
+                <div z-var="state toggle" class="z-template-visible"></div>
             </article>
         </li>
         <li data='{"state": true}'>

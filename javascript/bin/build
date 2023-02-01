@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script is used to build one template.min.js that contains all the templates.
+# This script is used to build one template.bundle.min.js that contains all the templates.
 pushd `dirname "$0"` > /dev/null 2>&1;
 trap "popd > /dev/null" EXIT;
 
@@ -15,17 +15,19 @@ SCRIPT_TEMPLATE="`demodule ../template.js`";
 
 # Print all up to a line having keyword @INSERT
 (
-    echo "/*! DNA Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/dna-template */";
-    echo "window.dnaTemplate = (function() {";
+    echo "/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template */";
+    echo "window.zTemplate = (function() {";
     echo "$SCRIPT_TOKENIZE";
     echo "$SCRIPT_EVALUATE";
     echo "$SCRIPT_TEMPLATE";
-    echo " return dnaTemplate;})();";
-    echo "if (typeof jQuery !== 'undefined') {jQuery.fn.template = function(vars) {this.each((i, el) => dnaTemplate(el, vars)); return this;};}";
-) | uglifyjs --source-map "url='template.min.js.map'" --comments "/^!/" -o ../template.min.js --compress --mangle --rename --toplevel --mangle-props;
-#) > ../template.min.js;
+    echo " return zTemplate;})();";
+) > ../template.bundle.js
 
-ls -lah ../template.min.js;
+#cat ../template.bundle.js | uglifyjs --source-map "url='template.bundle.min.js.map'" --comments "/^!/" -o ../template.bundle.min.js --compress --mangle --toplevel --mangle-props reserved=['zTemplate'];
+babel-minify ../template.bundle.js --mangle --simplify --booleans --memberExpressions --mergeVars --numericLiterals --propertyLiterals -o ../template.bundle.min.js
+
+
+ls -lah `readlink -f ../template.bundle.min.js`;
 
 popd > /dev/null;
 trap "" EXIT;

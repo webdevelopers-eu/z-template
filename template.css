@@ -1,15 +1,18 @@
+.z-template-hidden,
 .dna-template-hidden,
 [template] {
     display: none !important;
 }
 
 /* Nonessential */
+.z-template-visible,
 .dna-template-visible {
-    animation: dna-template-visible var(--dna-anim-speed, 0.5s);
+    animation: z-template-visible var(--z-template-anim-speed, 0.5s);
     animation-timing-function: ease-in;
     animation-fill-mode: none;
 }
-@keyframes dna-template-visible {
+
+@keyframes z-template-visible {
     0% {
 	opacity: 0;
 	transform: blur(1em);

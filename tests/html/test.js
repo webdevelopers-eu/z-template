@@ -1,4 +1,12 @@
-import { dnaTemplate } from '../../javascript/template.js';
+// Import zTemplate into zTemplateImport variable
+import { zTemplate as zTemplateModule } from '../../javascript/template.js';
+
+if (location.href.match(/bundle/)) {
+    document.querySelector('#switch-bundle').remove();
+} else {
+    document.querySelector('#switch-module').remove();
+    window.zTemplate = zTemplateModule;
+}
 
 const callbacks = {
     onTest1: (element, test1) => {
@@ -34,14 +42,14 @@ document.querySelectorAll('#tests > li > *:first-child')
         const data = JSON.parse(test1.parentNode.getAttribute('data') || '{}');
         let test2 = test1.nextElementSibling;
 
-        if (!test2) { // Result not created yet, use old DNA Template 1.0 to generate it
+        if (!test2) { // Result not created yet, use old Z Template 1.0 to generate it
             test2 = test1.parentNode.appendChild(test1.cloneNode(true));
             $(test2).template(data);
         }
 
         for (let i = 0; i < 2; i++) { // try twice
             console.log('Test round %s for %o with data %o', i + 1, test1.parentNode, data);
-            dnaTemplate(test1, data, callbacks);
+            zTemplate(test1, data, callbacks);
 
             const html1 = serialize(test1);
             const html2 = serialize(test2);
@@ -71,7 +79,7 @@ document.querySelectorAll('#tests > li > *:first-child')
                 const attr = attrs.snapshotItem(i);
                 attr.ownerElement.removeAttribute(attr.nodeName);
             }
-            return div.innerHTML.replace(/^\s*\n/gm, "");
+            return div.innerHTML.replace(/^\s*\n/gm, "").replace(/^\s+/gm, "");
         };
 
     });
