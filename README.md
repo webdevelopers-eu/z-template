@@ -132,7 +132,9 @@ discover all the ways you can make your UI dynamic and interactive.
 
 ### Javascript
 
-Non-module version: Include `template.css` and `template.bundle.min.js` on your page. Change the "…" to reflect the path to the library.
+Including `template.css` and `template.bundle.min.js` on your page is
+all you need to get started. Simply add the following code to your
+HTML file and replace the "…" with the path to the library:
 
     <html>
         <head>
@@ -144,15 +146,13 @@ Non-module version: Include `template.css` and `template.bundle.min.js` on your 
         </body>
     </html>
 
-If you use modules you can import `zTemplate` from template.js module.
+If you're a fan of using modules, you can import zTemplate straight from the `template.js` module. Simply add the following code to your project:
 
     import { zTemplate } from '…/javascript/template.js';
 
-Either way will make `jQuery.template(…)` method available if jQuery is loaded. The jQuery is not required. You can call `zTemplate(…)` method directly.
+And, if you have `jQuery` loaded, `jQuery.template(…)` method will also be available. No worries if you don't have `jQuery`, you can call `zTemplate(…)` method directly.
 
-Now you can use `zTemplate` function to apply your JSON data to the template.
-
-    zTemplate(targetElement, data);
+Applying your JSON data to the template is as simple as calling `zTemplate(targetElement, data)`. Start bringing your templates to life with dynamic and interactive content!
 
 ## Syntax
 
