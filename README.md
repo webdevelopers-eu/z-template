@@ -169,7 +169,7 @@ Here's what each part of the syntax means:
 
 - The `VALUE` can be an expression enclosed in curly braces, a variable name, a boolean value, or a string. Examples: `{foo < 10}`, `foo.bar`, `bar`, `true`, `"foo"`. The `!` or `!!` operators can be used to negate the value. Examples: `!{foo < 10}`, `!!foo`. The `!!` operator is used to convert a value to a boolean.
 - The `ACTION` can be one of the following: `attr ATTR_NAME`, `class CLASS_NAME`, `call CALLBACK_NAME`, `event EVENT_NAME`, `text`, `html`, `value`, `toggle`, or `remove`.
-- The `CONDITION` is an expression. Expressions can be nested within parentheses. Supported operators in the expression are `==`, `!=`, `>`, `<`, `>=`, `<=`, `&&`, and `||`.
+- The `CONDITION` is an expression. Expressions can be nested within parentheses. Supported operators in the expression are `==`, `!=`, `>`, `<`, `>=`, `<=`, `&&`, and `||`. Expressions can be nested within parentheses. Examples: `{foo == 'bar'}`, `{foo == 'bar' || foo == 'baz'}`, `{foo == 'bar' && (foo == 'baz' || foo == 'qux')}`.
 
 ### Examples
 
