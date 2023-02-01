@@ -33,11 +33,12 @@ library today and experience the freedom and flexibility it offers!*
     - [Remove Element](#remove-element)
     - [Fire Javascript Event](#fire-javascript-event)
     - [Custom Function Call](#custom-function-call)
-- [Lists and Scopes](#lists-and-scopes)
+- [Lists, Contexts, and Scopes](#lists-contexts-and-scopes)
     - [Lists](#lists)
+    - [Contexts](#contexts)
     - [Scopes](#scopes)
 - [Boolean Conversion](#boolean-conversion)
-- [Notes](#notes)
+- [Closing Notes](#closing-notes)
 
 <!-- markdown-toc end -->
 
@@ -592,6 +593,8 @@ The value is converted to a boolean as follows:
 
 Any value can be converted into boolean by enclosing it in curly braces or by prefixing it with "!!" symbols. Example: `{foo}`, `!!foo`.
 
-## Notes
+## Closing Notes
 
-- All example results are simplified. In real life, the results may contain special attributes and/or classes.
+- All examples are simplified. In real life, the example results may contain special attributes and/or classes that were not mentioned for brevity.
+- All contributions are welcome. Please submit a pull request or open an issue.
+- Should any part of this documentation be unclear, please open an issue with a clarification request or suggestion.
