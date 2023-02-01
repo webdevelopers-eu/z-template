@@ -207,12 +207,12 @@ class Preparator {
             token = this.#nextToken(tokens, ["generic", "block"]);
         }
 
-        // condition
+        // value
         if (token.type === 'generic') {
-            this.#data.value = this.#vars[token.value];
             this.#data.variable = token.value;
+            this.#data.value = this.#getVariableValue(token.value);
         } else {
-            this.#data.value = this.prepareBlock(tokens);
+            this.#data.value = this.#prepareBlock(tokens);
         }
         token = this.#nextToken(tokens, ["generic", "operator"]);
 
@@ -226,7 +226,7 @@ class Preparator {
         } else {
             throw new Error(`Invalid action: ${token.value} . Supported actions: ${Object.keys(this.#paramShortcuts).join(', ')}`);
         }
-        token = this.#nextToken(tokens, ["text", "generic", null]);
+        token = this.#nextToken(tokens, ["text", "generic", null], ["block", "operator"]); // param is optional, we may encounter next "block" or "operator" instead.
 
         // param
         this.#data.param = token?.value;
@@ -241,7 +241,7 @@ class Preparator {
 
         // If it is optional "block" then it is the last condition
         if (token?.type === 'block') {
-            this.#data.condition = this.prepareBlock(token.value);
+            this.#data.condition = this.#prepareBlock(token.value);
             token = this.#nextToken(tokens, ["block", null]);
         } else {
             this.#data.condition = true;
@@ -250,7 +250,17 @@ class Preparator {
     }
 
     #getVariableValue(variable) {
-        return typeof this.#vars[variable] != 'undefined' ? this.#vars[variable] : null;
+        // Split the variable into parts separated by dot and get the corresponding value from this.#vars object.
+        // Example: "user.name" => this.#vars.user.name
+        const parts = variable.split('.');
+        let value = this.#vars;
+        for (let i = 0; i < parts.length; i++) {
+            if (typeof value[parts[i]] === 'undefined') {
+                return null;
+            }
+            value = value[parts[i]];
+        }
+        return value;
     }
 
     prepare() {
@@ -273,7 +283,7 @@ class Preparator {
         // Resolve conditions
         switch(result.condition.type) {
         case "block":
-            result.condition = !!this.prepareBlock(result.condition.value);
+            result.condition = !!this.#prepareBlock(result.condition.value);
             break;
         case "generic":
             result.condition = !!this.#prepareVariable(result.condition.value);
@@ -307,7 +317,7 @@ class Preparator {
     }
 
     #prepareBlock(tokens) {
-        const expression = this.mkExpression(tokens);
+        const expression = this.#mkExpression(tokens);
         // console.log("expression", expression);
         return eval(expression);
     }
@@ -339,7 +349,7 @@ class Preparator {
                 }
                 break;
             case "block":
-                result += this.mkExpression(token.value);
+                result += this.#mkExpression(token.value);
                 break;
             case "generic":
                 result += this.#prepareVariable(token.value) ? 1 : 0;
@@ -362,7 +372,7 @@ class Preparator {
             value = token.value;
             break;
         case "block":
-            value = this.prepareBlock(token.value);
+            value = this.#prepareBlock(token.value);
             break;
         default:
             throw new Error(`Invalid token type: ${token.type} (value: ${JSON.stringify(token)}).`);
@@ -399,8 +409,12 @@ class Preparator {
         }
     }
 
-    #nextToken(tokens, expectType = []) {
+    #nextToken(tokens, expectType = [], skipType = []) {
         const token = tokens.shift();
+        if (skipType.includes(token?.type)) {
+            tokens.unshift(token);
+            return null;
+        }
         if (!expectType.includes(token ? token.type : null)) {
             throw new Error(`Invalid z-var value: (${token && token.type}) "${token && token.value}". Generic or block expected: "${this.#tokens.input}"`);
         }

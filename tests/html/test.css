@@ -26,6 +26,14 @@ html {
     color: #333;
 }
 
+#tests > li.pass:before {
+    content: "✅ Test #" counter(test);
+}
+
+#tests > li.fail:before {
+    content: "❌ Test #" counter(test);
+}
+
 #tests > li > * {
     border: 1px dotted black;
     padding: 1em 1em;
@@ -35,6 +43,19 @@ html {
 
 #tests > li > *:first-child {
    border-right: 1px dotted black
+}
+
+#tests > li > *:before {
+    display: block;
+    border-bottom: 1px dotted black;
+}
+
+#tests > li > *:first-child:before {
+    content: "Result";
+}
+
+#tests > li > *:last-child:before {
+    content: "Expected";
 }
 
 
@@ -52,6 +73,11 @@ html {
     display: none;
 }
 
+#tests > li:hover:before,
+#tests > li:hover > * {
+    background: #FFC;
+}
+
 #tests > li > *[data-source]::after {
     content: attr(data-source);
     display: block;
@@ -63,4 +89,17 @@ html {
     color: #333;
     white-space: pre;
     overflow: auto;
+}
+
+/* Center message box in the middle of the screen */
+.message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #eee;
+    padding: 1em;
+    border: 1px solid black;
+    border-radius: 0.5em;
+    text-align: center;
 }

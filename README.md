@@ -1,26 +1,24 @@
 __Z Template__
 
 *Introducing a revolutionary new way to simplify your UI development
-process. Our templating library (you can choose PHP or Javascript
-implementation) allows you to build and manage your code with ease,
-without the fear of any layout changes made by designers breaking your
-hard-written code.*
+process. Our templating library allows you to build and manage your
+code with ease, without the fear of any layout changes made by
+designers breaking your hard-written code.*
 
-*The library's powerful yet simple design makes it
-easy for developers to create beautiful, functional interfaces without
-worrying about the impact of design changes on their code. This means
-you can focus on writing clean, efficient code, while designers can
-make changes to the layout without any risk of disrupting your
-work. Don't let the fear of layout changes hold you back any longer,
-try our javascript templating library today and experience the freedom
-and flexibility it offers!*
+*The library's powerful yet simple design makes it easy for developers
+to create beautiful, functional interfaces without worrying about the
+impact of design changes on their code. This means you can focus on
+writing clean, efficient code, while designers can make changes to the
+layout without any risk of disrupting your work. Don't let the fear of
+layout changes hold you back any longer, try our javascript templating
+library today and experience the freedom and flexibility it offers!*
 
 **Table of Contents**
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
 - [Features](#features)
-- [Installation](#installation)
+- [Usage](#usage)
     - [Javascript](#javascript)
 - [Syntax](#syntax)
     - [Examples](#examples)
@@ -38,21 +36,106 @@ and flexibility it offers!*
 
 <!-- markdown-toc end -->
 
-
 ## Features
+Introducing a cutting-edge features that takes UI development to the next level. With our library, you'll have access to:
 
+- [x] The ability to apply templates multiple times to the same element to update the UI with changed values
+- [x] Support for adding/removing classes conditionally (e.g. add this class if value is true)
+- [x] Conditional attributes (e.g. check the check-box if value is true)
+- [x] Conditional hiding/showing/removal of elements based on values
+- [x] Conditional triggering of Javascript events based on values
+- [x] Nested templates with for-each-like behavior (recursive templates supported)
+- [x] Super lightweight without any dependencies. Include one javascript file and you're ready to go!
+- [x] And much more!
 
-## Installation
+**With our library, you'll be able to create beautiful, functional interfaces with ease. Try it out today and see the difference it can make in your development process!**
+
+## Quick Introduction
+
+With Z Template, you can easily turn your JSON data into dynamic,
+interactive HTML user interfaces. Simply add special markup,
+represented by `z-var` attributes, to your HTML and let Z Template do
+the rest. It'll seamlessly insert your data into the right places and
+dynamically adjust the UI based on the information it receives.
+
+Say goodbye to manual UI updates and hello to quick and effortless
+data-driven interfaces with Z Template!
+
+Simplify the creation of dynamic HTML UI with the intuitive `z-var`
+attribute syntax. Just specify `z-var="VAR_NAME WHERE"` to easily insert
+data from your JSON object into your HTML. The `VAR_NAME` represents
+the data you want to insert, while `WHERE` typically specifies either
+`attr ATTRIBUTE_NAME` to insert into an element attribute, or `text`
+to insert into the text content of an element.
+
+For example, let's say you have this JSON object:
+
+    {
+        "name": "John Doe",
+        "age": 42,
+        "address": {
+            "street": "123 Main St.",
+            "city": "Anytown",
+            "state": "CA",
+            "zip": "12345"
+        }
+    }
+
+You can use Z Template to turn it into a dynamic HTML UI with ease:
+
+    <div id="user" z-var="name attr title" title="My name is ${name}">
+        <h1 z-var="name text"></h1>
+        <p z-var="age text"></p>
+        <p z-var="address.street text"></p>
+        <p z-var="address.city text"></p>
+        <p z-var="address.state text"></p>
+        <p z-var="address.zip text"></p>
+    </div>
+
+To apply your JSON data to the template, simply call the zTemplate function:
+
+    zTemplate(document.getElementById("user"), {
+        "name": "John Doe",
+        "age": 42,
+        "address": {
+            "street": "123 Main St.",
+            "city": "Anytown",
+            "state": "CA",
+            "zip": "12345"
+        }
+    });
+
+And voila! Your JSON data is now dynamically displayed in your HTML
+UI. Plus, you can easily update the UI with new data by simply calling
+`zTemplate(document.getElementById("user"), newData)` again on the
+same element.
+
+With Z Template, you can not only insert data into text content and
+attributes, but you can also control the appearance and behavior of
+your UI. Want to toggle the visibility of an element based on a
+variable or complex condition? No problem! Simply add `z-var="myVar
+toggle"` or `z-var="{myVar == 'foo'} toggle"` to your HTML. Want to
+set the value of a web form's input control? It's as easy as
+`z-var="myVar value"`. The possibilities are endless with Z Template's
+powerful [actions](#actions) feature. Check out the complete list to
+discover all the ways you can make your UI dynamic and interactive.
+
+## Usage
 
 ### Javascript
 
-Non-module version:
+Non-module version: Include `template.css` and
+    `template.bundle.min.js` on your page. Change the "…" to reflect
+    the path to the library.  <html> <head> <script
+    src="…/javascript/template.css"></script> <script
+    src="…/javascript/template.bundle.min.js"></script> </head> <body>
+    ...  </body> </html>
 
-    <script src="…/javascript/template.bundle.min.js"></script>
-
-Module version:
+If you use modules you can import `zTemplate` from template.js module.
 
     import { zTemplate } from '…/javascript/template.js';
+
+Either way will make `jQuery.template(…)` method available if jQuery is loaded. The jQuery is not required. You can call `zTemplate(…)` method directly.
 
 ## Syntax
 
@@ -65,7 +148,7 @@ The structure of the COMMAND is as follows: a value or boolean expression is fol
 
     COMMAND: VALUE ACTION [ CONDITION ]
 
-The `VALUE` can be an expression enclosed in curly braces, a variable name, a boolean value, or a string. Examples: `{foo < 10}`, `bar`, `true`, `"foo"`.
+The `VALUE` can be an expression enclosed in curly braces, a variable name, a boolean value, or a string. Examples: `{foo < 10}`, `foo.bar`, `bar`, `true`, `"foo"`.
 The `!` or `!!` operators can be used to negate the value. Examples: `!{foo < 10}`, `!!foo`. The `!!` operator is used to convert a value to a boolean.
 
 The `ACTION` can be one of the following: `attr ATTR_NAME`, `class CLASS_NAME`, `call CALLBACK_NAME`, `event EVENT_NAME`, `text`, `html`, `value`, `toggle`, or `remove`.
@@ -195,13 +278,19 @@ Example:
         <option value="bar">Bar</option>
         <option value="baz">Baz</option>
     </select>
+    <input type="checkbox" z-var="{foo == 'bar'} value"/>
+    <input type="radio" z-var="foo value" value="bar"/>
+    <input type="radio" z-var="foo value" value="baz"/>
 
 Result:
-    
-        <select>
-            <option value="bar" selected>Bar</option>
-            <option value="baz">Baz</option>
-        </select>
+
+    <select>
+        <option value="bar" selected>Bar</option>
+        <option value="baz">Baz</option>
+    </select>
+    <input type="checkbox" checked="checked"/>
+    <input type="radio" value="bar" checked="checked"/>
+    <input type="radio" value="baz"/>
 
 ### Toggle CSS Class
 
@@ -268,6 +357,10 @@ Result:
 
         <div class="dna-template-visible"></div>
 
+You can of course use more complex expressions to control the visibility. For example:
+
+    <div z-var="{foo != 'bar' && person.baz > 23} toggle"></div>
+
 ### Remove Element
 
 Remove the current element from the DOM. 
@@ -295,7 +388,9 @@ Result:
 
 ### Fire Javascript Event
 
-Fire a Javascript event on the current element and pass the `VALUE` as the detail paramteter to the event.
+Use the "event" action in the "z-var" attribute to trigger a
+JavaScript event on the current element and pass the value of the
+"VALUE" as the detail parameter to the event. 
 
 Syntax:
 
@@ -308,16 +403,39 @@ Syntax sugar:
 Example:
 
     <script>
-        document.querySelector('div').addEventListener('my-event', function(event) {
-            console.log('EVENT', event.target, event.detail);
-        });
+        document.querySelector('div')
+            .addEventListener('my-event', function(event) {
+                console.log('EVENT', event.target, event.detail);
+            });
         zTemplate(document.querySelector('div'), {"foo": "bar"});
     </script>
     <div z-var="foo event my-event"></div>
 
+
+The above code sets up an event listener for the `"my-event"` event on a
+`div` element. The zTemplate function is then called, passing in the
+`div` and an object with a `foo` property set to `"bar"`. Finally, the
+`z-var` attribute on the `div` element is set to `"foo event
+my-event"`. This means that the value of the "foo" property will be
+passed as the detail parameter to a `"my-event"` event triggered on the
+`div` element.
+
+With this feature, you can add dynamic interactivity to your
+templates, allowing users to respond to changes in data, toggle
+display and visibility, and more.
+
+You can of course use more complex expressions to control the event firing. For example:
+
+    <div z-var="foo event my-event {foo == 'bar'}"></div>
+
+In this case, the event will be fired only if the value of the `foo` variable is equal to `"bar"`.
+
 ### Custom Function Call
 
-Call a custom callback and pass the element and value as parameters to the callback. The list of callbacks is passed as a third argument to `zTemplate` function.
+With Z Template, you can even trigger custom callbacks based on the
+values of variables.
+
+The list of callbacks is passed as a third argument to `zTemplate` function.
 
 Syntax:
 
@@ -333,9 +451,23 @@ Example:
             function myCallback(element, value) {
                 console.log('CALLBACK', element, value);
             }
-            zTemplate(document.querySelector('div'), {"foo": "bar"}, {"myCallback": myCallback});
+            zTemplate(
+                document.querySelector('div'),
+                {"foo": "bar", "baz": 23},
+                {"myCallback": myCallback, "myCallback2": myCallback2}
+            );
         </script>
         <div z-var="foo call myCallback"></div>
+        <div z-var="foo call myCallback2 {baz == 23 && foo = 'bar'}"></div>
+
+In the example above, the `myCallback` function
+will be called with the value of the `foo` variable as the second
+parameter and the element as the first parameter. The `myCallback2` will
+only be called if `baz` is equal to `23` and `foo` is equal to `"bar"`. Both
+the element and the `foo` variable value will be passed to the function,
+giving you full control over the HTML UI. This feature opens up
+endless possibilities for you to enhance your UI, providing even more
+flexibility and control over your data-driven UI.
 
 ## Boolean Conversion
 

@@ -30,6 +30,32 @@
                 [<article>EXPECTED OUTPUT. IF MISSING OLD $.template() WILL BE USED TO GENERATE IT</article>]
             </li>
         -->
+        <li data='{"name": "John Doe", "age": 42, "address": {"street": "123 Main St.", "city": "Anytown", "state": "CA", "zip": "12345"}}'>
+            <article>
+                <p z-var="address.street text {address.zip == 12345}"></p>
+                <p z-var="address.street text {address.zip > 12340}"></p>
+                <p z-var="address.street text {address.zip < 12340}"></p>
+            </article>
+            <article>
+                <p z-var="address.street text {address.zip == 12345}">123 Main St.</p>
+                <p z-var="address.street text {address.zip > 12340}">123 Main St.</p>
+                <p z-var="address.street text {address.zip < 12340}"></p>
+            </article>
+        </li>
+        <li data='{"name": "John Doe", "age": 42, "address": {"street": "123 Main St.", "city": "Anytown", "state": "CA", "zip": "12345"}}'>
+            <article>
+                <p z-var="address.street text"></p>
+                <p z-var="address.city text"></p>
+                <h1 z-var="name text"></h1>
+                <p z-var="age text"></p>
+            </article>
+            <article>
+                <p z-var="address.street text">123 Main St.</p>
+                <p z-var="address.city text">Anytown</p>
+                <h1 z-var="name text">John Doe</h1>
+                <p z-var="age text">42</p>
+            </article>
+        </li>
         <li data='{"isEnabled": true}'>
             <article>
                 <input type="checkbox" z-var="isEnabled @checked" template-scope="inherit"/>

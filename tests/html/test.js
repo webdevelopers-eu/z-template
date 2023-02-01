@@ -19,11 +19,32 @@ const callbacks = {
     },
 };
 
+
 // Listen on #tests for a custom new Event('test1') event dispatched on the child element.
 // When the event is dispatched, the callback will be called with the element and the event detail.
-$('#tests').on('test1 test2', (event) => {
-   console.log('EVENT jQuery test1', event);
-});
+$('#tests')
+    .on('click', 'article', (event) => {
+        // copy the innerHTML of the clicked element to the clipboard
+        const text = event.currentTarget.innerHTML;
+        const input = document.createElement('textarea');
+        input.textContent = text;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+
+        // Show quick message
+        const message = document.createElement('div');
+        message.classList.add('message');
+        message.innerHTML = 'Copied to clipboard';
+        document.body.appendChild(message);
+        setTimeout(() => {
+            message.remove();
+        }, 1000);
+    })
+    .on('test1 test2', (event) => {
+        console.log('EVENT jQuery test1', event);
+    });
 
 document.querySelector('#tests')
     .addEventListener('test1', (event) => {
