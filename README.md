@@ -150,6 +150,10 @@ If you use modules you can import `zTemplate` from template.js module.
 
 Either way will make `jQuery.template(…)` method available if jQuery is loaded. The jQuery is not required. You can call `zTemplate(…)` method directly.
 
+Now you can use `zTemplate` function to apply your JSON data to the template.
+
+    zTemplate(targetElement, data);
+
 ## Syntax
 
 Template instructions are stored as comma-separated commands in a `z-var` attribute.
