@@ -13,7 +13,6 @@ layout without any risk of disrupting your work. Don't let the fear of
 layout changes hold you back any longer, try our javascript templating
 library today and experience the freedom and flexibility it offers!*
 
-**Table of Contents**
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
@@ -89,6 +88,9 @@ For example, let's say you have this JSON object:
 
 You can use Z Template to turn it into a dynamic HTML UI with ease:
 
+    <script src="…/javascript/template.css"></script>
+    <script src="…/javascript/template.bundle.min.js"></script>
+    
     <div id="user" z-var="name attr title" title="My name is ${name}">
         <h1 z-var="name text"></h1>
         <p z-var="age text"></p>
@@ -130,12 +132,17 @@ discover all the ways you can make your UI dynamic and interactive.
 
 ### Javascript
 
-Non-module version: Include `template.css` and
-    `template.bundle.min.js` on your page. Change the "…" to reflect
-    the path to the library.  <html> <head> <script
-    src="…/javascript/template.css"></script> <script
-    src="…/javascript/template.bundle.min.js"></script> </head> <body>
-    ...  </body> </html>
+Non-module version: Include `template.css` and `template.bundle.min.js` on your page. Change the "…" to reflect the path to the library.
+
+    <html>
+        <head>
+            <script src="…/javascript/template.css"></script>
+            <script src="…/javascript/template.bundle.min.js"></script>
+        </head>
+        <body>
+            ...
+        </body>
+    </html>
 
 If you use modules you can import `zTemplate` from template.js module.
 
