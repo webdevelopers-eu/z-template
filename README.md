@@ -18,6 +18,7 @@ library today and experience the freedom and flexibility it offers!*
 **Table of Contents**
 
 - [Features](#features)
+- [Quick Introduction](#quick-introduction)
 - [Usage](#usage)
     - [Javascript](#javascript)
 - [Syntax](#syntax)
@@ -32,7 +33,11 @@ library today and experience the freedom and flexibility it offers!*
     - [Remove Element](#remove-element)
     - [Fire Javascript Event](#fire-javascript-event)
     - [Custom Function Call](#custom-function-call)
+- [Lists and Scopes](#lists-and-scopes)
+    - [Lists](#lists)
+    - [Scopes](#scopes)
 - [Boolean Conversion](#boolean-conversion)
+- [Notes](#notes)
 
 <!-- markdown-toc end -->
 
@@ -469,6 +474,112 @@ giving you full control over the HTML UI. This feature opens up
 endless possibilities for you to enhance your UI, providing even more
 flexibility and control over your data-driven UI.
 
+## Lists, Contexts, and Scopes
+
+### Lists
+
+Z Template supports lists and loops. You can use the
+`template="[VAR_NAME]"` attribute to specify a list of items to be
+rendered. The `VAR_NAME` is the name of the variable that contains the
+list of items. The list can be an array or an object. If it is an
+object, it will be converted into an array of objects, where each
+object has a `key` and `value` property.
+
+The template will be repeated for each item in the list.
+
+Example:
+
+    <script>
+        zTemplate(
+            document.querySelector('ol),
+            {"foo": ["bar", "baz", "qux"]}
+        );
+    </script>
+    <ol>
+        <template template="[foo]"><li z-var="value text"></li></template>
+    </ol>
+
+Result:
+
+    <ol>
+        <li>bar</li>
+        <li>baz</li>
+        <li>qux</li>
+        <template template="[foo]"><li z-var="value text"></li></template>
+    </ol>
+
+### Contexts
+
+If you have complex JSON data with nested objects, you can use the
+`template="{VAR_NAME}"` attribute to specify a context for the template.
+
+The template will reapply the references object to the context, so you
+can use the same references in the template as you would in the
+top-level template.
+
+Example:
+
+    <script>
+        zTemplate(
+            document.querySelector('div'),
+            {"foo": {"bar": "baz"}}
+        );
+    </script>
+    <div>
+        <template template="{foo}">
+            <div z-var="bar text"></div>
+        </template>
+        Same as:
+        <div z-var="foo.bar text"></div>
+    </div>
+
+### Scopes
+
+Z Template supports scopes. You can use the `template-scope="NAME"`
+attribute to specify a scope for the template.  This attribute
+protects the template from being applied to other elements inside the
+scope. The `NAME` is the name of the scope. Any name can be used,
+except for special name `inherit` (`template-scope="inherit"`) that
+behaves like no scope.
+
+If you want to apply the template to the scope element you have to
+apply data to the scope element directly or any of its children with a
+separate call to `zTemplate`.
+
+Example:
+
+    <script>
+        zTemplate(
+            document.querySelector('div'),
+            {"foo": "bar"}
+        );
+    </script>
+    <ol>
+        <li template-scope="my-scope">
+            <div z-var="foo text"></div>
+        </li>
+        <li template-scope="inherit">
+            <div z-var="foo text"></div>
+        </li>
+        <li>
+            <div z-var="foo text"></div>
+        </li>
+    </ol>
+
+Result:
+
+    <ol>
+        <li>
+            <div></div>
+        </li>
+        <li>
+            <div>bar</div>
+        </li>
+        <li>
+            <div>bar</div>
+        </li>
+    </ol>
+
 ## Boolean Conversion
 
 The value is converted to a boolean as follows:
@@ -481,4 +592,6 @@ The value is converted to a boolean as follows:
 
 Any value can be converted into boolean by enclosing it in curly braces or by prefixing it with "!!" symbols. Example: `{foo}`, `!!foo`.
 
+## Notes
 
+- All example results are simplified. In real life, the results may contain special attributes and/or classes.

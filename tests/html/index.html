@@ -30,6 +30,24 @@
                 [<article>EXPECTED OUTPUT. IF MISSING OLD $.template() WILL BE USED TO GENERATE IT</article>]
             </li>
         -->
+        <li data='{"foo": ["bar", "baz", "qux"]}'>
+            <article>
+                <ol>
+                    <li template="[foo]" z-var="value text"></li>
+                </ol>
+                <ol>
+                    <template template="[foo]"><li z-var="value text"></li></template>
+                </ol>
+            </article>
+            <article>
+                <ol>
+                    <li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="1">bar</li><li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="2">baz</li><li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="3">qux</li><li template="[foo]" z-var="value text"></li>
+                </ol>
+                <ol>
+                    <li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="1">bar</li><li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="2">baz</li><li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="3">qux</li><template template="[foo]"><li z-var="value text"></li></template>
+                </ol>
+            </article>
+        </li>
         <li data='{"name": "John Doe", "age": 42, "address": {"street": "123 Main St.", "city": "Anytown", "state": "CA", "zip": "12345"}}'>
             <article>
                 <p z-var="address.street text {address.zip == 12345}"></p>
