@@ -165,32 +165,32 @@ The structure of the COMMAND is as follows: a value or boolean expression is fol
 
     COMMAND: VALUE ACTION [ CONDITION ]
 
-The `VALUE` can be an expression enclosed in curly braces, a variable name, a boolean value, or a string. Examples: `{foo < 10}`, `foo.bar`, `bar`, `true`, `"foo"`.
-The `!` or `!!` operators can be used to negate the value. Examples: `!{foo < 10}`, `!!foo`. The `!!` operator is used to convert a value to a boolean.
+Here's what each part of the syntax means:
 
-The `ACTION` can be one of the following: `attr ATTR_NAME`, `class CLASS_NAME`, `call CALLBACK_NAME`, `event EVENT_NAME`, `text`, `html`, `value`, `toggle`, or `remove`.
-
-The `CONDITION` is an expression. Expressions can be nested within parentheses. Operators in the EXPRESSION include `==`, `!=`, `>`, `<`, `>=`, `<=`, `&&`, and `||`.
-
-A `STRING` is defined within double quotes (".\*") or single quotes ('.*').
+- The `VALUE` can be an expression enclosed in curly braces, a variable name, a boolean value, or a string. Examples: `{foo < 10}`, `foo.bar`, `bar`, `true`, `"foo"`. The `!` or `!!` operators can be used to negate the value. Examples: `!{foo < 10}`, `!!foo`. The `!!` operator is used to convert a value to a boolean.
+- The `ACTION` can be one of the following: `attr ATTR_NAME`, `class CLASS_NAME`, `call CALLBACK_NAME`, `event EVENT_NAME`, `text`, `html`, `value`, `toggle`, or `remove`.
+- The `CONDITION` is an expression. Expressions can be nested within parentheses. Operators in the EXPRESSION include `==`, `!=`, `>`, `<`, `>=`, `<=`, `&&`, and `||`.
 
 ### Examples
 
-Simplistic example of the command structure to insert variable `foo` into the `title` attribute of the current element and also as the text content of the current element:
+Let's take a look at some examples.
+
+Want to insert a variable foo into the title attribute and text content of a div element? Easy:
 
     <script>zTemplate(document.querySelector('div'), {foo: 'bar'})</script>
     <div z-var="foo attr title, foo text"></div>
 
-Example of a more complex command structure to insert variable `foo` into the `title` attribute of the current element if the variable `bar` is true:
+What about inserting foo into the title attribute only if `bar` is `true`? Piece of cake:
 
     <script>zTemplate(document.querySelector('div'), {foo: 'boo', bar: true})</script>
     <div z-var="foo attr title {bar}"></div>
 
-Example of a more complex command structure to insert variable `foo` into the `title` attribute of the current element if the variable `bar` is true and the variable `qux` is false or the variable `baz` equals the string "boo":
+Want to get even more complex? No problem! Evaluate multiple variables with a complex condition and if it's true, insert the `foo` value into the attribute `title`.
 
     <script>zTemplate(document.querySelector('div'), {foo: 'boo', bar: true, qux: true, baz: 'boo'})</script>
     <div z-var="foo attr title {bar && (!qux || baz == 'boo')}"></div>
 
+There is more you can do with Z Template. Check out the [actions](#actions) section to learn more.
 
 ## Actions
 
