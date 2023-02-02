@@ -31,10 +31,12 @@ class Template {
      */
     #scopeLevel = 0;
 
+    #templateSelector = "*[starts-with(@template, '{') or starts-with(@template, '[')]";
+
     /**
      * @param string scopeSelector selector used to identify scope elements
      */
-    #scopeSelector = "*[@template or (@template-scope and @template-scope != 'inherit') or @template-clone]";
+    #scopeSelector = `*[self::${this.#templateSelector} or (parent::*/@template-scope and parent::*/@template-scope != 'inherit') or @template-clone]`;
 
     /**
      * @param string zElementSelector used to identify z-var elements that need processing
@@ -66,7 +68,7 @@ class Template {
         }
 
         // Next level of templates
-        const foundTemplates = this.#query(`descendant-or-self::*[not(@template-scope) or @template-scope = 'inherit'][starts-with(@template, '{') or starts-with(@template, '[')][${this.#scopeLevelSelector} = ${this.#scopeLevel} + 1]`);
+        const foundTemplates = this.#query(`descendant-or-self::${this.#templateSelector}[${this.#scopeLevelSelector} = ${this.#scopeLevel} + 1]`);
         for (let i = 0; i < foundTemplates.length; i++) {
             this.#processTemplate(foundTemplates[i]);
         }
