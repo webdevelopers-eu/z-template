@@ -1,4 +1,4 @@
-__Z Template__
+# Z Template
 
 *Transform your UI development with ease! Our innovative templating
 library is here to take your coding to the next level. Say goodbye to
