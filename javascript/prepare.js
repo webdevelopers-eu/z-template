@@ -124,7 +124,7 @@ class Preparator {
         } else {
             this.#data.condition = true;
         }
-        this.#data.conditions = this.#negate(this.#data.condition, negateCondition);
+        this.#data.condition = this.#negate(this.#data.condition, negateCondition);
     }
 
     #getVariableValue(variable) {
@@ -242,18 +242,21 @@ class Preparator {
 
     #toValue(token, negate = 0) {
         let value;
-        switch (token.type) {
-        case "generic":
-            value = this.#getVariableValue(token.value);
-            break;
-        case "text":
-            value = token.value;
-            break;
-        case "block":
-            value = this.#prepareBlock(token.value);
-            break;
-        default:
-            throw new Error(`Invalid token type: ${token.type} (value: ${JSON.stringify(token)}).`);
+
+        if (typeof token.type !== 'undefined' && typeof token.value !== 'undefined') { // @todo we should use Token class instead of Object
+            switch (token.type) {
+            case "generic":
+                value = this.#getVariableValue(token.value);
+                break;
+            case "text":
+                value = token.value;
+                break;
+            case "block":
+                value = this.#prepareBlock(token.value);
+                break;
+            default:
+                throw new Error(`Invalid token type: ${token.type} (value: ${JSON.stringify(token)}).`);
+            }
         }
         if (value === null) {
             return value; // Number(null) === 0a

@@ -246,7 +246,7 @@ class Preparator {
         } else {
             this.#data.condition = true;
         }
-        this.#data.conditions = this.#negate(this.#data.condition, negateCondition);
+        this.#data.condition = this.#negate(this.#data.condition, negateCondition);
     }
 
     #getVariableValue(variable) {
@@ -364,18 +364,21 @@ class Preparator {
 
     #toValue(token, negate = 0) {
         let value;
-        switch (token.type) {
-        case "generic":
-            value = this.#getVariableValue(token.value);
-            break;
-        case "text":
-            value = token.value;
-            break;
-        case "block":
-            value = this.#prepareBlock(token.value);
-            break;
-        default:
-            throw new Error(`Invalid token type: ${token.type} (value: ${JSON.stringify(token)}).`);
+
+        if (typeof token.type !== 'undefined' && typeof token.value !== 'undefined') { // @todo we should use Token class instead of Object
+            switch (token.type) {
+            case "generic":
+                value = this.#getVariableValue(token.value);
+                break;
+            case "text":
+                value = token.value;
+                break;
+            case "block":
+                value = this.#prepareBlock(token.value);
+                break;
+            default:
+                throw new Error(`Invalid token type: ${token.type} (value: ${JSON.stringify(token)}).`);
+            }
         }
         if (value === null) {
             return value; // Number(null) === 0a
@@ -524,6 +527,9 @@ class Template {
             clone.forEach((element) => {
                 const template = new Template(element);
                 template.render(vars, this.#callbacks);
+                if (element.parentNode instanceof DocumentFragment) {
+                    zTemplate.parentNode.insertBefore(element, zTemplate);
+                }
             });
         }
     }
@@ -537,7 +543,7 @@ class Template {
         let lastPos = -1;
         while (previous && previous.getAttribute('template-clone') == template) {
             const pos = previous.getAttribute('template-clone-pos');
-            if (lastPos == pos) {
+            if (lastPos == pos && pos !== null) {
                 clones[0].unshift(previous);
             } else {
                 clones.unshift([previous]);
@@ -552,6 +558,7 @@ class Template {
         }
 
         // If there are less clones than items in the list, create the missing clones.
+        const fragment = new DocumentFragment(); // Do not insert it into the DOM yet to minimize reflow.
         for(let i = clones.length - count; i < 0; i++) {
             const clone = [];
             clones.push(clone);
@@ -566,7 +573,8 @@ class Template {
                 el.setAttribute('template-clone', template);
                 el.setAttribute('template-clone-pos', clones.length);
                 el.removeAttribute('template');
-                zTemplate.parentNode.insertBefore(el, zTemplate);
+                // zTemplate.parentNode.insertBefore(el, zTemplate); - put it into fragment to minimize reflow
+                fragment.appendChild(el);
             });
         }
 
@@ -657,7 +665,7 @@ class Template {
     }
 
     #cmdRemove(zElement, command) {
-        if (command.valueBool) {
+        if (!command.valueBool) {
             zElement.remove();
         }
     }

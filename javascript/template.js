@@ -89,6 +89,9 @@ class Template {
             clone.forEach((element) => {
                 const template = new Template(element);
                 template.render(vars, this.#callbacks);
+                if (element.parentNode instanceof DocumentFragment) {
+                    zTemplate.parentNode.insertBefore(element, zTemplate);
+                }
             });
         }
     }
@@ -102,7 +105,7 @@ class Template {
         let lastPos = -1;
         while (previous && previous.getAttribute('template-clone') == template) {
             const pos = previous.getAttribute('template-clone-pos');
-            if (lastPos == pos) {
+            if (lastPos == pos && pos !== null) {
                 clones[0].unshift(previous);
             } else {
                 clones.unshift([previous]);
@@ -117,6 +120,7 @@ class Template {
         }
 
         // If there are less clones than items in the list, create the missing clones.
+        const fragment = new DocumentFragment(); // Do not insert it into the DOM yet to minimize reflow.
         for(let i = clones.length - count; i < 0; i++) {
             const clone = [];
             clones.push(clone);
@@ -131,7 +135,8 @@ class Template {
                 el.setAttribute('template-clone', template);
                 el.setAttribute('template-clone-pos', clones.length);
                 el.removeAttribute('template');
-                zTemplate.parentNode.insertBefore(el, zTemplate);
+                // zTemplate.parentNode.insertBefore(el, zTemplate); - put it into fragment to minimize reflow
+                fragment.appendChild(el);
             });
         }
 
@@ -222,7 +227,7 @@ class Template {
     }
 
     #cmdRemove(zElement, command) {
-        if (command.valueBool) {
+        if (!command.valueBool) {
             zElement.remove();
         }
     }
