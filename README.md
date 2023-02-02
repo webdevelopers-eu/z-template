@@ -360,6 +360,8 @@ Result:
 
 Toggle the visibility of the current element. The visibility is controlled by adding/removing the CSS classes `dna-template-hidden` and `dna-template-visible`. The CSS definition is in `template.css` file.
 
+If multiple toggle commands are present with different outcomes, the "show" outcome always wins.
+
 Syntax:
 
     BOOL_EXPRESSION toggle [ CONDITION ]
