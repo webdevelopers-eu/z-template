@@ -45,29 +45,28 @@ library today and experience the freedom and flexibility it offers!*
 <!-- markdown-toc end -->
 
 ## Features
+
 Introducing a cutting-edge features that takes UI development to the next level. With our library, you'll have access to:
 
-- [x] The ability to apply templates multiple times to the same element to update the UI with changed values
-- [x] Support for adding/removing classes conditionally (e.g. add this class if value is true)
-- [x] Conditional attributes (e.g. check the check-box if value is true)
-- [x] Conditional hiding/showing/removal of elements based on values
-- [x] Conditional triggering of Javascript events based on values
-- [x] Nested templates with for-each-like behavior (recursive templates supported)
-- [x] Super lightweight without any dependencies. Include one javascript file and you're ready to go!
-- [x] And much more!
+✅ Dynamic UI updates with just one simple reapplication of templates as values change
+
+✅ Effortlessly conditionally apply/remove classes to enhance your UI design
+
+✅ Unleash dynamic control over your UI with conditional attributes, like check-boxes that update based on values
+
+✅ Enjoy smooth and seamless UI transitions with conditional hiding/showing/removal of elements
+
+✅ Respond to changing values with powerful Javascript event triggers
+
+✅ Create complex UI structures with ease through nested templates with for-each-like functionality
+
+✅ Experience lightning-fast performance with a super lightweight library, requiring only a single JavaScript file with no dependencies
+
+✅ And much more! Unleash your UI design potential.
 
 **With our library, you'll be able to create beautiful, functional interfaces with ease. Try it out today and see the difference it can make in your development process!**
 
 ## Quick Introduction
-
-With Z Template, you can easily turn your JSON data into dynamic,
-interactive HTML user interfaces. Simply add special markup,
-represented by `z-var` attributes, to your HTML and let Z Template do
-the rest. It'll seamlessly insert your data into the right places and
-dynamically adjust the UI based on the information it receives.
-
-Say goodbye to manual UI updates and hello to quick and effortless
-data-driven interfaces with Z Template!
 
 Simplify the creation of dynamic HTML UI with the intuitive `z-var`
 attribute syntax. Just specify `z-var="VAR_NAME WHERE"` to easily insert
