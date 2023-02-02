@@ -19,7 +19,8 @@ class Preparator {
         ".": "text",
         "=": "value",
         "?": "toggle",
-        "!": "remove"
+        "!": "remove",
+        "`": "debugger"
     };
 
     #operatorsCompare = [
@@ -73,12 +74,6 @@ class Preparator {
         const tokens = Array.from(this.#tokens);
         let token = this.#nextToken(tokens, ["operator", "generic", "block"]);
 
-        if (tokens.length === 0 && token.value === "debugger") {
-            this.#data.value = {"type": "special", "value": "debugger"};
-            this.#data.action = 'debugger';
-            return;
-        }
-
         // negate
         if (token.type === 'operator' && ["!", "!!"].includes(token.value)) {
             this.#data.negateValue = token.value.length;
@@ -125,6 +120,10 @@ class Preparator {
             this.#data.condition = true;
         }
         this.#data.condition = this.#negate(this.#data.condition, negateCondition);
+
+        if (this.#data.action === 'debugger' && this.#data.valueBool) {
+            debugger;
+        }
     }
 
     #getVariableValue(variable) {
@@ -241,7 +240,7 @@ class Preparator {
     }
 
     #toValue(token, negate = 0) {
-        let value;
+        let value = token;
 
         if (typeof token.type !== 'undefined' && typeof token.value !== 'undefined') { // @todo we should use Token class instead of Object
             switch (token.type) {

@@ -182,7 +182,7 @@ class Template {
                     this.#cmdToggle(zProto, command);
                     break;
                 case "debugger":
-                    debugger;
+                    if (command.valueBool) debugger;
                     break;
                 case "remove":
                 case "event":
@@ -234,7 +234,9 @@ class Template {
 
 
     #cmdToggle(zProto, command) {
-        if (command.valueBool) {
+        if (zProto.classList.contains('z-template-hidden')) {
+            return; // already hidden
+        } else if (command.valueBool) {
             zProto.classList.add('z-template-visible');
             zProto.classList.remove('z-template-hidden');
         } else {
@@ -359,6 +361,13 @@ class Template {
                       proto.setAttribute(attrName, attr.value);
                   }
               });
+
+        proto.classList.remove(...[
+            'dna-template-visible',
+            'z-template-visible',
+            'dna-template-hidden',
+            'z-template-hidden'
+        ]);
 
         return proto;
     }
