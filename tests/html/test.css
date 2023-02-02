@@ -2,6 +2,15 @@ html {
     font-family: 'Roboto', Arial, sans-serif;
 }
 
+.result {
+    font-size: 1.5em;
+}
+
+.result:before {
+    content: 'Result: ';
+    font-weight: bold;
+}
+
 #tests {
     margin: 2em 0em;
     padding: 0em;
