@@ -359,7 +359,7 @@ Result:
 
 ### Toggle Visibility
 
-Toggle the visibility of the current element. The visibility is controlled by adding/removing the CSS classes `dna-template-hidden` and `dna-template-visible`. The CSS definition is in `template.css` file.
+Toggle the visibility of the current element. The visibility is controlled by adding/removing the CSS classes `z-template-hidden` and `z-template-visible`. The CSS definition is in `template.css` file.
 
 If multiple toggle commands are present with different outcomes, the "show" outcome always wins.
 
@@ -378,11 +378,14 @@ Example:
 
 Result:
 
-        <div class="dna-template-visible"></div>
+        <div class="z-template-visible"></div>
 
 You can of course use more complex expressions to control the visibility. For example:
 
     <div z-var="{foo != 'bar' && person.baz > 23} toggle"></div>
+
+Note: The old `dna-template-hidden` and `dna-template-visible` classes
+from version 1.0 are still supported for backward compatibility.
 
 ### Remove Element
 
@@ -555,11 +558,11 @@ Example:
 
 ### Scopes
 
-Z Template supports scopes. You can use the `template-scope="NAME"`
+Z Template supports scopes. You can use the `z-scope="NAME"`
 attribute to specify a scope for the template.  This attribute
 protects the template from being applied to other elements inside the
 scope. The `NAME` is the name of the scope. Any name can be used,
-except for special name `inherit` (`template-scope="inherit"`) that
+except for special name `inherit` (`z-scope="inherit"`) that
 behaves like no scope.
 
 If you want to apply the template to the scope element you have to
@@ -599,6 +602,14 @@ Result:
             <div>bar</div>
         </li>
     </ol>
+
+The attribute `z-scope-children` behaves like `z-scope`, with a
+difference that it does not protect the element itself, but only its
+children.
+
+Note: The `z-scope-children` is equivalent to `template-scope`
+attribute from the previous version 1.0. The current version is
+backward compatible and supports both attributes.
 
 ## Boolean Conversion
 

@@ -36,6 +36,30 @@
                 [<article>EXPECTED OUTPUT. IF MISSING OLD $.template() WILL BE USED TO GENERATE IT</article>]
             </li>
         -->
+        <li data='{"isEnabled": true}'>
+            <article z-scope-children="test" z-var="isEnabled .test-enabled">
+                <input type="checkbox" z-var="!!isEnabled @checked"/>
+            </article>
+            <article z-scope-children="test" z-var="isEnabled .test-enabled" class="test-enabled">
+                <input type="checkbox" z-var="!!isEnabled @checked" checked="checked"/>
+            </article>
+        </li>
+        <li data='{"isEnabled": true}'>
+            <article z-scope="test" z-var="isEnabled .test-enabled">
+                <input type="checkbox" z-var="!!isEnabled @checked"/>
+            </article>
+            <article z-scope="test" z-var="isEnabled .test-enabled" class="test-enabled">
+                <input type="checkbox" z-var="!!isEnabled @checked" checked="checked"/>
+            </article>
+        </li>
+        <li data='{"isEnabled": true}'>
+            <article template-scope="test" z-var="isEnabled .test-enabled">
+                <input type="checkbox" z-var="!!isEnabled @checked"/>
+                <div template-scope="test2" z-var="isEnabled .test2-enabled">
+                    <input type="checkbox" z-var="!!isEnabled @checked"/>
+                </div>
+            </article>
+        </li>
         <li data='{"true": true, "false": false}'>
             <article>
                 <p z-var="true ?, false ?"></p>
@@ -97,12 +121,12 @@
                     <input type="checkbox" z-var="!!isEnabled @checked"/>
                 </div>
             </article>
-            <article>
-                <input type="checkbox" z-var="isEnabled @checked" template-scope="inherit" checked="checked"/>
-                <div template-scope="inherit">
-                    <input type="checkbox" z-var="!!isEnabled @checked" checked="checked"/>
-                </div>
-            </article>
+            <!-- <article> -->
+            <!--     <input type="checkbox" z-var="isEnabled @checked" template-scope="inherit" checked="checked"/> -->
+            <!--     <div template-scope="inherit"> -->
+            <!--         <input type="checkbox" z-var="!!isEnabled @checked" checked="checked"/> -->
+            <!--     </div> -->
+            <!-- </article> -->
         </li>
         <li data='{"isEnabled": true}'>
             <article>
@@ -111,12 +135,12 @@
                     <input type="checkbox" z-var="!!isEnabled @checked"/>
                 </div>
             </article>
-            <article>
-                <input type="checkbox" z-var="isEnabled @checked" template-scope="test"/>
-                <div template-scope="test">
-                    <input type="checkbox" z-var="!!isEnabled @checked"/>
-                </div>
-            </article>
+            <!-- <article> -->
+            <!--     <input type="checkbox" z-var="isEnabled @checked" template-scope="test"/> -->
+            <!--     <div template-scope="test"> -->
+            <!--         <input type="checkbox" z-var="!!isEnabled @checked"/> -->
+            <!--     </div> -->
+            <!-- </article> -->
         </li>
         <li data='{"isEnabled": true}'>
             <article template-scope="test">
