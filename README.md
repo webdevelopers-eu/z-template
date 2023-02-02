@@ -387,6 +387,8 @@ You can of course use more complex expressions to control the visibility. For ex
 
 Remove the element from the DOM if `BOOL_EXPRESSION` evaluates to `false` and optional `CONDITION` to true.
 
+If multiple remove commands are present with different outcomes, the "remove" outcome always wins.
+
 **WARNING**: This action is destructive. The element is removed from the DOM and cannot be restored and templates cannot be re-applied to update the HTML structure. In most cases [Toggle Visibility](#toggle-visibility) is a better choice.
 
 Syntax:
