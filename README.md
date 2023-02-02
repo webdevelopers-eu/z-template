@@ -228,8 +228,8 @@ Result:
 
 If the target attribute already exists and the string value contains variable placeholders (e.g. `${foo}`), the placeholders will be replaced with the value of the variable.
 
-    <script>zTemplate(document.querySelector('div'), {"foo": "bar"});</script>
-    <div title="Hello ${foo}!" z-var="foo attr title"></div>
+    <script>zTemplate(document.querySelector('div'), {"name": "John", "surname": "Doe"});</script>
+    <div title="Hello ${name} ${surname}!" z-var="name attr title, surname attr title"></div>
 
 ### Insert Text Content
 
@@ -254,8 +254,8 @@ Result:
 
 If the text content already exists and the string value contains variable placeholders (e.g. `${foo}`), the placeholders will be replaced with the value of the variable.
 
-    <script>zTemplate(document.querySelector('div'), {"foo": "bar"});</script>
-    <div z-var="foo text">Hello ${foo}!</div>
+    <script>zTemplate(document.querySelector('div'), {"name": "John", "surname": "Doe"});</script>
+    <div z-var="name text, surname text">Hello ${name} ${surname}!</div>
 
 ### Insert HTML Content
 
@@ -615,3 +615,19 @@ Any value can be converted into boolean by enclosing it in curly braces or by pr
 - All examples are simplified. In real life, the example results may contain special attributes and/or classes that were not mentioned for brevity.
 - All contributions are welcome. Please submit a pull request or open an issue.
 - Should any part of this documentation be unclear, please open an issue with a clarification request or suggestion.
+
+### Why those design choices?
+
+The innovative "z-var" attribute provides maximum flexibility and
+long-term stability, as it is not impacted when reapplying the
+template to the same element.
+
+I have taken great care to establish a defined syntax vocabulary,
+making it possible for Z Template engine to be easily implemented in
+any language. The implementation in JavaScript is just one example of
+its limitless potential and it allows for transpiling to other
+languages with minimal changes. 
+
+The implementation relies heavily on XPath rather then on CSS
+selectors, which makes it possible to implement in any language that
+supports XPath and DOM.
