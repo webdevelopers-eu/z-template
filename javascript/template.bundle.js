@@ -364,7 +364,7 @@ class Preparator {
     #toValue(token, negate = 0) {
         let value = token;
 
-        if (typeof token.type !== 'undefined' && typeof token.value !== 'undefined') { // @todo we should use Token class instead of Object
+        if (typeof token?.type !== 'undefined' && typeof token?.value !== 'undefined') { // @todo we should use Token class instead of Object
             switch (token.type) {
             case "generic":
                 value = this.#getVariableValue(token.value);
@@ -468,10 +468,14 @@ class Template {
      */
     #scopeLevel = 0;
 
+    #templateSelector = "*[starts-with(@template, '{') or starts-with(@template, '[')]";
+
+    #childrenScopeSelector = "*[(@template-scope and @template-scope != 'inherit') or (@z-scope-children and @z-scope-children != 'inherit')]";
+
     /**
      * @param string scopeSelector selector used to identify scope elements
      */
-    #scopeSelector = "*[@template or (@template-scope and @template-scope != 'inherit') or @template-clone]";
+    #scopeSelector = `*[self::${this.#templateSelector} or @z-scope or parent::${this.#childrenScopeSelector} or @template-clone]`;
 
     /**
      * @param string zElementSelector used to identify z-var elements that need processing
@@ -489,7 +493,7 @@ class Template {
 	    throw new Error('ZTemplate accepts an instance of HTMLElement as constructor argument');
 	}
 	this.#rootElement = rootElement;
-        this.#scopeLevel = this.#query(this.#scopeLevelSelector, rootElement);
+        this.#scopeLevel = this.#query(this.#scopeLevelSelector, rootElement.hasAttribute('template-scope') || rootElement.hasAttribute('z-scope-children') ? rootElement.firstElementChild : rootElement);
     }
 
     render(vars, callbacks) {
@@ -497,13 +501,14 @@ class Template {
         this.#callbacks = callbacks;
 
 	// Run xpath on root element
-        const found = this.#query(`descendant-or-self::${this.#zElementSelector}[${this.#scopeLevelSelector} = ${this.#scopeLevel}]`);
+        const found = this.#query(`self::${this.#zElementSelector}|descendant-or-self::${this.#zElementSelector}[${this.#scopeLevelSelector} = ${this.#scopeLevel}]`);
         for (let i = 0; i < found.length; i++) {
             this.#processZElement(found[i]);
         }
 
         // Next level of templates
-        const foundTemplates = this.#query(`descendant-or-self::*[not(@template-scope) or @template-scope = 'inherit'][starts-with(@template, '{') or starts-with(@template, '[')][${this.#scopeLevelSelector} = ${this.#scopeLevel} + 1]`);
+        // If we apply template to the element directly then we ignore its @z-scope and @z-scope-children attributes.
+        const foundTemplates = this.#query(`self::${this.#templateSelector}|${this.#templateSelector}|descendant-or-self::${this.#templateSelector}[${this.#scopeLevelSelector} = ${this.#scopeLevel} + 1]`);
         for (let i = 0; i < foundTemplates.length; i++) {
             this.#processTemplate(foundTemplates[i]);
         }
