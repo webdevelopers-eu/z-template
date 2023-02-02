@@ -616,18 +616,17 @@ Any value can be converted into boolean by enclosing it in curly braces or by pr
 - All contributions are welcome. Please submit a pull request or open an issue.
 - Should any part of this documentation be unclear, please open an issue with a clarification request or suggestion.
 
-### Why those design choices?
+### Why these design choices?
 
-The innovative "z-var" attribute provides maximum flexibility and
-long-term stability, as it is not impacted when reapplying the
-template to the same element.
+The unique "z-var" attribute ensures maximum versatility and
+durability, as it remains intact during repeated application of
+templates to the same element.
 
-I have taken great care to establish a defined syntax vocabulary,
-making it possible for Z Template engine to be easily implemented in
-any language. The implementation in JavaScript is just one example of
-its limitless potential and it allows for transpiling to other
-languages with minimal changes. 
+The syntax vocabulary and the code has been carefully crafted to
+ensure that the Z Template engine can be effortlessly translated into
+any language. The JavaScript implementation is just one demonstration
+of its boundless possibilities, and it can be effortlessly adapted to
+other languages possibly through transpilation.
 
-The implementation relies heavily on XPath rather then on CSS
-selectors, which makes it possible to implement in any language that
-supports XPath and DOM.
+This implementation leverages XPath rather than CSS selectors, making
+it adaptable to any language that supports XPath and DOM.
