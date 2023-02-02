@@ -33,6 +33,7 @@ html {
     background: #eee;
     padding: 0.5em;
     color: #333;
+    cursor: pointer;
 }
 
 #tests > li.pass:before {
@@ -78,12 +79,11 @@ html {
     background: #CFC;
 }
 
-#tests > li.pass:not(:hover) > * {
+#tests > li.pass:not(.active) > * {
     display: none;
 }
 
-#tests > li:hover:before,
-#tests > li:hover > * {
+#tests > li:hover:before {
     background: #FFC;
 }
 

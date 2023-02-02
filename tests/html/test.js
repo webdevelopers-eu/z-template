@@ -25,6 +25,9 @@ const callbacks = {
 // Listen on #tests for a custom new Event('test1') event dispatched on the child element.
 // When the event is dispatched, the callback will be called with the element and the event detail.
 $('#tests')
+    .on('click', '> li', function(event) {
+        $(this).toggleClass('active');
+    })
     .on('click', 'article', (event) => {
         // copy the innerHTML of the clicked element to the clipboard
         const text = event.currentTarget.innerHTML;
@@ -43,6 +46,7 @@ $('#tests')
         setTimeout(() => {
             message.remove();
         }, 1000);
+        return false;
     })
     .on('test1 test2', (event) => {
         console.log('EVENT jQuery test1', event);
