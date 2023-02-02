@@ -6,7 +6,7 @@ complex and time-consuming development processes. With its lightweight
 design and powerful features, our library gives you complete control
 over your code. No more worries about design changes ruining your hard
 work. Get ready to simplify your UI development with our
-dependency-free solution.*
+**dependency-free** solution.*
 
 *The library's powerful yet simple design makes it easy for developers
 to create beautiful, functional interfaces without worrying about the
