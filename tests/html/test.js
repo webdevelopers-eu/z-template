@@ -1,10 +1,12 @@
 // Import zTemplate into zTemplateImport variable
 import { zTemplate as zTemplateModule } from '../../javascript/template.js';
 
-if (location.href.match(/bundle/)) {
-    document.querySelector('#switch-bundle').remove();
-} else {
-    document.querySelector('#switch-module').remove();
+const headerVars = {
+    "bundle": location.href.match(/bundle/),
+    "pass": true,
+};
+
+if (!headerVars.bundle) {
     window.zTemplate = zTemplateModule;
 }
 
@@ -78,6 +80,7 @@ document.querySelectorAll('#tests > li > *:first-child')
             test2.setAttribute('data-source', html2);
 
             if (html1 !== html2) {
+                headerVars.pass = false;
                 test1.parentNode.classList.add('fail');
                 test1.parentNode.classList.remove('pass');
                 console.warn('Fail:', test1.parentNode, data);
@@ -106,5 +109,4 @@ document.querySelectorAll('#tests > li > *:first-child')
     });
 
 
-
-
+zTemplate(document.querySelector('#header'), headerVars);

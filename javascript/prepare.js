@@ -242,7 +242,7 @@ class Preparator {
     #toValue(token, negate = 0) {
         let value = token;
 
-        if (typeof token.type !== 'undefined' && typeof token.value !== 'undefined') { // @todo we should use Token class instead of Object
+        if (typeof token?.type !== 'undefined' && typeof token?.value !== 'undefined') { // @todo we should use Token class instead of Object
             switch (token.type) {
             case "generic":
                 value = this.#getVariableValue(token.value);

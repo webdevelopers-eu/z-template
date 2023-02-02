@@ -14,13 +14,19 @@
     </head>
 <body>
     <h1>Z Template 2.0 Tests</h1>
-    <div id="switch-bundle">
-        Using a module loader.
-        <a  href="?bundle">Test minified non-module bundle</a>
-    </div>
-    <div id="switch-module">
-        Using a minified non-module bundle.
-        <a href="?module">Test a module version</a>
+
+    <div id="header">
+        <div z-var="bundle ?">
+            Using a module loader.
+            <a  href="?bundle">Test minified non-module bundle</a>
+        </div>
+        <div z-var="!bundle ?">
+            Using a minified non-module bundle.
+            <a href="?module">Test a module version</a>
+        </div>
+
+        <div z-var="pass ?">OK</div>
+        <div z-var="!pass ?">FAIL</div>
     </div>
 
     <ol id="tests">
@@ -30,6 +36,16 @@
                 [<article>EXPECTED OUTPUT. IF MISSING OLD $.template() WILL BE USED TO GENERATE IT</article>]
             </li>
         -->
+        <li data='{"true": true, "false": false}'>
+            <article>
+                <p z-var="true ?, false ?"></p>
+                <p z-var="!true ?, !false ?"></p>
+            </article>
+            <article>
+                <p z-var="true ?, false ?" class="z-template-hidden"></p>
+                <p z-var="!true ?, !false ?" class="z-template-hidden"></p>
+            </article>
+        </li>
         <li data='{"foo": ["bar", "baz", "qux"]}'>
             <article>
                 <ol>
