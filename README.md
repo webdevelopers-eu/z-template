@@ -70,21 +70,14 @@ Are you curious what is so special about our library? Check out the
 
 Introducing a cutting-edge features that takes UI development to the next level. With our library, you'll have access to:
 
-✅ Dynamic UI updates with just one simple reapplication of templates as values change
-
-✅ Effortlessly conditionally apply/remove classes to enhance your UI design
-
-✅ Unleash dynamic control over your UI with conditional attributes, like check-boxes that update based on values
-
-✅ Enjoy smooth and seamless UI transitions with conditional hiding/showing/removal of elements
-
-✅ Respond to changing values with powerful Javascript event triggers
-
-✅ Create complex UI structures with ease through nested templates with for-each-like functionality
-
-✅ Experience lightning-fast performance with a super lightweight library, requiring only a single JavaScript file with no dependencies
-
-✅ And much more! Unleash your UI design potential.
+- ⓩ Dynamic UI updates with just one simple reapplication of templates as values change
+- ⓩ Effortlessly conditionally apply/remove classes to enhance your UI design
+- ⓩ Unleash dynamic control over your UI with conditional attributes, like check-boxes that update based on values
+- ⓩ Enjoy smooth and seamless UI transitions with conditional hiding/showing/removal of elements
+- ⓩ Respond to changing values with powerful Javascript event triggers
+- ⓩ Create complex UI structures with ease through nested templates with for-each-like functionality
+- ⓩ Experience lightning-fast performance with a super lightweight library, requiring only a single JavaScript file with no dependencies
+- ⓩ And much more! Unleash your UI design potential.
 
 **With our library, you'll be able to create beautiful, functional interfaces with ease. Try it out today and see the difference it can make in your development process!**
 
