@@ -733,16 +733,24 @@ React.js, Angular.js, Ember.js, Backbone.js, JsRender, Ractive.js,
 Marko, HyperHTMLELement, LitElement, Polymer, Svelte, Blaze.js,
 DoT.js, Swig, Handlebars.js, Hogan.js, and more? 
 
-Tired of constantly worrying about updates breaking your code?
-Simplify your life with Z Template, a reliable and here-to-stay
-template engine that just works. 
+Are you looking for a straightforward way to convert your data into
+HTML without any stress? Tired of worrying about updates breaking your
+code? Simplify your life with Z Template, a reliable and
+self-sufficient template engine that gets the job done and stays put.
 
-Our templating solution stands out from the rest by utilizing DOM
-manipulation techniques, making it the best choice for HTML/XML
-compatibility and security. Unlike other template engines that treat
-templates as strings and are prone to XSS and unescaped text, we rely
-on portable DOM manipulation and powerful XPath selectors, eliminating
-these vulnerabilities and many other problems.
+Our templating solution distinguishes itself from others by focusing
+on a select number of carefully crafted manipulation features that
+cater to all your design needs. We don't aim to be a
+jack-of-all-trades. Our decades of experience in web development have
+honed in on what you require and what you don't, providing only what
+truly matters.
+
+We use exclusively DOM manipulation techniques, making it the best
+choice for HTML/XML compatibility and security. Unlike other template
+engines that treat templates as strings and are prone to XSS and
+unescaped text, we rely on portable DOM manipulation and powerful
+XPath selectors, eliminating these vulnerabilities and many other
+problems.
 
 Our use of HTML 5 `<template>` tags and `z-var` attributes also provide a
 clean and organized view in the browser, with templating instructions
