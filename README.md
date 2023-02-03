@@ -54,7 +54,9 @@ Are you curious what is so special about our library? Check out the
             - [Nested Lists](#nested-lists)
         - [Contexts](#contexts)
         - [Scopes](#scopes)
-    - [Boolean Conversion](#boolean-conversion)
+    - [Typecasting](#typecasting)
+        - [Boolean](#boolean)
+        - [Values](#values)
     - [Choose Z Template Over Other Solutions](#choose-z-template-over-other-solutions)
     - [Final Notes](#final-notes)
 
