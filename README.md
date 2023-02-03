@@ -56,7 +56,7 @@ Read [Why These Design Decisions?](#why-these-design-decisions)
         - [Scopes](#scopes)
     - [Boolean Conversion](#boolean-conversion)
     - [Final Notes](#final-notes)
-        - [Why these design choices?](#why-these-design-choices)
+        - [Why These Design Decisions?](#why-these-design-decisions)
         - [The Rest](#the-rest)
 
 <!-- markdown-toc end -->
