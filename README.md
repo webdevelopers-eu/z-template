@@ -24,8 +24,8 @@ layout without any risk of disrupting your work. Don't let the fear of
 layout changes hold you back any longer, try our javascript templating
 library today and experience the freedom and flexibility it offers!*
 
-Are you curious what is so special about Z Template?
-Read [Why These Design Decisions?](#why-these-design-decisions)
+Are you curious what is so special about our library? Check out the
+[Choose Z Template Over Other Solutions](#choose-z-template-over-other-solutions)
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
@@ -56,7 +56,7 @@ Read [Why These Design Decisions?](#why-these-design-decisions)
         - [Scopes](#scopes)
     - [Boolean Conversion](#boolean-conversion)
     - [Final Notes](#final-notes)
-        - [Why These Design Decisions?](#why-these-design-decisions)
+        - [Choose Z Template Over Other Solutions](#choose-z-template-over-other-solutions)
         - [The Rest](#the-rest)
 
 <!-- markdown-toc end -->
@@ -726,9 +726,7 @@ The value is converted to a boolean as follows:
 
 Any value can be converted into boolean by enclosing it in curly braces or by prefixing it with "!!" symbols. Example: `{foo}`, `!!foo`.
 
-## Final Notes
-
-### Why These Design Decisions?
+## Choose Z Template Over Other Solutions
 
 Our templating solution stands out from the rest by utilizing DOM
 manipulation techniques, making it the best choice for HTML/XML
@@ -758,7 +756,20 @@ language. The JavaScript implementation is just one demonstration of
 its boundless possibilities, and it can be adapted to other languages,
 possibly through transpilation.
 
-### The Rest
+In addition to its powerful features and versatility, our templating
+solution has been battle-tested for over 6 years and has been
+successfully implemented in numerous real-life projects. It has proven
+to be a complete and ultimate solution for transforming data into HTML
+UI.
+
+Moreover, our solution is open-sourced under the MIT license, meaning
+you can use it freely and without any hidden costs. It doesn't depend
+on any external dependencies, ensuring that it won't break due to
+updates or changes in other libraries. Our solution uses only fully
+supported and widely-accepted web standards, making it a stable and
+future-proof choice that will never become broken.
+
+## Final Notes
 - Z Template ➋ is fully compatible with previous versions.
 - All examples are simplified. In real life, the example results may contain special attributes, classes, and `<template>` tags that were not mentioned for the sake of simplicity.
 - All contributions are welcome. Please submit a pull request or open an issue.
