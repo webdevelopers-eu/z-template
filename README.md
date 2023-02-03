@@ -1,5 +1,5 @@
 **In just 15 minutes, you'll be able to effortlessly turn your JSON or
-any other data into into organized and structured HTML pages.** This
+any other data into organized and structured HTML pages.** This
 essential tool is a must-have for any developer looking to streamline
 their data presentation process.
 
