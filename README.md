@@ -772,9 +772,9 @@ and what you don't, ensuring that we deliver only what truly matters.
 With its steadfast use of W3C-endorsed techniques like DOM
 manipulation and XPath, Z Template sets itself apart as a superior
 solution for HTML/XML compatibility and security. Unlike other
-templating options that rely on string manipulation, Z Template's
-approach completely eliminates vulnerabilities like XSS, ensuring
-top-notch security by design.
+templating options that rely on template-as-a-string manipulation, Z
+Template's approach completely eliminates vulnerabilities like XSS,
+ensuring top-notch security by design.
 
 Our use of HTML 5 template tags and z-var attributes also provides a
 clean and organized view in the browser, with templating instructions
