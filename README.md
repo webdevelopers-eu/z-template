@@ -741,7 +741,7 @@ self-sufficient templating engine that gets the job done and stays
 put.
 
 Z Template stands out from the crowd with its focus on a select number
-of carefully crafted manipulation features that meet all your design
+of carefully crafted DOM manipulation features that meet all your design
 requirements. We don't aim to be a jack-of-all-trades; instead, our
 decades of experience in web development have taught us what you need
 and what you don't, ensuring that we deliver only what truly matters.
