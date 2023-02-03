@@ -38,6 +38,9 @@ library today and experience the freedom and flexibility it offers!*
         - [Custom Function Call](#custom-function-call)
     - [Lists, Contexts, and Scopes](#lists-contexts-and-scopes)
         - [Lists](#lists)
+            - [Simple Example](#simple-example)
+            - [Advanced Example](#advanced-example)
+            - [Nested Lists](#nested-lists)
         - [Contexts](#contexts)
         - [Scopes](#scopes)
     - [Boolean Conversion](#boolean-conversion)
@@ -174,6 +177,7 @@ Here's what each part of the syntax means:
 - The `VALUE` can be an boolean expression enclosed in curly braces, a variable name, a boolean value, or a string. Examples: `{foo < 10}`, `foo.bar`, `bar`, `true`, `"foo"`. The `!` or `!!` operators can be used to negate the value. Examples: `!{foo < 10}`, `!!foo`. The `!!` operator is used to convert a value to a boolean.
 - The `ACTION` can be one of the following: `attr ATTR_NAME`, `class CLASS_NAME`, `call CALLBACK_NAME`, `event EVENT_NAME`, `text`, `html`, `value`, `toggle`, or `remove`.
 - The `CONDITION` is an expression in curly braces. Expressions can be nested within parentheses. Supported operators in the expression are `==`, `!=`, `>`, `<`, `>=`, `<=`, `&&`, and `||`. Examples: `{foo == 'bar'}`, `{foo == 'bar' || foo == 'baz'}`, `{foo == 'bar' && (foo == 'baz' || foo == 'qux')}`.
+ - Note that all the values get converted into scalar values before comparison in a way that Arrays and Objects convert into a number of their elements. For example, `{"foo": [1, 2, 3]}` input to `foo == 3` is `true`.
 
 ### Examples
 
@@ -526,6 +530,8 @@ is the value of the item.
 
 The template will be repeated for each item in the list.
 
+#### Simple Example
+
 Example:
 
     <script>
@@ -544,8 +550,9 @@ Result:
         <li>bar</li>
         <li>baz</li>
         <li>qux</li>
-        <template template="[foo]"><li z-var="value text"></li></template>
     </ol>
+
+#### Advanced Example
 
 Of course, you can use more complex lists containing objects:
 
@@ -564,8 +571,9 @@ Result:
     <ol>
         <li>baz</li>
         <li>qux</li>
-        <template template="[foo]"><li z-var="bar text"></li></template>
     </ol>
+
+#### Nested Lists
 
 The lists can of course contain other lists so you can create
 hierarchical lists:
@@ -576,7 +584,8 @@ hierarchical lists:
             {
                 "foo": [
                     {"name": "item1", "bar": ["baz", "qux"]},
-                    {"name": "item2", "bar": ["quux", "quuz"]}
+                    {"name": "item2", "bar": ["quux", "quuz"]},
+                    {"name": "item3", "bar": []}
                 ]
             }
         );
@@ -585,7 +594,7 @@ hierarchical lists:
         <template template="[foo]">
             <li>
                 <b z-var="name text"></b>
-                <ol>
+                <ol z-var="!bar class hidden">
                     <template template="[bar]"><li z-var="value text"></li></template>
                 </ol>
             </li>
@@ -609,15 +618,18 @@ Result:
                 <li>quuz</li>
             </ol>
         </li>
-        <template template="[foo]">
-            <li>
-                <b z-var="name text"></b>
-                <ol>
-                    <template template="[bar]"><li z-var="value text"></li></template>
-                </ol>
-            </li>
-        </template>
+        <li>
+            <b>item3</b>
+            <ol class="hidden"></ol>
+        </li>
     </ol>
+
+The z-var attribute on the inner ol element is set to `!bar class
+hidden`, meaning that the `hidden` class will be added to the inner ol
+element if the bar variable is an empty array. The `!` operator
+inverts the boolean value of `bar` (empty array evaluates to `false`)
+so that the hidden class will be toggled *on* if `bar` is an empty
+array.
 
 ### Contexts
 
@@ -713,7 +725,7 @@ Any value can be converted into boolean by enclosing it in curly braces or by pr
 
 ## Closing Notes
 
-- All examples are simplified. In real life, the example results may contain special attributes and/or classes that were not mentioned for brevity.
+- All examples are simplified. In real life, the example results may contain special attributes, classes, and `<template>` tags that were not mentioned for the sake of simplicity.
 - All contributions are welcome. Please submit a pull request or open an issue.
 - Should any part of this documentation be unclear, please open an issue with a clarification request or suggestion.
 

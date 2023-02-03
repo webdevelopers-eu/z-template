@@ -55,13 +55,6 @@ class Preparator {
         this.#vars = vars;
         this.#tokens = tokens;
         this.#normalize();
-
-        // Reserved keywords
-        this['true'] = true;
-        this['false'] = false;
-        this['null'] = null;
-        this['undefined'] = undefined;
-        
     }
 
     /**
@@ -72,20 +65,22 @@ class Preparator {
      */
     #normalize() {
         const tokens = Array.from(this.#tokens);
-        let token = this.#nextToken(tokens, ["operator", "generic", "block"]);
+        let token = this.#nextToken(tokens, ["operator", "generic", "block", "text"]);
 
         // negate
         if (token.type === 'operator' && ["!", "!!"].includes(token.value)) {
             this.#data.negateValue = token.value.length;
-            token = this.#nextToken(tokens, ["generic", "block"]);
+            token = this.#nextToken(tokens, ["generic", "block", "text"]);
         }
 
         // value
         if (token.type === 'generic') {
             this.#data.variable = token.value;
             this.#data.value = this.#getVariableValue(token.value);
+        } else if (token.type === 'block') {
+            this.#data.value = this.#prepareBlock(token.value);
         } else {
-            this.#data.value = this.#prepareBlock(tokens);
+            this.#data.value = token.value;
         }
         token = this.#nextToken(tokens, ["generic", "operator"]);
 
@@ -127,6 +122,18 @@ class Preparator {
     }
 
     #getVariableValue(variable) {
+        // reserved keywords
+        switch(variable) {
+            case 'true':
+                return true;
+            case 'false':
+                return false;
+            case 'null':
+                return null;
+            case 'undefined':
+                return undefined;
+        }
+
         // Split the variable into parts separated by dot and get the corresponding value from this.#vars object.
         // Example: "user.name" => this.#vars.user.name
         const parts = variable.split('.');
@@ -257,11 +264,19 @@ class Preparator {
                 throw new Error(`Invalid token type: ${token.type} (value: ${JSON.stringify(token)}).`);
             }
         }
+
         if (value === null) {
-            return value; // Number(null) === 0a
+            return value; // Number(null) === 0
+        } else if (value instanceof Array) {
+            value = value.length;
+        } else if (value instanceof Number) {
+            value = value.valueOf();
+        } else if (typeof value === 'object') {
+            value = Object.keys(value).length;
         }
+
         const num = Number(value);
-        let ret = isNaN(num) ? value : num;
+        let ret = isNaN(num) ? value : num.valueOf();
 
         ret = this.#negate(ret, negate);
         return ret;

@@ -36,13 +36,37 @@
                 [<article>EXPECTED OUTPUT. IF MISSING OLD $.template() WILL BE USED TO GENERATE IT</article>]
             </li>
         -->
-        <li data='{"foo": [{"name": "item1", "bar": ["baz", "qux"]}, {"name": "item2", "bar": ["quux", "quuz"]}]}'>
+        <li data='{"foo": [1, 2, 3]}'>
+            <article>
+                <div z-var="{foo == 3} class three">?</div>
+                <div z-var="{foo > 3} class three">?</div>
+                <div z-var="{foo < 3} class three">?</div>
+            </article>
+            <article>
+                <div z-var="{foo == 3} class three" class="three">?</div>
+                <div z-var="{foo > 3} class three">?</div>
+                <div z-var="{foo < 3} class three">?</div>
+            </article>
+        </li>
+        <li data='{"name": "John Doe", "age": 42, "address": {"street": "123 Main St.", "city": "Anytown", "state": "CA", "zip": "12345"}}'>
+            <article>
+                <p z-var="address.street text {address.zip == 12345}"></p>
+                <p z-var="address.street text {address.zip > 12340}"></p>
+                <p z-var="address.street text {address.zip < 12340}"></p>
+            </article>
+            <article>
+                <p z-var="address.street text {address.zip == 12345}">123 Main St.</p>
+                <p z-var="address.street text {address.zip > 12340}">123 Main St.</p>
+                <p z-var="address.street text {address.zip < 12340}"></p>
+            </article>
+        </li>
+        <li data='{"foo": [{"name": "item1", "bar": ["baz", "qux"]}, {"name": "item2", "bar": ["quux", "quuz"]}, {"name": "item3", "bar": []}]}'>
             <article>
                 <ol>
                     <template template="[foo]">
                         <li>
                             <b z-var="name text"></b>
-                            <ol>
+                            <ol z-var="!bar class hidden">
                                 <template template="[bar]"><li z-var="value text"></li></template>
                             </ol>
                         </li>
@@ -50,21 +74,27 @@
                 </ol>
             </article>
             <article>
+
                 <ol>
                     <li class="template-clone" template-clone="[foo]" template-clone-pos="1">
                             <b z-var="name text">item1</b>
-                            <ol>
+                            <ol z-var="!bar class hidden">
                                 <li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="1">baz</li><li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="2">qux</li><template template="[bar]"><li z-var="value text"></li></template>
                             </ol>
                         </li><li class="template-clone" template-clone="[foo]" template-clone-pos="2">
                             <b z-var="name text">item2</b>
-                            <ol>
+                            <ol z-var="!bar class hidden">
                                 <li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="1">quux</li><li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="2">quuz</li><template template="[bar]"><li z-var="value text"></li></template>
+                            </ol>
+                        </li><li class="template-clone" template-clone="[foo]" template-clone-pos="3">
+                            <b z-var="name text">item3</b>
+                            <ol z-var="!bar class hidden" class="hidden">
+                                <template template="[bar]"><li z-var="value text"></li></template>
                             </ol>
                         </li><template template="[foo]">
                         <li>
                             <b z-var="name text"></b>
-                            <ol>
+                            <ol z-var="!bar class hidden">
                                 <template template="[bar]"><li z-var="value text"></li></template>
                             </ol>
                         </li>
@@ -122,18 +152,6 @@
                 <ol>
                     <li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="1">bar</li><li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="2">baz</li><li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="3">qux</li><template template="[foo]"><li z-var="value text"></li></template>
                 </ol>
-            </article>
-        </li>
-        <li data='{"name": "John Doe", "age": 42, "address": {"street": "123 Main St.", "city": "Anytown", "state": "CA", "zip": "12345"}}'>
-            <article>
-                <p z-var="address.street text {address.zip == 12345}"></p>
-                <p z-var="address.street text {address.zip > 12340}"></p>
-                <p z-var="address.street text {address.zip < 12340}"></p>
-            </article>
-            <article>
-                <p z-var="address.street text {address.zip == 12345}">123 Main St.</p>
-                <p z-var="address.street text {address.zip > 12340}">123 Main St.</p>
-                <p z-var="address.street text {address.zip < 12340}"></p>
             </article>
         </li>
         <li data='{"name": "John Doe", "age": 42, "address": {"street": "123 Main St.", "city": "Anytown", "state": "CA", "zip": "12345"}}'>
