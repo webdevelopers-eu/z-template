@@ -1,4 +1,4 @@
-*Formerly known as the jQuery DNA Template, this solution underwent a
+*Formerly known as the **jQuery DNA Template**, this solution underwent a
 comprehensive revamp in 2023 and is now fully independent of jQuery
 while still maintaining full compatibility with the original version.*
 
