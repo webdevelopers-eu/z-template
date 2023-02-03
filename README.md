@@ -181,7 +181,7 @@ Here's what each part of the syntax means:
 - The `VALUE` can be an boolean expression enclosed in curly braces, a variable name, a boolean value, or a string. Examples: `{foo < 10}`, `foo.bar`, `bar`, `true`, `"foo"`. The `!` or `!!` operators can be used to negate the value. Examples: `!{foo < 10}`, `!!foo`. The `!!` operator is used to convert a value to a boolean.
 - The `ACTION` can be one of the following: `attr ATTR_NAME`, `class CLASS_NAME`, `call CALLBACK_NAME`, `event EVENT_NAME`, `text`, `html`, `value`, `toggle`, or `remove`.
 - The `CONDITION` is an expression in curly braces. Expressions can be nested within parentheses. Supported operators in the expression are `==`, `!=`, `>`, `<`, `>=`, `<=`, `&&`, and `||`. Examples: `{foo == 'bar'}`, `{foo == 'bar' || foo == 'baz'}`, `{foo == 'bar' && (foo == 'baz' || foo == 'qux')}`.
- - Note that all the values get converted into scalar values before comparison in a way that Arrays and Objects convert into a number of their elements. For example, `{"foo": [1, 2, 3]}` input to `foo == 3` is `true`.
+ - Note that all the values get [converted into scalar values](#values) before comparison in a way that Arrays and Objects convert into a number of their elements. For example, `{"foo": [1, 2, 3]}` input to `foo == 3` evaluates to `true`.
 
 ### Examples
 
@@ -208,7 +208,7 @@ There is more you can do with Z Template. Check out the [actions](#actions) sect
 
 ### Insert Attribute
 
-Insert the value of a variable into an attribute of the current element or toggle a boolean attribute should the value be boolean true or false.
+Insert the value of a variable into an attribute of the current element or toggle a boolean attribute should [the value be boolean](#boolean) true or false.
 
 Syntax:
 
@@ -227,7 +227,7 @@ Result:
 
     <div title="bar"></div>
 
-If the value evaluates to a boolean, the attribute will be either removed or added depending on the value.
+If the [value evaluates to a boolean](#boolean), the attribute will be either removed or added depending on the value.
 
     <script>zTemplate(document.querySelector('div'), {"foo": true});</script>
     <input type="checkbox" z-var="foo attr checked"/>
@@ -342,7 +342,7 @@ Result:
 
         <div class="bar baz"></div>
 
-The `BOOL_EXPRESSION` is converted to a boolean as per the rules in the [Boolean Conversion](#boolean-conversion) section. It can be an expression
+The `BOOL_EXPRESSION` is converted to a boolean as per the rules in the [Boolean Conversion](#boolean) section. It can be an expression
 enclosed in curly braces, a variable name, a boolean value, or a string. Examples: `{foo < 10 || foo == 'bar'}`, `bar`, `true`, `"foo"`.
 
 Example:
@@ -397,7 +397,7 @@ from version 1.0 are still supported for backward compatibility.
 
 ### Remove Element
 
-Remove the element from the DOM if `BOOL_EXPRESSION` evaluates to `false` and optional `CONDITION` to true.
+Remove the element from the DOM if `BOOL_EXPRESSION` [evaluates](#boolean) to `false` and optional `CONDITION` to true.
 
 If multiple remove commands are present with different outcomes, the "remove" outcome always wins.
 
@@ -631,7 +631,7 @@ Result:
 The z-var attribute on the inner ol element is set to `!bar class
 hidden`, meaning that the `hidden` class will be added to the inner ol
 element if the bar variable is an empty array. The `!` operator
-inverts the boolean value of `bar` (empty array evaluates to `false`)
+inverts the [boolean value](#boolean) of `bar` (empty array evaluates to `false`)
 so that the hidden class will be toggled *on* if `bar` is an empty
 array. The same condition can be expressed with the `{bar == 0} class hidden`.
 
