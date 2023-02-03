@@ -1,3 +1,6 @@
+Master the power of templating in just 15 minutes with this
+user-friendly system, making it simple to bring your data to life!
+
 # Z Template
 
 *Transform your UI development with ease! Our innovative templating
