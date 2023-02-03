@@ -734,8 +734,8 @@ Our templating solution stands out from the rest by utilizing DOM
 manipulation techniques, making it the best choice for HTML/XML
 compatibility and security. Unlike other template engines that treat
 templates as strings and are prone to XSS and unescaped text, we rely
-on DOM manipulation and XPath selectors, eliminating these
-vulnerabilities.
+on portable DOM manipulation and powerful XPath selectors, eliminating
+these vulnerabilities and many other problems.
 
 Our use of HTML 5 `<template>` tags and z-var attributes also provide a
 clean and organized view in the browser, with templating instructions
