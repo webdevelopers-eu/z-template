@@ -52,8 +52,9 @@ library today and experience the freedom and flexibility it offers!*
         - [Contexts](#contexts)
         - [Scopes](#scopes)
     - [Boolean Conversion](#boolean-conversion)
-    - [Why these design choices?](#why-these-design-choices)
     - [Closing Notes](#closing-notes)
+        - [Why these design choices?](#why-these-design-choices)
+        - [The Rest](#the-rest)
 
 <!-- markdown-toc end -->
 
