@@ -629,7 +629,7 @@ hidden`, meaning that the `hidden` class will be added to the inner ol
 element if the bar variable is an empty array. The `!` operator
 inverts the boolean value of `bar` (empty array evaluates to `false`)
 so that the hidden class will be toggled *on* if `bar` is an empty
-array.
+array. The same condition can be expressed with the `{bar == 0} class hidden`.
 
 ### Contexts
 
