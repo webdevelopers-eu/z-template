@@ -769,12 +769,12 @@ requirements. We don't aim to be a jack-of-all-trades; instead, our
 decades of experience in web development have taught us what you need
 and what you don't, ensuring that we deliver only what truly matters.
 
-Z Template uses exclusively DOM manipulation techniques, making it the
-best choice for HTML/XML compatibility and security. Unlike other
-templating engines that treat templates as strings and are vulnerable
-to XSS and unescaped text, Z Template relies on portable DOM
-manipulation and powerful XPath selectors, eliminating these
-vulnerabilities and many other problems.
+With its steadfast use of W3C-endorsed techniques like DOM
+manipulation and XPath, Z Template sets itself apart as a superior
+solution for HTML/XML compatibility and security. Unlike other
+templating options that rely on string manipulation, Z Template's
+approach completely eliminates vulnerabilities like XSS, ensuring
+top-notch security by design.
 
 Our use of HTML 5 template tags and z-var attributes also provides a
 clean and organized view in the browser, with templating instructions
