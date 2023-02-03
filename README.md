@@ -55,9 +55,8 @@ Are you curious what is so special about our library? Check out the
         - [Contexts](#contexts)
         - [Scopes](#scopes)
     - [Boolean Conversion](#boolean-conversion)
+    - [Choose Z Template Over Other Solutions](#choose-z-template-over-other-solutions)
     - [Final Notes](#final-notes)
-        - [Choose Z Template Over Other Solutions](#choose-z-template-over-other-solutions)
-        - [The Rest](#the-rest)
 
 <!-- markdown-toc end -->
 
@@ -727,6 +726,16 @@ The value is converted to a boolean as follows:
 Any value can be converted into boolean by enclosing it in curly braces or by prefixing it with "!!" symbols. Example: `{foo}`, `!!foo`.
 
 ## Choose Z Template Over Other Solutions
+
+Confused by the multitude of templating solutions like Handlebars,
+Mustache, EJS, Jade/Pug, Dust.js, Underscore.js, Nunjucks, Vue.js,
+React.js, Angular.js, Ember.js, Backbone.js, JsRender, Ractive.js,
+Marko, HyperHTMLELement, LitElement, Polymer, Svelte, Blaze.js,
+DoT.js, Swig, Handlebars.js, Hogan.js, and more? 
+
+Tired of constantly worrying about updates breaking your code?
+Simplify your life with Z Template, a reliable and here-to-stay
+template engine that just works. 
 
 Our templating solution stands out from the rest by utilizing DOM
 manipulation techniques, making it the best choice for HTML/XML
