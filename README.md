@@ -780,7 +780,7 @@ And the best part? Z Template is open-sourced under the MIT license,
 meaning you can use it freely and without any hidden costs. It doesn't
 depend on any external dependencies, ensuring that it won't break due
 to updates or changes in other libraries. Our solution uses only fully
-supported and widely-accepted web standards, making it a stable and
+supported and widely-accepted W3C standards, making it a stable and
 future-proof choice that will never become outdated.
 
 ## Final Notes
