@@ -24,6 +24,9 @@ layout without any risk of disrupting your work. Don't let the fear of
 layout changes hold you back any longer, try our javascript templating
 library today and experience the freedom and flexibility it offers!*
 
+Are you curious what is so special about Z Template?
+Read [Why These Design Decisions?](#why-these-design-decisions)
+
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
@@ -725,7 +728,7 @@ Any value can be converted into boolean by enclosing it in curly braces or by pr
 
 ## Final Notes
 
-### Why these design choices?
+### Why These Design Decisions?
 
 The unique "z-var" attribute ensures maximum versatility and
 durability, as it remains intact during repeated application of
