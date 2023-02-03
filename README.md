@@ -179,10 +179,10 @@ The structure of the COMMAND is as follows: a value or boolean expression is fol
 Here's what each part of the syntax means:
 
 - The `VALUE` can be an boolean expression enclosed in curly braces, a variable name, a boolean value, or a string. Examples: `{foo < 10}`, `foo.bar`, `bar`, `true`, `"foo"`. The `!` or `!!` operators can be used to negate the value. Examples: `!{foo < 10}`, `!!foo`. The `!!` operator is used to convert a value to a boolean.
- - The boolean `VALUE` can be used to toggle the visibility of an element or set the boolean attribute of an element like `checked` or `disabled`.
+    - The boolean `VALUE` can be used to toggle the visibility of an element or set the [boolean attribute](#insert-attribute) of an element like `checked` or `disabled`.
 - The `ACTION` can be one of the following: `attr ATTR_NAME`, `class CLASS_NAME`, `call CALLBACK_NAME`, `event EVENT_NAME`, `text`, `html`, `value`, `toggle`, or `remove`.
 - The `CONDITION` is an expression in curly braces. Expressions can be nested within parentheses. Supported operators in the expression are `==`, `!=`, `>`, `<`, `>=`, `<=`, `&&`, and `||`. Examples: `{foo == 'bar'}`, `{foo == 'bar' || foo == 'baz'}`, `{foo == 'bar' && (foo == 'baz' || foo == 'qux')}`.
- - Note that all the values get [converted into scalar values](#values) before comparison in a way that Arrays and Objects convert into a number of their elements. For example, `{"foo": [1, 2, 3]}` input to `foo == 3` evaluates to `true`.
+    - Note that all the values get [converted into scalar values](#values) before comparison in a way that Arrays and Objects convert into a number of their elements. For example, `{"foo": [1, 2, 3]}` input to `foo == 3` evaluates to `true`.
 
 ### Examples
 
