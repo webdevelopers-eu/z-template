@@ -82,7 +82,7 @@ to insert into the text content of an element.
 
 For example, let's say you have this JSON object:
 
-    {
+    const myData = {
         "name": "John Doe",
         "age": 42,
         "address": {
@@ -100,7 +100,7 @@ You can use Z Template to turn it into a dynamic HTML UI with ease:
     
     <div id="user" z-var="name attr title" title="My name is ${name}">
         <h1 z-var="name text"></h1>
-        <p z-var="age text"></p>
+        <p z-var="age text">${age} yrs</p>
         <p z-var="address.street text"></p>
         <p z-var="address.city text"></p>
         <p z-var="address.state text"></p>
@@ -109,16 +109,7 @@ You can use Z Template to turn it into a dynamic HTML UI with ease:
 
 To apply your JSON data to the template, simply call the zTemplate function:
 
-    zTemplate(document.getElementById("user"), {
-        "name": "John Doe",
-        "age": 42,
-        "address": {
-            "street": "123 Main St.",
-            "city": "Anytown",
-            "state": "CA",
-            "zip": "12345"
-        }
-    });
+    zTemplate(document.querySelector("#user"), myData);
 
 And voila! Your JSON data is now dynamically displayed in your HTML
 UI. Plus, you can easily update the UI with new data by simply calling
