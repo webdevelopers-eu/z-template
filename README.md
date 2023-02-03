@@ -573,7 +573,12 @@ hierarchical lists:
     <script>
         zTemplate(
             document.querySelector('ol),
-            {"foo": [{"name": "item1", "bar": ["baz", "qux"]}, {"name": "item2", "bar": ["quux", "quuz"]}]}
+            {
+                "foo": [
+                    {"name": "item1", "bar": ["baz", "qux"]},
+                    {"name": "item2", "bar": ["quux", "quuz"]}
+                ]
+            }
         );
     </script>
     <ol>
