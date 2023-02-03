@@ -470,10 +470,10 @@ values of variables.
 The list of callbacks is passed as a third argument to `zTemplate` function.
 
 The callback function is called with the following arguments:
-- `element`: The element that triggered the event.
-- `detail`: The detail object passed to the event. It contains two properties:
+- `element`: The element that triggered the callback.
+- `detail`: The detail object. It contains two properties:
     - `data`: The data property holds the current value of the variables.
-    - `value`: The value property contains the value of the command that triggered the event.
+    - `value`: The value property contains the `VALUE` of the command.
 
 Syntax:
 
