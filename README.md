@@ -733,58 +733,55 @@ React.js, Angular.js, Ember.js, Backbone.js, JsRender, Ractive.js,
 Marko, HyperHTMLELement, LitElement, Polymer, Svelte, Blaze.js,
 DoT.js, Swig, Handlebars.js, Hogan.js, and more? 
 
-Are you looking for a straightforward way to convert your data into
-HTML without any stress? Tired of worrying about updates breaking your
-code? Simplify your life with Z Template, a reliable and
-self-sufficient template engine that gets the job done and stays put.
 
-Our templating solution distinguishes itself from others by focusing
-on a select number of carefully crafted manipulation features that
-cater to all your design needs. We don't aim to be a
-jack-of-all-trades. Our decades of experience in web development have
-honed in on what you require and what you don't, providing only what
-truly matters.
+Looking for a straightforward solution to transform your data into
+HTML without any stress? Tired of worrying about updates that break
+your code? Simplify your life with Z Template, a dependable and
+self-sufficient templating engine that gets the job done and stays
+put.
 
-We use exclusively DOM manipulation techniques, making it the best
-choice for HTML/XML compatibility and security. Unlike other template
-engines that treat templates as strings and are prone to XSS and
-unescaped text, we rely on portable DOM manipulation and powerful
-XPath selectors, eliminating these vulnerabilities and many other
-problems.
+Z Template stands out from the crowd with its focus on a select number
+of carefully crafted manipulation features that meet all your design
+requirements. We don't aim to be a jack-of-all-trades; instead, our
+decades of experience in web development have taught us what you need
+and what you don't, ensuring that we deliver only what truly matters.
 
-Our use of HTML 5 `<template>` tags and `z-var` attributes also provide a
+Z Template uses exclusively DOM manipulation techniques, making it the
+best choice for HTML/XML compatibility and security. Unlike other
+templating engines that treat templates as strings and are vulnerable
+to XSS and unescaped text, Z Template relies on portable DOM
+manipulation and powerful XPath selectors, eliminating these
+vulnerabilities and many other problems.
+
+Our use of HTML 5 template tags and z-var attributes also provides a
 clean and organized view in the browser, with templating instructions
 remaining invisible until parsed and applied to data.
 
-Our focus on DOM manipulation not only provides greater security, but
-also results in a faster and more efficient template engine. And, with
-our specially crafted `COMMAND` syntax, developers can easily create
-beautiful and functional interfaces. Unlike other solutions that use
-generic javascript syntax, our syntax was built specifically for HTML
+Our focus on DOM manipulation not only enhances security, but also
+results in a faster and more efficient engine. With our specially
+crafted COMMAND syntax, developers can easily create beautiful and
+functional interfaces. Unlike other solutions that use generic
+javascript syntax, our syntax was built specifically for HTML
 manipulation, making it simpler and easier to understand.
 
 The unique "z-var" attribute ensures maximum versatility and
-durability, as it remains intact during repeated application of
-templates to the same element.
+durability, remaining intact during repeated application of templates
+to the same element. Our syntax vocabulary and code have been crafted
+to ensure that the Z Template engine can be effortlessly translated
+into any language. Its JavaScript implementation is just one example
+of its limitless possibilities, and it can be adapted to other
+languages through transpilation.
 
-Our syntax vocabulary and code have been carefully crafted to ensure
-that the Z Template engine can be effortlessly translated into any
-language. The JavaScript implementation is just one demonstration of
-its boundless possibilities, and it can be adapted to other languages,
-possibly through transpilation.
+Z Template has been battle-tested for over 6 years and has been
+successfully implemented in numerous real-life projects. It is a
+complete and ultimate solution for transforming data into HTML UI.
 
-In addition to its powerful features and versatility, our templating
-solution has been battle-tested for over 6 years and has been
-successfully implemented in numerous real-life projects. It has proven
-to be a complete and ultimate solution for transforming data into HTML
-UI.
-
-Moreover, our solution is open-sourced under the MIT license, meaning
-you can use it freely and without any hidden costs. It doesn't depend
-on any external dependencies, ensuring that it won't break due to
-updates or changes in other libraries. Our solution uses only fully
+And the best part? Z Template is open-sourced under the MIT license,
+meaning you can use it freely and without any hidden costs. It doesn't
+depend on any external dependencies, ensuring that it won't break due
+to updates or changes in other libraries. Our solution uses only fully
 supported and widely-accepted web standards, making it a stable and
-future-proof choice that will never become broken.
+future-proof choice that will never become outdated.
 
 ## Final Notes
 - Z Template ➋ is fully compatible with previous versions.
