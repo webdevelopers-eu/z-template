@@ -1,5 +1,8 @@
-Master the power of templating in just 15 minutes with this
-user-friendly system, making it simple to bring your data to life!
+Unleash the full potential of your data with this user-friendly
+templating system! With just 15 minutes of your time, you'll be able
+to turn your JSON into stunning HTML pages. Don't miss out on this
+essential tool for any developer seeking to simplify their data
+presentation process.
 
 # Z Template
 
