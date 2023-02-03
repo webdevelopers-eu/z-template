@@ -219,15 +219,23 @@ class Template {
     }
 
     #cmdCall(zElement, command) {
+        const detail = {
+            "value": command.value,
+            "data": this.#vars
+        };
         const callback = this.#callbacks[command.param];
         if (typeof callback !== 'function') {
             throw new Error(`Callback ${command.param} is not defined`);
         }
-        callback(zElement, command.value);
+        callback(zElement, detail);
     }
 
     #cmdEvent(zElement, command) {
-        const event = new CustomEvent(command.param, { detail: command.value, bubbles: true, cancelable: true, composed: false });
+        const detail = {
+            "value": command.value,
+            "data": this.#vars
+        };
+        const event = new CustomEvent(command.param, { detail: detail, bubbles: true, cancelable: true, composed: false });
         zElement.dispatchEvent(event);
     }
 

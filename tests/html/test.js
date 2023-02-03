@@ -13,11 +13,11 @@ if (!headerVars.bundle) {
 const callbacks = {
     onTest1: (element, test1) => {
         console.log('onTest1', element, test1);
-        element.setAttribute('data-test1', test1);
+        element.setAttribute('data-test1', JSON.stringify(test1));
     },
     onTest2: (element, test2) => {
         console.log('onTest2', element, test2);
-        element.setAttribute('data-test2', test2);
+        element.setAttribute('data-test2', JSON.stringify(test2));
     },
 };
 
@@ -55,13 +55,13 @@ $('#tests')
 document.querySelector('#tests')
     .addEventListener('test1', (event) => {
         console.log('EVENT Native test1', event);
-        event.target.setAttribute('data-event-test1', event.detail);
+        event.target.setAttribute('data-event-test1', JSON.stringify(event.detail));
     }, false);
 
 document.querySelector('#tests')
     .addEventListener('test2', (event) => {
         console.log('EVENT Native test2', event);
-        event.target.setAttribute('data-event-test2', event.detail);
+        event.target.setAttribute('data-event-test2', JSON.stringify(event.detail));
     }, false);
 
 document.querySelectorAll('#tests > li > *:first-child')

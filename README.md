@@ -416,9 +416,13 @@ Result:
 
 ### Fire Javascript Event
 
-Use the "event" action in the "z-var" attribute to trigger a
-JavaScript event on the current element and pass the value of the
-"VALUE" as the detail parameter to the event. 
+To trigger a JavaScript event on an element, you can use the "event"
+action in the "z-var" attribute. This action passes an detail
+object as the event's detail property, which contains two properties:
+data and value.
+
+- data: The data property holds the current value of the variables.
+- value: The value property contains the value of the command that triggered the event.
 
 Syntax:
 
@@ -433,7 +437,7 @@ Example:
     <script>
         document.querySelector('div')
             .addEventListener('my-event', function(event) {
-                console.log('EVENT', event.target, event.detail);
+                console.log('EVENT', event.target, event.detail.value);
             });
         zTemplate(document.querySelector('div'), {"foo": "bar"});
     </script>
@@ -465,6 +469,12 @@ values of variables.
 
 The list of callbacks is passed as a third argument to `zTemplate` function.
 
+The callback function is called with the following arguments:
+- `element`: The element that triggered the event.
+- `detail`: The detail object passed to the event. It contains two properties:
+    - `data`: The data property holds the current value of the variables.
+    - `value`: The value property contains the value of the command that triggered the event.
+
 Syntax:
 
     VALUE call CALLBACK_NAME [ CONDITION ]
@@ -476,8 +486,8 @@ Syntax sugar:
 Example:
     
         <script>
-            function myCallback(element, value) {
-                console.log('CALLBACK', element, value);
+            function myCallback(element, detail) {
+                console.log('CALLBACK', element, detail);
             }
             zTemplate(
                 document.querySelector('div'),
@@ -488,14 +498,14 @@ Example:
         <div z-var="foo call myCallback"></div>
         <div z-var="foo call myCallback2 {baz == 23 && foo = 'bar'}"></div>
 
-In the example above, the `myCallback` function
-will be called with the value of the `foo` variable as the second
-parameter and the element as the first parameter. The `myCallback2` will
-only be called if `baz` is equal to `23` and `foo` is equal to `"bar"`. Both
-the element and the `foo` variable value will be passed to the function,
-giving you full control over the HTML UI. This feature opens up
-endless possibilities for you to enhance your UI, providing even more
-flexibility and control over your data-driven UI.
+In the example above, the `myCallback2` will only be called if `baz`
+is equal to `23` and `foo` is equal to `"bar"`. Both the element and
+detail object will be passed to the function, giving you full control
+over the HTML UI.
+
+This feature opens up endless possibilities for you to enhance your
+UI, providing even more flexibility and control over your data-driven
+UI.
 
 ## Lists, Contexts, and Scopes
 
