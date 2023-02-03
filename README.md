@@ -24,6 +24,8 @@ layout without any risk of disrupting your work. Don't let the fear of
 layout changes hold you back any longer, try our javascript templating
 library today and experience the freedom and flexibility it offers!*
 
+Note: Z Template ➋ is fully compatible with Z Template ➊
+
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
