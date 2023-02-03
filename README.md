@@ -24,8 +24,6 @@ layout without any risk of disrupting your work. Don't let the fear of
 layout changes hold you back any longer, try our javascript templating
 library today and experience the freedom and flexibility it offers!*
 
-Note: Z Template ➋ is fully compatible with Z Template ➊
-
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
@@ -726,6 +724,7 @@ Any value can be converted into boolean by enclosing it in curly braces or by pr
 
 ## Closing Notes
 
+- Z Template ➋ is fully compatible with previous versions.
 - All examples are simplified. In real life, the example results may contain special attributes, classes, and `<template>` tags that were not mentioned for the sake of simplicity.
 - All contributions are welcome. Please submit a pull request or open an issue.
 - Should any part of this documentation be unclear, please open an issue with a clarification request or suggestion.
