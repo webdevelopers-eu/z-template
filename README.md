@@ -737,7 +737,7 @@ templates as strings and are prone to XSS and unescaped text, we rely
 on portable DOM manipulation and powerful XPath selectors, eliminating
 these vulnerabilities and many other problems.
 
-Our use of HTML 5 `<template>` tags and z-var attributes also provide a
+Our use of HTML 5 `<template>` tags and `z-var` attributes also provide a
 clean and organized view in the browser, with templating instructions
 remaining invisible until parsed and applied to data.
 
