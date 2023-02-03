@@ -1,3 +1,7 @@
+*Previously referred to as **jQuery DNA Template**, this is a complete
+overhaul of the original with no reliance on jQuery, but retains full
+compatibility with its predecessor.*
+
 **In just 15 minutes, you'll be able to effortlessly turn your JSON or
 any other data into organized and structured HTML code.** This
 essential tool is a must-have for any developer looking to streamline
