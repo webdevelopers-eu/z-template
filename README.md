@@ -1,5 +1,4 @@
-Unleash the full potential of your data with this user-friendly
-templating system! **In just 15 minutes, you'll be able to effortlessly
+**In just 15 minutes, you'll be able to effortlessly
 turn your JSON or any other data into visually appealing HTML
 pages.** This essential tool is a must-have for any developer looking to
 streamline their data presentation process.
