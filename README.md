@@ -3,7 +3,7 @@ any other data into organized and structured HTML code.** This
 essential tool is a must-have for any developer looking to streamline
 their data presentation process.
 
-# Z Template
+# Z Template 2.0
 
 *Transform your UI development with ease! Our battle-tested templating
 library, fine-tuned over the past 6 years through real-life use on
