@@ -36,6 +36,18 @@
                 [<article>EXPECTED OUTPUT. IF MISSING OLD $.template() WILL BE USED TO GENERATE IT</article>]
             </li>
         -->
+        <li data='{"foo": [1, 2, 3], "bar": {"a": 1, "b": 2, "c": 3}}'>
+            <article>
+                <div z-var="'Hello world!' text {foo}"></div>
+                <div z-var="'Hello world!' text {foo && bar.b == 2}"></div>
+                <div z-var="'&lt;h1&gt;Hello world!&lt;/h1&gt;' html {foo == 3}"></div>
+            </article>
+            <article>
+                <div z-var="'Hello world!' text {foo}">Hello world!</div>
+                <div z-var="'Hello world!' text {foo && bar.b == 2}">Hello world!</div>
+                <div z-var="'&lt;h1&gt;Hello world!&lt;/h1&gt;' html {foo == 3}"><h1>Hello world!</h1></div>
+            </article>
+        </li>
         <li data='{"foo": [1, 2, 3]}'>
             <article>
                 <div z-var="{foo == 3} class three">?</div>
@@ -201,6 +213,11 @@
                 <input type="checkbox" z-var="isEnabled @checked"/>
                 <input type="checkbox" z-var="!isEnabled @checked"/>
                 <input type="checkbox" z-var="!!isEnabled @checked"/>
+            </article>
+            <article template-scope="test">
+                <input type="checkbox" z-var="isEnabled @checked" checked="checked"/>
+                <input type="checkbox" z-var="!isEnabled @checked"/>
+                <input type="checkbox" z-var="!!isEnabled @checked" checked="checked"/>
             </article>
         </li>
         <li data='{"sub": {"foo": "bar", "baz": "boo"}}'>
