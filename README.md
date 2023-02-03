@@ -730,35 +730,33 @@ Any value can be converted into boolean by enclosing it in curly braces or by pr
 
 ### Why These Design Decisions?
 
-The unique "z-var" attribute ensures maximum versatility and
-durability, as it remains intact during repeated application of
-templates to the same element.
-
-The syntax vocabulary and the code has been carefully crafted to
-ensure that the Z Template engine can be effortlessly translated into
-any language. The JavaScript implementation is just one demonstration
-of its boundless possibilities, and it can be effortlessly adapted to
-other languages possibly through transpilation.
-
-This implementation leverages XPath rather than CSS selectors, making
-it adaptable to any language that supports XPath and DOM.
-
 Our templating solution stands out from the rest by utilizing DOM
-manipulation techniques rather than treating templates as strings like
-other template engines. This approach ensures full HTML/XML
-compatibility and eliminates vulnerabilities such as XSS and unescaped
-text commonly found in string-based systems.
+manipulation techniques, making it the best choice for HTML/XML
+compatibility and security. Unlike other template engines that treat
+templates as strings and are prone to XSS and unescaped text, we rely
+on DOM manipulation and XPath selectors, eliminating these
+vulnerabilities.
 
-Our use of HTML 5 `<template>` tags and `z-var` attributes also provides a
+Our use of HTML 5 `<template>` tags and z-var attributes also provide a
 clean and organized view in the browser, with templating instructions
 remaining invisible until parsed and applied to data.
 
 Our focus on DOM manipulation not only provides greater security, but
-also results in a faster and more efficient template engine. And with
-our specially crafted COMMAND syntax, developers can easily create
-beautiful and functional interfaces with ease. The syntax is intuitive
-and language-independent, making it simple to translate into any
-language.
+also results in a faster and more efficient template engine. And, with
+our specially crafted `COMMAND` syntax, developers can easily create
+beautiful and functional interfaces. Unlike other solutions that use
+generic javascript syntax, our syntax was built specifically for HTML
+manipulation, making it simpler and easier to understand.
+
+The unique "z-var" attribute ensures maximum versatility and
+durability, as it remains intact during repeated application of
+templates to the same element.
+
+Our syntax vocabulary and code have been carefully crafted to ensure
+that the Z Template engine can be effortlessly translated into any
+language. The JavaScript implementation is just one demonstration of
+its boundless possibilities, and it can be adapted to other languages,
+possibly through transpilation.
 
 ### The Rest
 - Z Template ➋ is fully compatible with previous versions.
