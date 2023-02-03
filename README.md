@@ -52,7 +52,7 @@ library today and experience the freedom and flexibility it offers!*
         - [Contexts](#contexts)
         - [Scopes](#scopes)
     - [Boolean Conversion](#boolean-conversion)
-    - [Closing Notes](#closing-notes)
+    - [Final Notes](#final-notes)
         - [Why these design choices?](#why-these-design-choices)
         - [The Rest](#the-rest)
 
@@ -723,7 +723,7 @@ The value is converted to a boolean as follows:
 
 Any value can be converted into boolean by enclosing it in curly braces or by prefixing it with "!!" symbols. Example: `{foo}`, `!!foo`.
 
-## Closing Notes
+## Final Notes
 
 ### Why these design choices?
 
