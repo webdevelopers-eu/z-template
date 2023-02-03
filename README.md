@@ -722,14 +722,7 @@ The value is converted to a boolean as follows:
 
 Any value can be converted into boolean by enclosing it in curly braces or by prefixing it with "!!" symbols. Example: `{foo}`, `!!foo`.
 
-## Closing Notes
-
-- Z Template ➋ is fully compatible with previous versions.
-- All examples are simplified. In real life, the example results may contain special attributes, classes, and `<template>` tags that were not mentioned for the sake of simplicity.
-- All contributions are welcome. Please submit a pull request or open an issue.
-- Should any part of this documentation be unclear, please open an issue with a clarification request or suggestion.
-
-### Why these design choices?
+## Why these design choices?
 
 The unique "z-var" attribute ensures maximum versatility and
 durability, as it remains intact during repeated application of
@@ -743,3 +736,29 @@ other languages possibly through transpilation.
 
 This implementation leverages XPath rather than CSS selectors, making
 it adaptable to any language that supports XPath and DOM.
+
+Our templating solution stands out from the rest by utilizing DOM
+manipulation techniques rather than treating templates as strings like
+other template engines. This approach ensures full HTML/XML
+compatibility and eliminates vulnerabilities such as XSS and unescaped
+text commonly found in string-based systems.
+
+Our use of HTML 5 `<template>` tags and `z-var` attributes also provides a
+clean and organized view in the browser, with templating instructions
+remaining invisible until parsed and applied to data.
+
+Our focus on DOM manipulation not only provides greater security, but
+also results in a faster and more efficient template engine. And with
+our specially crafted COMMAND syntax, developers can easily create
+beautiful and functional interfaces with ease. The syntax is intuitive
+and language-independent, making it simple to translate into any
+language.
+
+## Closing Notes
+
+- Z Template ➋ is fully compatible with previous versions.
+- All examples are simplified. In real life, the example results may contain special attributes, classes, and `<template>` tags that were not mentioned for the sake of simplicity.
+- All contributions are welcome. Please submit a pull request or open an issue.
+- Should any part of this documentation be unclear, please open an issue with a clarification request or suggestion.
+
+
