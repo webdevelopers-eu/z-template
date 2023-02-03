@@ -183,7 +183,7 @@ Here's what each part of the syntax means:
     - The `!!` operator is used to convert a value to a boolean.
     - The boolean `VALUE` can be utilized to either [display or hide](#toggle-visibility) an element, [add or remove CSS classes](#toggle-css-class), or set the [boolean attribute](#insert-attribute), such as `checked` or `disabled`, of an element.
 - The `ACTION` can be one of the following: `attr ATTR_NAME`, `class CLASS_NAME`, `call CALLBACK_NAME`, `event EVENT_NAME`, `text`, `html`, `value`, `toggle`, or `remove`.
-- The `CONDITION` is an expression in curly braces. Expressions can be nested within parentheses. Supported operators in the expression are `==`, `!=`, `>`, `<`, `>=`, `<=`, `&&`, and `||`. Examples: `{foo == 'bar'}`, `{foo == 'bar' || foo == 'baz'}`, `{foo == 'bar' && (foo == 'baz' || foo == 'qux')}`.
+- The *optional* `CONDITION` is an expression in curly braces. If the condition evaluates to `true`, the action will be applied. If the condition evaluates to `false`, the action will be ignored. Supported operators in the expression are `==`, `!=`, `>`, `<`, `>=`, `<=`, `&&`, and `||`. Examples: `{foo == 'bar'}`, `{foo == 'bar' || foo == 'baz'}`, `{foo == 'bar' && (foo == 'baz' || foo == 'qux')}`.
     - Note that all the values get [converted into scalar values](#values) before comparison in a way that Arrays and Objects convert into a number of their elements. For example, `{"foo": [1, 2, 3]}` input to `foo == 3` evaluates to `true`.
 
 ### Examples
