@@ -713,17 +713,26 @@ Note: The `z-scope-children` is equivalent to `template-scope`
 attribute from the previous version 1.0. The current version is
 backward compatible and supports both attributes.
 
-## Boolean Conversion
+## Typecasting
+
+### Boolean
 
 The value is converted to a boolean as follows:
 
-* If the value is a boolean, it is returned as is.
-* If the value is a number, it is converted to a boolean where 0 is false and all other numbers are true.
-* If the value is a string, it is converted to a boolean where the empty string is false and all other strings are true.
-* If the value is an object, it is converted to a boolean if the object has no properties.
-* If the value is an array, it is converted to a boolean if the array has no elements.
+* If the value is a `boolean`, it is returned as is.
+* If the value is a `number`, it is converted to a boolean where 0 is false and all other numbers are true.
+* If the value is a `string`, it is converted to a boolean where the empty string is false and all other strings are true.
+* If the value is an `object`, it is converted to a boolean if the object has no properties.
+* If the value is an `array`, it is converted to a boolean if the array has no elements.
 
 Any value can be converted into boolean by enclosing it in curly braces or by prefixing it with "!!" symbols. Example: `{foo}`, `!!foo`.
+
+### Values
+
+The expressions convert values into scalar values before being evaluated. To convert more complex types following rules are used:
+
+* If the value is a `plain object`, the count of properties is used.
+* If the value is an `array`, the length of the array is used.
 
 ## Choose Z Template Over Other Solutions
 
