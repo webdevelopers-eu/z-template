@@ -36,6 +36,42 @@
                 [<article>EXPECTED OUTPUT. IF MISSING OLD $.template() WILL BE USED TO GENERATE IT</article>]
             </li>
         -->
+        <li data='{"foo": [{"name": "item1", "bar": ["baz", "qux"]}, {"name": "item2", "bar": ["quux", "quuz"]}]}'>
+            <article>
+                <ol>
+                    <template template="[foo]">
+                        <li>
+                            <b z-var="name text"></b>
+                            <ol>
+                                <template template="[bar]"><li z-var="value text"></li></template>
+                            </ol>
+                        </li>
+                    </template>
+                </ol>
+            </article>
+            <article>
+                <ol>
+                    <li class="template-clone" template-clone="[foo]" template-clone-pos="1">
+                            <b z-var="name text">item1</b>
+                            <ol>
+                                <li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="1">baz</li><li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="2">qux</li><template template="[bar]"><li z-var="value text"></li></template>
+                            </ol>
+                        </li><li class="template-clone" template-clone="[foo]" template-clone-pos="2">
+                            <b z-var="name text">item2</b>
+                            <ol>
+                                <li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="1">quux</li><li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="2">quuz</li><template template="[bar]"><li z-var="value text"></li></template>
+                            </ol>
+                        </li><template template="[foo]">
+                        <li>
+                            <b z-var="name text"></b>
+                            <ol>
+                                <template template="[bar]"><li z-var="value text"></li></template>
+                            </ol>
+                        </li>
+                    </template>
+                </ol>
+            </article>
+        </li>
         <li data='{"isEnabled": true}'>
             <article z-scope-children="test" z-var="isEnabled .test-enabled">
                 <input type="checkbox" z-var="!!isEnabled @checked"/>

@@ -514,9 +514,15 @@ UI.
 Z Template supports lists and loops. You can use the
 `template="[VAR_NAME]"` attribute to specify a list of items to be
 rendered. The `VAR_NAME` is the name of the variable that contains the
-list of items. The list can be an array or an object. If it is an
-object, it will be converted into an array of objects, where each
-object has a `key` and `value` property.
+list of items. The list can be an array or an object. 
+
+If it is an object, it will be converted into an array of objects,
+where each object has a `key` and `value` property.
+
+If the array is a list of scalar values, it will be converted into an
+array of objects, where each object has a `key` and `value` property,
+where the `key` is the index of the item in the array and the `value`
+is the value of the item.
 
 The template will be repeated for each item in the list.
 
@@ -539,6 +545,73 @@ Result:
         <li>baz</li>
         <li>qux</li>
         <template template="[foo]"><li z-var="value text"></li></template>
+    </ol>
+
+Of course, you can use more complex lists containing objects:
+
+    <script>
+        zTemplate(
+            document.querySelector('ol),
+            {"foo": [{"bar": "baz"}, {"bar": "qux"}]}
+        );
+    </script>
+    <ol>
+        <template template="[foo]"><li z-var="bar text"></li></template>
+    </ol>
+
+Result:
+
+    <ol>
+        <li>baz</li>
+        <li>qux</li>
+        <template template="[foo]"><li z-var="bar text"></li></template>
+    </ol>
+
+The lists can of course contain other lists so you can create
+hierarchical lists:
+
+    <script>
+        zTemplate(
+            document.querySelector('ol),
+            {"foo": [{"name": "item1", "bar": ["baz", "qux"]}, {"name": "item2", "bar": ["quux", "quuz"]}]}
+        );
+    </script>
+    <ol>
+        <template template="[foo]">
+            <li>
+                <b z-var="name text"></b>
+                <ol>
+                    <template template="[bar]"><li z-var="value text"></li></template>
+                </ol>
+            </li>
+        </template>
+    </ol>
+
+Result:
+
+    <ol>
+        <li>
+            <b>item1</b>
+            <ol>
+                <li>baz</li>
+                <li>qux</li>
+            </ol>
+        </li>
+        <li>
+            <b>item2</b>
+            <ol>
+                <li>quux</li>
+                <li>quuz</li>
+            </ol>
+        </li>
+        <template template="[foo]">
+            <li>
+                <b z-var="name text"></b>
+                <ol>
+                    <template template="[bar]"><li z-var="value text"></li></template>
+                </ol>
+            </li>
+        </template>
     </ol>
 
 ### Contexts
