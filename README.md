@@ -27,7 +27,7 @@ library today and experience the freedom and flexibility it offers!*
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
-- [Z Template](#z-template)
+- [Z Template ➋](#z-template-➋)
     - [Features](#features)
     - [Quick Introduction](#quick-introduction)
     - [Usage](#usage)
@@ -52,8 +52,8 @@ library today and experience the freedom and flexibility it offers!*
         - [Contexts](#contexts)
         - [Scopes](#scopes)
     - [Boolean Conversion](#boolean-conversion)
+    - [Why these design choices?](#why-these-design-choices)
     - [Closing Notes](#closing-notes)
-        - [Why these design choices?](#why-these-design-choices)
 
 <!-- markdown-toc end -->
 
@@ -722,7 +722,9 @@ The value is converted to a boolean as follows:
 
 Any value can be converted into boolean by enclosing it in curly braces or by prefixing it with "!!" symbols. Example: `{foo}`, `!!foo`.
 
-## Why these design choices?
+## Closing Notes
+
+### Why these design choices?
 
 The unique "z-var" attribute ensures maximum versatility and
 durability, as it remains intact during repeated application of
@@ -754,8 +756,7 @@ beautiful and functional interfaces with ease. The syntax is intuitive
 and language-independent, making it simple to translate into any
 language.
 
-## Closing Notes
-
+### The Rest
 - Z Template ➋ is fully compatible with previous versions.
 - All examples are simplified. In real life, the example results may contain special attributes, classes, and `<template>` tags that were not mentioned for the sake of simplicity.
 - All contributions are welcome. Please submit a pull request or open an issue.
