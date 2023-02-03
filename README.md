@@ -32,6 +32,7 @@ Are you curious what is so special about our library? Check out the
 
 - [Z Template ➋](#z-template-➋)
     - [Features](#features)
+    - [Choose Z Template Over Other Solutions](#choose-z-template-over-other-solutions)
     - [Quick Introduction](#quick-introduction)
     - [Usage](#usage)
         - [Javascript](#javascript)
@@ -57,7 +58,6 @@ Are you curious what is so special about our library? Check out the
     - [Typecasting](#typecasting)
         - [Boolean](#boolean)
         - [Values](#values)
-    - [Choose Z Template Over Other Solutions](#choose-z-template-over-other-solutions)
     - [Final Notes](#final-notes)
 
 <!-- markdown-toc end -->
