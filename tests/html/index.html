@@ -36,6 +36,18 @@
                 [<article>EXPECTED OUTPUT. IF MISSING OLD $.template() WILL BE USED TO GENERATE IT</article>]
             </li>
         -->
+        <li data='{"foo": {"bar": [1, 2, 3]}}'>
+            <article>
+                <template template="[foo.bar]">
+                    <div z-var="value text"></div>
+                </template>
+            </article>
+            <article>
+                <div z-var="value text" class="template-clone" template-clone="[foo.bar]" template-clone-pos="1">1</div><div z-var="value text" class="template-clone" template-clone="[foo.bar]" template-clone-pos="2">2</div><div z-var="value text" class="template-clone" template-clone="[foo.bar]" template-clone-pos="3">3</div><template template="[foo.bar]">
+                    <div z-var="value text"></div>
+                </template>
+            </article>
+        </li>
         <li data='{"foo": [1, 2, 3], "bar": {"a": 1, "b": 2, "c": 3}}'>
             <article>
                 <div z-var="'Hello world!' text {foo}"></div>
