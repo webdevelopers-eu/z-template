@@ -86,7 +86,11 @@ class Template {
         }
 
         const value = this.#getVariableValue(templateName);
-        const list = template.substr(0, 1) == '{' ? [value] : Array.from(value);
+        let list = template.substr(0, 1) == '{' ? [value] : Array.from(value);
+        if (typeof list[Symbol.iterator] !== 'function') {
+            console.warn("Template value %s is not iterable on %o. The referenced value is %o", templateName, zTemplate, value);
+            list = [];
+        }
         const clones = this.#getTemplateClones(zTemplate, list.length);
 
         for (let i = 0; i < list.length; i++) {
