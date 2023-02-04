@@ -137,7 +137,7 @@ powerful [actions](#actions) feature. Check out the complete list to
 discover all the ways you can make your UI dynamic and interactive.
 
 If you're interested in trying out the library, you can 
-[experiment with it on CodePen](https://codepen.io/webdevelopers/pen/vYabQNL?editors=1010).
+[experiment with it on CodePen](https://codepen.io/webdevelopers/full/vYabQNL).
 
 ## Usage
 
