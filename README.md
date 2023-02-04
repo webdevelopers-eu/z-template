@@ -67,6 +67,7 @@ Are you curious what is so special about our library? Check out the
         - [Animating Changed Elements](#animating-changed-elements)
         - [Other Animations](#other-animations)
     - [Choose Z Template Over Other Solutions](#choose-z-template-over-other-solutions)
+    - [Shape The Future of Z Template](#shape-the-future-of-z-template)
     - [Final Notes](#final-notes)
 
 <!-- markdown-toc end -->
@@ -883,6 +884,20 @@ depend on any external dependencies, ensuring that it won't break due
 to updates or changes in other libraries. Our solution uses only fully
 supported and widely-accepted W3C standards, making it a stable and
 future-proof choice that will never become outdated.
+ 
+## Shape The Future of Z Template
+
+We are always working to improve Z Template and add new features to
+make it even more powerful. Here are some ideas we thought of, but we
+would love to hear your suggestions for additional features. Please
+let us know what you think and what you would like to see in future.
+
+- [ ] Support for updating values through a custom callback function:
+      `VALUE update CALLBACK_NAME [CONDITION]`. It would allow for
+      custom Javascript-driven content update animations or
+      complex/special formatting of changing content, such as rolling
+      numbers or special formats for currencies and dates. The callback
+      would be called as follows `CALLBACK_NAME(ELEMENT, VALUE, DATA)`.
 
 ## Final Notes
 - Z Template ➋ is fully compatible with previous versions.
