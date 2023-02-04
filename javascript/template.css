@@ -1,3 +1,7 @@
+:root {
+    --z-anim-speed: 0.5s;
+}
+
 .z-template-hidden,
 .dna-template-hidden,
 [template] {
@@ -5,21 +9,43 @@
 }
 
 /* Nonessential */
-*[z-content-rev],
-*[template-clone],
-.z-template-visible,
-.dna-template-visible {
-    animation: z-template-visible var(--z-anim-speed, 0.5s);
-    animation-timing-function: ease-in;
+/* Using :where() because of 0 specificity */
+*:where([z-content-rev], .z-fade-in, .dna-template-visible) {
+    animation-name: z-fade-in;
+    animation-easing: ease-in;
+    animation-duration: var(--z-anim-speed, 0.5s);
     animation-fill-mode: none;
 }
-@keyframes z-template-visible {
+
+*:where([template-clone]) {
+    animation-name: z-slide-in;
+    animation-easing: ease-in;
+    animation-duration: var(--z-anim-speed, 0.5s);
+    animation-fill-mode: none;
+}
+
+@keyframes z-fade-in {
     0% {
 	opacity: 0;
-	transform: blur(1em);
     }
     100% {
 	opacity: 1;
-	transform: blur(0em);
+    }
+}
+
+@keyframes z-slide-in {
+    0% {
+	opacity: 0;
+        transform: translateY(2em);
+    }
+    25% {
+        opacity: 0.1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    75% {
+	opacity: 1;
+        transform: translateY(0px);
     }
 }

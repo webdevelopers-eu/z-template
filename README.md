@@ -61,6 +61,11 @@ Are you curious what is so special about our library? Check out the
     - [Typecasting](#typecasting)
         - [Boolean](#boolean)
         - [Values](#values)
+    - [CSS Tricks](#css-tricks)
+        - [Disabling Default Animations](#disabling-default-animations)
+        - [Animating New List Items](#animating-new-list-items)
+        - [Animating Changed Elements](#animating-changed-elements)
+        - [Other Animations](#other-animations)
     - [Choose Z Template Over Other Solutions](#choose-z-template-over-other-solutions)
     - [Final Notes](#final-notes)
 
@@ -743,6 +748,75 @@ The expressions convert values into scalar values before being evaluated. To con
 
 * If the value is a `plain object`, the count of properties is used.
 * If the value is an `array`, the length of the array is used.
+
+## CSS Tricks
+
+### Disabling Default Animations
+
+There are two default animations defined in `template.css`. Fade-in
+animation for changed elements and slide-in animation for new list
+elements. If you prefer to disable it, simply set the `--z-anim-speed`
+CSS variable to `0` in either the HTML element or the CSS.
+
+    <style>
+        .my-list {
+            --z-anim-speed: 0;
+        }
+    </style>
+   
+    <ol class="my-list" style="--z-anim-speed: 0">...</ol>
+
+### Animating New List Items
+
+Experience a smooth and seamless slide-in animation for new list items
+by default with Z Template. Customize your animation to your heart's
+desire. Simply apply it to the `*[template-clone]` selector in your
+CSS. Here's an example:
+
+    <style>
+        .my-list *[template-clone] {
+            animation: my-animation 1s;
+        }
+    </style>
+   
+    <ol class="my-list">...</ol>
+
+### Animating Changed Elements
+
+With Z Template, whenever an element's contents change as a result of
+processing the z-var command, the element is assigned a new
+incremental z-content-rev attribute that triggers the default fade-in
+animation defined in template.css. 
+
+This can easily be customized to fit your desired animation by using the attribute
+
+Here's an example:
+
+    <style>
+        .my-list *[z-content-rev] {
+            animation: my-animation 1s;
+        }
+    </style>
+    
+    <ol class="my-list">...</ol>
+
+### Other Animations
+
+Unleash your creativity and add any desired animation to your
+application with Z Template's [CSS class toggle](#toggle-css-class) or
+[insert attribute](#insert-attribute) commands.  Here's how:
+
+    <style>
+        .animate-alert {
+            animation: my-alert-animation 1s;
+        }
+    </style>
+    
+    <div z-var="{isNew && severity == 'danger'} class animate-alert">...</div>
+
+Z Template values your design preferences and offers a flexible
+platform, without imposing restrictive styling, so that you can design
+your application exactly as you envision it.
 
 ## Choose Z Template Over Other Solutions
 
