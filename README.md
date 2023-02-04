@@ -136,6 +136,9 @@ set the value of a web form's input control? It's as easy as
 powerful [actions](#actions) feature. Check out the complete list to
 discover all the ways you can make your UI dynamic and interactive.
 
+If you're interested in trying out the library, you can 
+[experiment with it on CodePen](https://codepen.io/webdevelopers/pen/vYabQNL?editors=0010).
+
 ## Usage
 
 ### Javascript
