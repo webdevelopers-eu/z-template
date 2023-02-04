@@ -418,6 +418,7 @@ class Template {
         let value = this.#vars;
         for (let i = 0; i < parts.length; i++) {
             if (typeof value[parts[i]] === 'undefined') {
+                console.warn("Can't find variable " + variable + " in data source %o", this.#vars);
                 return null;
             }
             value = value[parts[i]];
