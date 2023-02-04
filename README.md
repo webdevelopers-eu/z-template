@@ -757,10 +757,13 @@ self-sufficient templating engine that gets the job done and stays
 put.
 
 Z Template stands out from the crowd with its focus on a select number
-of carefully crafted DOM manipulation features that meet all your design
-requirements. We don't aim to be a jack-of-all-trades; instead, our
-decades of experience in web development have taught us what you need
-and what you don't, ensuring that we deliver only what truly matters.
+of carefully crafted DOM manipulation features that meet all your
+design requirements. We don't aim to be a jack-of-all-trades; instead,
+our decades of experience in web development have taught us what you
+need and what you don't, ensuring that we deliver only what truly
+matters.  With 6 years of steady development and a laser-focus on
+building HTML UI from JSON data, Z Template is the most stable and
+feature-complete option for web developers.
 
 With its steadfast use of W3C-endorsed techniques like DOM
 manipulation and XPath, Z Template sets itself apart as a superior
