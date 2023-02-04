@@ -788,7 +788,8 @@ processing the z-var command, the element is assigned a new
 incremental z-content-rev attribute that triggers the default fade-in
 animation defined in template.css. 
 
-This can easily be customized to fit your desired animation by using the attribute
+This can easily be customized to fit your desired animation by using
+the attribute `z-content-rev`.
 
 Here's an example:
 
@@ -799,6 +800,10 @@ Here's an example:
     </style>
     
     <ol class="my-list">...</ol>
+
+Technical note: *The `z-content-rev` attribute is temporarily removed and
+added back to the element, thereby prompting a change in the DOM and
+restarting the animation.*
 
 ### Other Animations
 
