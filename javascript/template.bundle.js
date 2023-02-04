@@ -537,7 +537,8 @@ class Template {
             throw new Error(`Template "${templateName}" not found (attr template="${template}")`);
         }
 
-        const list = template.substr(0, 1) == '{' ? [this.#vars[templateName]] : Array.from(this.#vars[templateName]);
+        const value = this.#getVariableValue(templateName);
+        const list = template.substr(0, 1) == '{' ? [value] : Array.from(value);
         const clones = this.#getTemplateClones(zTemplate, list.length);
 
         for (let i = 0; i < list.length; i++) {
@@ -860,6 +861,20 @@ class Template {
         default:
             return null;
         }
+    }
+
+    #getVariableValue(variable) {
+        // Split the variable into parts separated by dot and get the corresponding value from this.#vars object.
+        // Example: "user.name" => this.#vars.user.name
+        const parts = variable.split('.');
+        let value = this.#vars;
+        for (let i = 0; i < parts.length; i++) {
+            if (typeof value[parts[i]] === 'undefined') {
+                return null;
+            }
+            value = value[parts[i]];
+        }
+        return value;
     }
 }
 
