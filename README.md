@@ -801,9 +801,9 @@ Here's an example:
     
     <ol class="my-list">...</ol>
 
-Technical note: *The `z-content-rev` attribute is temporarily removed and
+*Technical note*: The `z-content-rev` attribute is temporarily removed and
 added back to the element, thereby prompting a change in the DOM and
-restarting the animation.*
+restarting the animation on each content change.
 
 ### Other Animations
 
