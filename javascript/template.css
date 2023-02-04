@@ -5,6 +5,7 @@
 }
 
 /* Nonessential */
+*[z-content-rev],
 *[template-clone],
 .z-template-visible,
 .dna-template-visible {

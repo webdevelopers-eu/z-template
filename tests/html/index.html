@@ -43,7 +43,7 @@
                 </template>
             </article>
             <article>
-                <div z-var="value text" class="template-clone" template-clone="[foo.bar]" template-clone-pos="1">1</div><div z-var="value text" class="template-clone" template-clone="[foo.bar]" template-clone-pos="2">2</div><div z-var="value text" class="template-clone" template-clone="[foo.bar]" template-clone-pos="3">3</div><template template="[foo.bar]">
+                <div z-var="value text" class="template-clone" template-clone="[foo.bar]" template-clone-pos="1" z-content-rev="1">1</div><div z-var="value text" class="template-clone" template-clone="[foo.bar]" template-clone-pos="2" z-content-rev="1">2</div><div z-var="value text" class="template-clone" template-clone="[foo.bar]" template-clone-pos="3" z-content-rev="1">3</div><template template="[foo.bar]">
                     <div z-var="value text"></div>
                 </template>
             </article>
@@ -55,9 +55,9 @@
                 <div z-var="'&lt;h1&gt;Hello world!&lt;/h1&gt;' html {foo == 3}"></div>
             </article>
             <article>
-                <div z-var="'Hello world!' text {foo}">Hello world!</div>
-                <div z-var="'Hello world!' text {foo && bar.b == 2}">Hello world!</div>
-                <div z-var="'&lt;h1&gt;Hello world!&lt;/h1&gt;' html {foo == 3}"><h1>Hello world!</h1></div>
+                <div z-var="'Hello world!' text {foo}" z-content-rev="1">Hello world!</div>
+                <div z-var="'Hello world!' text {foo &amp;&amp; bar.b == 2}" z-content-rev="1">Hello world!</div>
+                <div z-var="'<h1>Hello world!</h1>' html {foo == 3}" z-content-rev="1"><h1>Hello world!</h1></div>
             </article>
         </li>
         <li data='{"foo": [1, 2, 3]}'>
@@ -79,8 +79,8 @@
                 <p z-var="address.street text {address.zip < 12340}"></p>
             </article>
             <article>
-                <p z-var="address.street text {address.zip == 12345}">123 Main St.</p>
-                <p z-var="address.street text {address.zip > 12340}">123 Main St.</p>
+                <p z-var="address.street text {address.zip == 12345}" z-content-rev="1">123 Main St.</p>
+                <p z-var="address.street text {address.zip > 12340}" z-content-rev="1">123 Main St.</p>
                 <p z-var="address.street text {address.zip < 12340}"></p>
             </article>
         </li>
@@ -98,20 +98,19 @@
                 </ol>
             </article>
             <article>
-
                 <ol>
                     <li class="template-clone" template-clone="[foo]" template-clone-pos="1">
-                            <b z-var="name text">item1</b>
+                            <b z-var="name text" z-content-rev="1">item1</b>
                             <ol z-var="!bar class hidden">
-                                <li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="1">baz</li><li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="2">qux</li><template template="[bar]"><li z-var="value text"></li></template>
+                                <li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="1" z-content-rev="1">baz</li><li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="2" z-content-rev="1">qux</li><template template="[bar]"><li z-var="value text"></li></template>
                             </ol>
                         </li><li class="template-clone" template-clone="[foo]" template-clone-pos="2">
-                            <b z-var="name text">item2</b>
+                            <b z-var="name text" z-content-rev="1">item2</b>
                             <ol z-var="!bar class hidden">
-                                <li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="1">quux</li><li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="2">quuz</li><template template="[bar]"><li z-var="value text"></li></template>
+                                <li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="1" z-content-rev="1">quux</li><li z-var="value text" class="template-clone" template-clone="[bar]" template-clone-pos="2" z-content-rev="1">quuz</li><template template="[bar]"><li z-var="value text"></li></template>
                             </ol>
                         </li><li class="template-clone" template-clone="[foo]" template-clone-pos="3">
-                            <b z-var="name text">item3</b>
+                            <b z-var="name text" z-content-rev="1">item3</b>
                             <ol z-var="!bar class hidden" class="hidden">
                                 <template template="[bar]"><li z-var="value text"></li></template>
                             </ol>
@@ -171,10 +170,10 @@
             </article>
             <article>
                 <ol>
-                    <li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="1">bar</li><li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="2">baz</li><li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="3">qux</li><li template="[foo]" z-var="value text"></li>
+                    <li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="1" z-content-rev="1">bar</li><li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="2" z-content-rev="1">baz</li><li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="3" z-content-rev="1">qux</li><li template="[foo]" z-var="value text"></li>
                 </ol>
                 <ol>
-                    <li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="1">bar</li><li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="2">baz</li><li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="3">qux</li><template template="[foo]"><li z-var="value text"></li></template>
+                    <li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="1" z-content-rev="1">bar</li><li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="2" z-content-rev="1">baz</li><li z-var="value text" class="template-clone" template-clone="[foo]" template-clone-pos="3" z-content-rev="1">qux</li><template template="[foo]"><li z-var="value text"></li></template>
                 </ol>
             </article>
         </li>
@@ -186,10 +185,10 @@
                 <p z-var="age text"></p>
             </article>
             <article>
-                <p z-var="address.street text">123 Main St.</p>
-                <p z-var="address.city text">Anytown</p>
-                <h1 z-var="name text">John Doe</h1>
-                <p z-var="age text">42</p>
+                <p z-var="address.street text" z-content-rev="1">123 Main St.</p>
+                <p z-var="address.city text" z-content-rev="1">Anytown</p>
+                <h1 z-var="name text" z-content-rev="1">John Doe</h1>
+                <p z-var="age text" z-content-rev="1">42</p>
             </article>
         </li>
         <li data='{"isEnabled": true}'>
@@ -199,16 +198,22 @@
                     <input type="checkbox" z-var="!!isEnabled @checked"/>
                 </div>
             </article>
-            <!-- <article> -->
-            <!--     <input type="checkbox" z-var="isEnabled @checked" template-scope="inherit" checked="checked"/> -->
-            <!--     <div template-scope="inherit"> -->
-            <!--         <input type="checkbox" z-var="!!isEnabled @checked" checked="checked"/> -->
-            <!--     </div> -->
-            <!-- </article> -->
+            <article>
+                <input type="checkbox" z-var="isEnabled @checked" template-scope="inherit" checked="checked"/>
+                <div template-scope="inherit">
+                    <input type="checkbox" z-var="!!isEnabled @checked" checked="checked"/>
+                </div>
+            </article>
         </li>
         <li data='{"isEnabled": true}'>
             <article>
                 <input type="checkbox" z-var="isEnabled @checked" template-scope="test"/>
+                <div template-scope="test">
+                    <input type="checkbox" z-var="!!isEnabled @checked"/>
+                </div>
+            </article>
+            <article>
+                <input type="checkbox" z-var="isEnabled @checked" template-scope="test" checked="checked"/>
                 <div template-scope="test">
                     <input type="checkbox" z-var="!!isEnabled @checked"/>
                 </div>
@@ -240,10 +245,10 @@
                 </template>
             </article>
             <article>
-                <h2 z-var="foo ." class="template-clone" template-clone="{sub}" template-clone-pos="1" z-var-content="Test ${foo}">Test bar</h2><p z-var="baz ." class="template-clone" template-clone="{sub}" template-clone-pos="1" z-var-content="Looping through a list #${baz}">Looping through a list #boo</p><template template="{sub}">
-                <h2 z-var="foo .">Test ${foo}</h2>
-                <p z-var="baz .">Looping through a list #${baz}</p>
-            </template>
+                <h2 z-var="foo ." class="template-clone" template-clone="{sub}" template-clone-pos="1" z-var-content="Test ${foo}" z-content-rev="1">Test bar</h2><p z-var="baz ." class="template-clone" template-clone="{sub}" template-clone-pos="1" z-var-content="Looping through a list #${baz}" z-content-rev="1">Looping through a list #boo</p><template template="{sub}">
+                    <h2 z-var="foo .">Test ${foo}</h2>
+                    <p z-var="baz .">Looping through a list #${baz}</p>
+                </template>
             </article>
         </li>
         <li data='{"list": [11,12,13,14]}'>
@@ -254,14 +259,15 @@
                 </template>
             </article>
             <article>
-                <h2 z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="1" z-var-content="Test ${value}">Test 11</h2><p z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="1" z-var-content="Looping through a list #${value}">Looping through a list #11</p><h2 z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="2" z-var-content="Test ${value}">Test 12</h2><p z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="2" z-var-content="Looping through a list #${value}">Looping through a list #12</p><h2 z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="3" z-var-content="Test ${value}">Test 13</h2><p z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="3" z-var-content="Looping through a list #${value}">Looping through a list #13</p><h2 z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="4" z-var-content="Test ${value}">Test 14</h2><p z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="4" z-var-content="Looping through a list #${value}">Looping through a list #14</p><template template="[list]">
-                <h2 z-var="value .">Test ${value}</h2>
-                <p z-var="value .">Looping through a list #${value}</p>
-            </template>
+                <h2 z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="1" z-var-content="Test ${value}" z-content-rev="1">Test 11</h2><p z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="1" z-var-content="Looping through a list #${value}" z-content-rev="1">Looping through a list #11</p><h2 z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="2" z-var-content="Test ${value}" z-content-rev="1">Test 12</h2><p z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="2" z-var-content="Looping through a list #${value}" z-content-rev="1">Looping through a list #12</p><h2 z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="3" z-var-content="Test ${value}" z-content-rev="1">Test 13</h2><p z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="3" z-var-content="Looping through a list #${value}" z-content-rev="1">Looping through a list #13</p><h2 z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="4" z-var-content="Test ${value}" z-content-rev="1">Test 14</h2><p z-var="value ." class="template-clone" template-clone="[list]" template-clone-pos="4" z-var-content="Looping through a list #${value}" z-content-rev="1">Looping through a list #14</p><template template="[list]">
+                    <h2 z-var="value .">Test ${value}</h2>
+                    <p z-var="value .">Looping through a list #${value}</p>
+                </template>
             </article>
         </li>
         <li data='{"name": "John Doe"}'>
             <article z-var="name @title, name .">???</article>
+            <article z-var="name @title, name ." title="John Doe" z-content-rev="1">John Doe</article>
         </li>
         <li data='{"magic": "is real"}'>
             <article>
@@ -325,6 +331,7 @@
         </li>
         <li data='{"name": "John Doe"}'>
             <article z-var="name @title, name ." title="Mr.${name}">Mr.${name}</article>
+            <article z-var="name @title, name ." title="Mr.John Doe" z-content-rev="1">Mr.John Doe</article>
         </li>
         <li data='{"isEnabled": true}'>
             <article>
@@ -335,6 +342,7 @@
         </li>
         <li data='{"message": "<b>Hello <i>world</i>!</b>"}'>
             <article z-var="message +"></article>
+            <article z-var="message +" z-content-rev="1"><b>Hello <i>world</i>!</b></article>
         </li>
         <li data='{"preference": "option-b"}'>
             <article>
@@ -354,7 +362,7 @@
             </article>
             <article>
                 <form>
-                    <select z-var="preference =">
+                    <select z-var="preference =" z-content-rev="1"/>
                         <option value="option-a">Option A</option>
                         <option value="option-b" selected="selected">Option B</option>
                         <option value="option-c">Option C</option>
@@ -364,14 +372,14 @@
                     <input type="radio" z-var="preference =" name="test-1252" value="option-b" checked="checked"/>
                     <input type="radio" z-var="preference =" name="test-1252" value="option-c"/>
                     <input type="checkbox" z-var="preference =" name="test-1252" value="option-b" checked="checked"/>
-                    <textarea z-var="preference =">option-b</textarea>
+                    <textarea z-var="preference =" z-content-rev="1"/>option-b</textarea>
                 </form>
             </article>
         </li>
 
         <li data='{"name": "John Doe"}'>
             <article z-var="name attr title, name text">???</article>
-            <article z-var="name attr title, name text" title="John Doe">John Doe</article>
+            <article z-var="name attr title, name text" title="John Doe" z-content-rev="1">John Doe</article>
         </li>
     </ol>
 
