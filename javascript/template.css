@@ -5,6 +5,7 @@
 }
 
 /* Nonessential */
+*[template-clone],
 .z-template-visible,
 .dna-template-visible {
     animation: z-template-visible var(--z-anim-speed, 0.5s);
