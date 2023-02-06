@@ -492,6 +492,11 @@ You can of course use more complex expressions to control the event firing. For 
 
 In this case, the event will be fired only if the value of the `foo` variable is equal to `"bar"`.
 
+Note that the callback arguments are enclosed in parentheses `(` and
+`)`, while boolean expressions such as `CONDITION` are enclosed in
+curly braces `{` and `}`.
+
+
 ### Custom Function Call
 
 With Z Template, you can even trigger custom callbacks based on the
