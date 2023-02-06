@@ -555,9 +555,10 @@ UI, providing even more flexibility and control over your data-driven
 UI.
 
 *💡 You can use this callback instead of `VALUE text` command to
-implement various effects when changing the text content of an
-element. E.g.  `z-var="message call animateText"`, where `animateText`
-is your custom function that animates the text change.*
+implement various effects or apply special formatting when changing
+the text content of an element. E.g.  `z-var="message call
+animateText"`, where `animateText` is your custom function that
+animates the text change.*
 
 ## Lists, Contexts, and Scopes
 
