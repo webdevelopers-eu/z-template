@@ -1,3 +1,17 @@
+/**
+ * This is a JavaScript callback function for the Z-Template plugin
+ * that creates a rolling letters effect, transforming one text into
+ * another by replacing each character one-by-one with a set speed and
+ * delay.
+ *
+ * It will register the "roller" as global default callback function.
+ *
+ * Using it like this:
+ *
+ * <element z-var="'some value' call roller">Original Value</element>
+ *
+ * You must include also zcall.roller.css in your page.
+ */
 zTemplate.callbacks
     .set('roller', function(element, detail) {
         const document = element.ownerDocument;
