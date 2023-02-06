@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Z Template Tests</title>
+        <link rel="stylesheet" type="text/css" href="../../javascript/template.css"/>
+        <script type="text/javascript" src="../../javascript/template.bundle.min.js"></script>
+        <script type="text/javascript" src="../../javascript/extra/zcall.roller.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../javascript/extra/zcall.roller.css"/>
+    </head>
+    <body>
+
+        <div id="test">
+            <h1 z-var="name call roller">Some Name Comes Here</h1>
+            <h1 z-var="name call roller">Name</h1>
+        </div>
+
+        <script type="text/javascript">
+            zTemplate(document.querySelector('#test'), {
+                name: 'John Doe',
+            });
+        </script>
+
+    </body>
+</html>
