@@ -449,6 +449,7 @@ data and value.
 Syntax:
 
     VALUE event EVENT_NAME [ CONDITION ]
+    VALUE event EVENT_NAME(...ARGUMENTS) [ CONDITION ]
 
 Syntax sugar:
 
@@ -459,20 +460,27 @@ Example:
     <script>
         document.querySelector('div')
             .addEventListener('my-event', function(event) {
-                console.log('EVENT', event.target, event.detail.value);
+                console.log('EVENT my-event fired on %o with info object %o', event.target, event.detail);
             });
-        zTemplate(document.querySelector('div'), {"foo": "bar"});
+        zTemplate(document.querySelector('div'), {"foo": "bar", "baz": [1,2,3]});
     </script>
-    <div z-var="foo event my-event"></div>
+    <div id="test1" z-var="foo event my-event"></div>
+    <div id="test2" z-var="foo event my-event(foo, baz == 3, 'Hello world!')"></div>
 
 
 The above code sets up an event listener for the `"my-event"` event on a
 `div` element. The zTemplate function is then called, passing in the
-`div` and an object with a `foo` property set to `"bar"`. Finally, the
-`z-var` attribute on the `div` element is set to `"foo event
-my-event"`. This means that the value of the "foo" property will be
-passed as the detail parameter to a `"my-event"` event triggered on the
-`div` element.
+`div` and an object with a `foo` property set to `"bar"`.
+
+Finally, the `z-var` attribute on the `div#test1` element is set to
+`"foo event my-event"`. This means that the value of the "foo"
+property will be passed as the detail parameter to a `"my-event"`
+event triggered on the `div` element.
+
+The `div#test2` element is similar, but the event is triggered with
+additional arguments. The arguments are passed in
+`event.detail.arguments` property of the event. You can use variable
+references, expressions, or texts as arguments.
 
 With this feature, you can add dynamic interactivity to your
 templates, allowing users to respond to changes in data, toggle
@@ -489,7 +497,12 @@ In this case, the event will be fired only if the value of the `foo` variable is
 With Z Template, you can even trigger custom callbacks based on the
 values of variables.
 
-The list of callbacks is passed as a third argument to `zTemplate` function.
+The list of callbacks is passed as a third argument to
+`zTemplate` function as an object with function names as keys and
+functions as values. Such list of callbacks is used only for the
+current call to `zTemplate` function. The callbacks are not stored
+anywhere and are not available for other calls to `zTemplate`. To add callbacks
+to the global list, use the `zTemplate.callbacks.set(NAME, FUNCTION)` function.
 
 The callback function is called with the following arguments:
 - `element`: The element that triggered the callback.
@@ -500,6 +513,7 @@ The callback function is called with the following arguments:
 Syntax:
 
     VALUE call CALLBACK_NAME [ CONDITION ]
+    VALUE call CALLBACK_NAME(...ARGUMENTS) [ CONDITION ]
 
 Syntax sugar:
 
@@ -511,23 +525,37 @@ Example:
             function myCallback(element, detail) {
                 console.log('CALLBACK', element, detail);
             }
+            
+            // Add permanent global callback
+            zTemplate.callbacks.set('myCallback3', myCallback);
+            
             zTemplate(
                 document.querySelector('div'),
                 {"foo": "bar", "baz": 23},
                 {"myCallback": myCallback, "myCallback2": myCallback2}
             );
         </script>
-        <div z-var="foo call myCallback"></div>
-        <div z-var="foo call myCallback2 {baz == 23 && foo = 'bar'}"></div>
+        
+        <div id="test1" z-var="foo call myCallback"></div>
+        <div id="test2" z-var="foo call myCallback2 {baz == 23 && foo = 'bar'}"></div>
+        <div id="test3" z-var="foo call myCallback3(foo, baz, 'Hello world!', baz == 23)"></div>
 
 In the example above, the `myCallback2` will only be called if `baz`
 is equal to `23` and `foo` is equal to `"bar"`. Both the element and
 detail object will be passed to the function, giving you full control
 over the HTML UI.
 
+The `div#test3` element is similar, but the callback is called with
+additional arguments. The arguments are passed in second argument of
+the callback function. You can use variable references, expressions,
+or text literals.
+
 This feature opens up endless possibilities for you to enhance your
 UI, providing even more flexibility and control over your data-driven
 UI.
+
+Tip: You can use this callback instead of `VALUE text` command to implement
+various effects when changing the text content of an element.
 
 ## Lists, Contexts, and Scopes
 
@@ -892,12 +920,10 @@ make it even more powerful. Here are some ideas we thought of, but we
 would love to hear your suggestions for additional features. Please
 let us know what you think and what you would like to see in future.
 
-- [ ] Support for updating values through a custom callback function:
-      `VALUE update CALLBACK_NAME [CONDITION]`. It would allow for
-      custom Javascript-driven content update animations or
-      complex/special formatting of changing content, such as rolling
-      numbers or special formats for currencies and dates. The callback
-      would be called as follows `CALLBACK_NAME(ELEMENT, VALUE, DATA)`.
+- [ ] Utilizing attribute references in the same manner as
+      variables, such as `z-var="@foo text {@title == ''}"` which
+      inserts the content of the `foo` attribute into the text based
+      on attriubte `title` value, is there any practical use for this?
 
 ## Final Notes
 - Z Template ➋ is fully compatible with previous versions.

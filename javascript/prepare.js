@@ -45,6 +45,7 @@ class Preparator {
         "valueBool": null, // evaluated value
         "action": "", // string
         "param": null, // string
+        "arguments": [], // array of optional arguments
         "condition": null, // evaluated {} condition
     }
     
@@ -59,6 +60,14 @@ class Preparator {
 
     /**
      * Normalize this.#tokens so it has fixed elements that reflect the syntax like this:
+     *
+     * The syntax is:
+     *
+     * VALUE ACTION CONDITION
+     *
+     * VALUE = [![!]] ( VARIABLE_NAME | { EXPRESSION } )
+     * ACTION = ACTION_NAME [ ? PARAM [ ? (...ARGUMENTS) ] ]
+     * CONDITION =  { EXPRESSION }
      *
      * @access private
      * @return void
@@ -100,6 +109,12 @@ class Preparator {
         this.#data.param = token?.value;
         token = this.#nextToken(tokens, ["block", "operator", null]);
 
+        // arguments
+        if (token?.type === 'block' && token.start == '(') { // Enclosed in '(' and ')' => arguments
+            this.#data.arguments = this.#prepareArguments(token.value);
+            token = this.#nextToken(tokens, ["block", "operator", null]);
+        }
+
         // negate
         let negateCondition = 0;
         if (token?.type === 'operator' && ["!", "!!"].includes(token.value)) {
@@ -107,8 +122,8 @@ class Preparator {
             token = this.#nextToken(tokens, ["block", null]);
         }
 
-        // If it is optional "block" then it is the last condition
-        if (token?.type === 'block') {
+        // condition
+        if (token?.type === 'block' && token.start == '{') {
             this.#data.condition = this.#prepareBlock(token.value);
             token = this.#nextToken(tokens, ["block", null]);
         } else {
@@ -118,6 +133,16 @@ class Preparator {
 
         if (this.#data.action === 'debugger' && this.#data.valueBool) {
             debugger;
+        }
+    }
+
+    #getTokenValue(token) {
+        if (token.type === 'generic') {
+            return this.#getVariableValue(token.value);
+        } else if (token.type === 'block') {
+            return this.#prepareBlock(token.value);
+        } else {
+            return token.value;
         }
     }
 
@@ -176,6 +201,23 @@ class Preparator {
         }
 
         return result;
+    }
+
+    #prepareArguments(tokens) {
+        const args = [];
+        let expr = [];
+
+        for (let i = 0; i < tokens.length; i++) {
+            const token = tokens[i];
+            if (token.type === 'separator') {
+                args.push(expr.length == 1 ? this.#getTokenValue(expr[0]) : this.#getTokenValue({"type": "block", "value": expr}));
+                expr = [];
+            } else {
+                expr.push(token);
+            }
+        }
+
+        return args;
     }
 
     #prepareVariable(varName) {
@@ -312,7 +354,7 @@ class Preparator {
             return null;
         }
         if (!expectType.includes(token ? token.type : null)) {
-            throw new Error(`Invalid z-var value: (${token && token.type}) "${token && token.value}". Generic or block expected: "${this.#tokens.input}"`);
+            throw new Error(`Invalid z-var value: (${token && token.type}) ${JSON.stringify(token)}. Expected: ${JSON.stringify(expectType)}`);
         }
         return token;
     }

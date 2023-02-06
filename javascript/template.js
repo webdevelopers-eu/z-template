@@ -224,13 +224,19 @@ class Template {
     }
 
     #cmdCall(zElement, command) {
+        const callback = this.#callbacks.get(command.param);
+        if (!callback || typeof callback != 'function') {
+            console.error(`Callback "${command.param}" not found or is not a function in command "${JSON.stringify(command)}"`);
+            return;
+        }
         const detail = {
             "value": command.value,
-            "data": this.#vars
+            "data": this.#vars,
+            "arguments": command.arguments
         };
-        const callback = this.#callbacks[command.param];
         if (typeof callback !== 'function') {
-            throw new Error(`Callback ${command.param} is not defined`);
+            console.error(`Callback ${command.param} is not defined`);
+            return;
         }
         callback(zElement, detail);
     }
@@ -238,7 +244,8 @@ class Template {
     #cmdEvent(zElement, command) {
         const detail = {
             "value": command.value,
-            "data": this.#vars
+            "data": this.#vars,
+            "arguments": command.arguments
         };
         const event = new CustomEvent(command.param, { detail: detail, bubbles: true, cancelable: true, composed: false });
         zElement.dispatchEvent(event);
@@ -441,9 +448,14 @@ class Template {
 }
 
 function zTemplate (rootElement, vars, callbacks = {}) {
+    const localCallbacks = new Map(Object.entries(callbacks || {}));
+    const mergedCallbacks = new Map([...zTemplate.callbacks.entries(), ...localCallbacks.entries()]);
+
     const template = new Template(rootElement instanceof Document ? rootElement.documentElement : rootElement);
-    return template.render(vars, callbacks || {});
+    return template.render(vars, mergedCallbacks);
 }
+
+zTemplate.callbacks = new Map();
 
 // jQuery plugin support
 if (typeof jQuery !== 'undefined' && !jQuery.fn.template) {

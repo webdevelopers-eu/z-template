@@ -60,11 +60,17 @@ html {
     border-bottom: 1px dotted black;
 }
 
-#tests > li > *:first-child:before {
+#tests .actions {
+    flex: 0;
+    min-width: auto;
+    white-space: nowrap;
+}
+
+#tests > li > article:first-of-type:before {
     content: "Result";
 }
 
-#tests > li > *:last-child:before {
+#tests > li > article:last-of-type:before {
     content: "Expected";
 }
 

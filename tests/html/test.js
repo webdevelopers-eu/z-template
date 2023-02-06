@@ -11,20 +11,37 @@ if (!headerVars.bundle) {
 }
 
 const callbacks = {
-    onTest1: (element, test1) => {
-        console.log('onTest1', element, test1);
-        element.setAttribute('data-test1', JSON.stringify(test1));
+    onTest1: (element, detail) => {
+        console.log('onTest1', element, detail);
+        element.setAttribute('data-test1', JSON.stringify(detail));
     },
-    onTest2: (element, test2) => {
-        console.log('onTest2', element, test2);
-        element.setAttribute('data-test2', JSON.stringify(test2));
+    onTest2: (element, detail) => {
+        console.log('onTest2', element, detail);
+        element.setAttribute('data-test2', JSON.stringify(detail));
+    },
+    cbTest2: (element, detail) => { // this should overwrite the global default
+        console.log('cbTest2', element, detail);
+        $(element).text('Local callback cbTest2: ' + JSON.stringify(detail));
     },
 };
+
+zTemplate.callbacks.set('cbTest1', (element, detail) => {
+    console.log('cbTest1', element, detail);
+    $(element).text('Default callback cbTest1: ' + JSON.stringify(detail));
+});
+zTemplate.callbacks.set('cbTest2', (element, detail) => {
+    console.log('cbTest1', element, detail);
+    $(element).text('Default callback cbTest2: ' + JSON.stringify(detail));
+});
 
 
 // Listen on #tests for a custom new Event('test1') event dispatched on the child element.
 // When the event is dispatched, the callback will be called with the element and the event detail.
 $('#tests')
+    .on('printargs', function(event) {
+        console.log('printargs', event, event.originalEvent.detail);
+        $(event.target).text(JSON.stringify(event.originalEvent.detail));
+    })
     .on('click', '> li', function(event) {
         $(this).toggleClass('active');
     })
@@ -64,10 +81,21 @@ document.querySelector('#tests')
         event.target.setAttribute('data-event-test2', JSON.stringify(event.detail));
     }, false);
 
+const onlyTest = location.href.match(/test=(?<idx>\d+)/)?.groups?.idx;
 document.querySelectorAll('#tests > li > *:first-child')
-    .forEach((test1) => {
+    .forEach((test1, idx) => {
+        if (onlyTest != null) {
+            if (onlyTest != idx) {
+                test1.parentElement.remove();
+            } else {
+                $(test1.parentElement).append(`<div class="actions"><a href='?'>Show all tests</a></div>`);
+            }
+        } else {
+            $(test1.parentElement).append(`<div class="actions"><a href='?test=${idx}'>Only this</a></div>`);
+        }
         const data = JSON.parse(test1.parentNode.getAttribute('data') || '{}');
-        let test2 = test1.nextElementSibling;
+        // get following <article> element if any
+        let test2 = test1.nextElementSibling?.localName === 'article' ? test1.nextElementSibling : null;
 
         if (!test2) { // Result not created yet, use old Z Template 1.0 to generate it
             test2 = test1.parentNode.appendChild(test1.cloneNode(true));
@@ -78,22 +106,26 @@ document.querySelectorAll('#tests > li > *:first-child')
             console.log('Test round %s for %o with data %o', i + 1, test1.parentNode, data);
             zTemplate(test1, data, callbacks);
 
-            const html1 = serialize(test1);
-            const html2 = serialize(test2);
-            test1.setAttribute('data-source', html1);
-            test2.setAttribute('data-source', html2);
+            // the z-content-rev attribute is added after the template is rendered to trigger CSS anim restart.
+            // so we wait with the result evaluation until the attribute is added.
+            setTimeout(() => { 
+                const html1 = serialize(test1);
+                const html2 = serialize(test2);
+                test1.setAttribute('data-source', html1);
+                test2.setAttribute('data-source', html2);
 
-            if (html1 !== html2) {
-                headerVars.pass = false;
-                test1.parentNode.classList.add('fail');
-                test1.parentNode.classList.remove('pass');
-                console.warn('Fail:', test1.parentNode, data);
-                console.warn('Produced:', html1);
-                console.warn('Expected:', html2);
-                break;
-            } else {
-                test1.parentNode.classList.add('pass');
-            }
+
+                if (html1 !== html2) {
+                    headerVars.pass = false;
+                    test1.parentNode.classList.add('fail');
+                    test1.parentNode.classList.remove('pass');
+                    console.warn('Fail:', test1.parentNode, data);
+                    console.warn('Produced:', html1);
+                    console.warn('Expected:', html2);
+                } else {
+                    test1.parentNode.classList.add('pass');
+                }
+            }, 10);
         }
 
         function serialize(el) {
