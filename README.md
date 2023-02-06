@@ -443,8 +443,10 @@ action in the "z-var" attribute. This action passes an detail
 object as the event's detail property, which contains two properties:
 data and value.
 
-- data: The data property holds the current value of the variables.
-- value: The value property contains the value of the command that triggered the event.
+- `detail`: The detail object. It contains following properties:
+    - `data`: The data property holds the current value of the variables.
+    - `value`: The value property contains the `VALUE` of the command.
+    - `arguments`: The array of optional arguments specified in `z-var` attribute.
 
 Syntax:
 
@@ -511,9 +513,10 @@ to the global list, use the `zTemplate.callbacks.set(NAME, FUNCTION)` function.
 
 The callback function is called with the following arguments:
 - `element`: The element that triggered the callback.
-- `detail`: The detail object. It contains two properties:
+- `detail`: The detail object. It contains following properties:
     - `data`: The data property holds the current value of the variables.
     - `value`: The value property contains the `VALUE` of the command.
+    - `arguments`: The array of optional arguments specified in `z-var` attribute.
 
 Syntax:
 
