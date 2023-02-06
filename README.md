@@ -536,7 +536,7 @@ Example:
             );
         </script>
         
-        <div id="test1" z-var="foo call myCallback"></div>
+        <div id="test1" z-var="foo call myCallback('some param')"></div>
         <div id="test2" z-var="foo call myCallback2 {baz == 23 && foo = 'bar'}"></div>
         <div id="test3" z-var="foo call myCallback3(foo, baz, 'Hello world!', baz == 23)"></div>
 
