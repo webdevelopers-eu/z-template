@@ -29,6 +29,8 @@ zTemplate.callbacks
             charSpan.classList.add('z-roller-letter');
             charSpan.textContent = sourceChar;
 
+            // We use :before to avoid multiplying the textContents
+            // when multiple callbacks are applied in short succession
             div.setAttribute('data-z-face', chars.join("\n"));
         }
 
