@@ -15,7 +15,7 @@ SCRIPT_TEMPLATE="`demodule ../template.js`";
 
 # Print all up to a line having keyword @INSERT
 (
-    echo "/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template */";
+    echo "/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build `date -u -Iseconds` */";
     echo "window.zTemplate = (function() {";
     echo "$SCRIPT_TOKENIZE";
     echo "$SCRIPT_EVALUATE";
