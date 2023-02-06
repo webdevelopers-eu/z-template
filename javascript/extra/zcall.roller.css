@@ -1,3 +1,9 @@
+/**
+ * @module     Z Template
+ * @author     Daniel Sevcik <sevcik@webdevelopers.cz>
+ * @copyright  2023 Daniel Sevcik
+ * @license    MIT
+ */
 .z-roller:not(.z-roller-animate) {
     display: contents;
 }

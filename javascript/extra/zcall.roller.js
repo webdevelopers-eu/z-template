@@ -1,4 +1,9 @@
 /**
+ * @module     Z Template
+ * @author     Daniel Sevcik <sevcik@webdevelopers.cz>
+ * @copyright  2023 Daniel Sevcik
+ * @license    MIT
+ * 
  * This is a JavaScript callback function for the Z-Template plugin
  * that creates a rolling letters effect, transforming one text into
  * another by replacing each character one-by-one with a set speed and
