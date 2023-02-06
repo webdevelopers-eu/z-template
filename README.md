@@ -554,6 +554,10 @@ This feature opens up endless possibilities for you to enhance your
 UI, providing even more flexibility and control over your data-driven
 UI.
 
+Note that the callback arguments are enclosed in parentheses `(` and
+`)`, while boolean expressions such as `CONDITION` are enclosed in
+curly braces `{` and `}`.
+
 *💡 You can use this callback instead of `VALUE text` command to
 implement various effects or apply special formatting when changing
 the text content of an element. E.g.  `z-var="message call
