@@ -3,8 +3,9 @@ zTemplate.callbacks
         const document = element.ownerDocument;
         const speed = detail.arguments[0] || 1000;
         const delay = detail.arguments[1] || 100;
-        const sourceText = element.textContent;
-        const targetText = detail.value;
+        // Convert value into string
+        const sourceText = element.textContent + '';  
+        const targetText = detail.value + '';
         const len = Math.max(sourceText.length, targetText.length);
         const frag = document.createDocumentFragment();
 
