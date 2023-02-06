@@ -29,9 +29,7 @@ zTemplate.callbacks
             charSpan.classList.add('z-roller-letter');
             charSpan.textContent = sourceChar;
 
-            const faceSpan = div.appendChild(document.createElement('span'));
-            faceSpan.classList.add('z-roller-face');
-            faceSpan.textContent = chars.join("\n");
+            div.setAttribute('data-z-face', chars.join("\n"));
         }
 
         element.replaceChildren(frag);
