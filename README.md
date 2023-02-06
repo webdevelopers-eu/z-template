@@ -7,7 +7,7 @@ any other data into organized and structured HTML code.** This
 essential tool is a must-have for any developer looking to streamline
 their data presentation process.
 
-Experience the demo on Codepen! [Check it out now!](https://codepen.io/webdevelopers/full/vYabQNL).
+Experience the demo on Codepen! [Check it out now!](https://codepen.io/webdevelopers/full/vYabQNL)
 
 # Z Template ➋
 
