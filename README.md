@@ -7,6 +7,8 @@ any other data into organized and structured HTML code.** This
 essential tool is a must-have for any developer looking to streamline
 their data presentation process.
 
+Experience the demo on Codepen! [Check it out now!](https://codepen.io/webdevelopers/full/vYabQNL).
+
 # Z Template ➋
 
 *Transform your UI development with ease! Our battle-tested templating
@@ -141,9 +143,6 @@ set the value of a web form's input control? It's as easy as
 `z-var="myVar value"`. The possibilities are endless with Z Template's
 powerful [actions](#actions) feature. Check out the complete list to
 discover all the ways you can make your UI dynamic and interactive.
-
-If you're interested in trying out the library, you can 
-[experiment with it on CodePen](https://codepen.io/webdevelopers/full/vYabQNL).
 
 ## Usage
 
