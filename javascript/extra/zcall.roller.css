@@ -10,7 +10,7 @@
 }
 
 .z-roller {
-    clip-path: circle(50%);
+    clip-path: circle(64%);
     vertical-align: bottom;
     display: inline-block;
     position: relative;
