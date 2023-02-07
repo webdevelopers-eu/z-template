@@ -7,6 +7,7 @@
 /* element if it has .z-roller child */
 .z-roller-rolling:has(span) {
     overflow: hidden;
+    position: relative;
 }
 
 .z-roller {
