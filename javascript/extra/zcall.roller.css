@@ -7,11 +7,11 @@
 /* element if it has .z-roller child */
 .z-roller-rolling:has(span) {
     overflow: hidden;
-    position: relative;
+    display: run-in block;
 }
 
 .z-roller {
-    clip-path: circle(64%);
+    clip-path: inset(0 0 0 0);
     vertical-align: bottom;
     display: inline-block;
     position: relative;
@@ -25,7 +25,7 @@
     content: attr(data-z-face);
     display: block;
     white-space: pre;
-    line-height: 1em;
+    line-height: inherit;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
