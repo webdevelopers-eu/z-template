@@ -4,6 +4,11 @@
  * @copyright  2023 Daniel Sevcik
  * @license    MIT
  */
+/* element if it has .z-roller child */
+.z-roller-rolling:has(span) {
+    overflow: hidden;
+}
+
 .z-roller {
     clip-path: circle(50%);
     vertical-align: bottom;

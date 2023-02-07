@@ -32,6 +32,7 @@ zTemplate.callbacks
 
         // Set css variable --z-roller-speed
         element.style.setProperty('--z-roller-speed', speed + 'ms');
+        element.classList.add('z-roller-rolling');
         
         for (let i = 0; i < len; i++) {
             const sourceChar = sourceText[i] || '';
