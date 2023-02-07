@@ -40,13 +40,13 @@
                 <div z-var="'Hello world!' call cbTest1 {foo}"></div>
                 <div z-var="'Hello world!' call cbTest2"></div>
                 <div z-var="'Hello world!' call cbTest1('something', foo) {foo}"></div>
-                <div z-var="'Hello world!' call cbTest2('something, bar)"></div>
+                <div z-var="'Hello world!' call cbTest2('something', bar)"></div>
             </article>
             <article>
                 <div z-var="'Hello world!' call cbTest1 {foo}">Default callback cbTest1: {"value":"Hello world!","data":{"foo":[1,2,3],"bar":{"a":1,"b":2,"c":3}},"arguments":[]}</div>
                 <div z-var="'Hello world!' call cbTest2">Local callback cbTest2: {"value":"Hello world!","data":{"foo":[1,2,3],"bar":{"a":1,"b":2,"c":3}},"arguments":[]}</div>
-                <div z-var="'Hello world!' call cbTest1('something', foo) {foo}">Default callback cbTest1: {"value":"Hello world!","data":{"foo":[1,2,3],"bar":{"a":1,"b":2,"c":3}},"arguments":["something"]}</div>
-                <div z-var="'Hello world!' call cbTest2('something, bar)">Local callback cbTest2: {"value":"Hello world!","data":{"foo":[1,2,3],"bar":{"a":1,"b":2,"c":3}},"arguments":[]}</div>
+                <div z-var="'Hello world!' call cbTest1('something', foo) {foo}">Default callback cbTest1: {"value":"Hello world!","data":{"foo":[1,2,3],"bar":{"a":1,"b":2,"c":3}},"arguments":["something",[1,2,3]]}</div>
+                <div z-var="'Hello world!' call cbTest2('something', bar)">Local callback cbTest2: {"value":"Hello world!","data":{"foo":[1,2,3],"bar":{"a":1,"b":2,"c":3}},"arguments":["something",{"a":1,"b":2,"c":3}]}</div>
             </article>
         </li>
         <li data='{"foo": [1, 2, 3], "bar": {"a": 1, "b": 2, "c": 3}}'>
@@ -79,7 +79,7 @@
                 <div z-var="foo.bar text">3</div>
             </article>
             <article>
-                <div z-var="foo event printargs (foo.bar, baz, 'test', foo == 3 &amp;&amp; baz == '123')">{"value":1,"data":{"foo":{"bar":[1,2,3]},"baz":123},"arguments":[[1,2,3],123,"test"]}</div>
+                <div z-var="foo event printargs (foo.bar, baz, 'test', foo == 3 &amp;&amp; baz == '123')">{"value":1,"data":{"foo":{"bar":[1,2,3]},"baz":123},"arguments":[[1,2,3],123,"test",0]}</div>
                 <div z-var="foo.bar text" z-var-content="3">3</div>
             </article>
         </li>
