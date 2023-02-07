@@ -13,26 +13,28 @@
 }
 
 .z-roller.z-roller-animate {
-    overflow: hidden !important;
-    height: 1em !important;
-    display: inline-block !important;
-    position: relative !important;
+    overflow: hidden;
+    vertical-align: bottom;
+    display: inline-block;
+    position: relative;
 }
 
 .z-roller.z-roller-animate > .z-roller-letter {
-    display: none !important;
+    visibility: hidden;
 }
 
 .z-roller.z-roller-animate:before {
-    content: attr(data-z-face) !important;
-    display: inline-block !important;
-    white-space: pre !important;
-    position: relative !important;
-    animation-iteration-count: 1 !important;
-    animation-fill-mode: forwards !important;
-    animation-timing-function: ease-in-out !important;
-    animation-duration: var(--z-roller-speed, 1000ms) !important;
-    line-height: 1em !important;
+    content: attr(data-z-face);
+    display: inline-block;
+    white-space: pre;
+    line-height: 1em;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+    animation-duration: var(--z-roller-speed, 1000ms);
+    animation-delay: var(--z-roller-delay, 0ms);
+    position: absolute;
+    
 }
 
 .z-roller-up:before {
@@ -46,11 +48,11 @@
 }
 
 .z-roller.z-roller-up:before {
-    animation-name: z-roller-up !important;
+    animation-name: z-roller-up;
 }
 
 .z-roller.z-roller-down:before {
-    animation-name: z-roller-down !important;
+    animation-name: z-roller-down;
 }
 
 @keyframes z-roller-up {

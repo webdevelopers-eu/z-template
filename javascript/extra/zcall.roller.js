@@ -14,6 +14,8 @@
  * Using it like this:
  *
  * <element z-var="'some value' call roller">Original Value</element>
+ * <element z-var="'some value' call roller(speed, startCharDelay)">Original Value</element>
+ * <element z-var="'some value' call roller(1000, 1000)">Original Value</element>
  *
  * You must include also zcall.roller.css in your page.
  */
@@ -57,12 +59,10 @@ zTemplate.callbacks
         for (i = 0; i < element.childElementCount; i++) {
             // Get i-th child element
             const child = element.children[i];
-            setTimeout(() => {
-                child.classList.add('z-roller-animate');
-                setTimeout(() => {
-                    child.replaceWith(child.getAttribute('data-target'));
-                }, speed);
-            }, i * delay);
+            const charDelay = delay * i;
+            child.style.setProperty('--z-roller-delay', charDelay + 'ms');
+            child.classList.add('z-roller-animate');
+            setTimeout(() => child.replaceWith(child.getAttribute('data-target')), charDelay + speed);
         }
 
         // Generate array of characters between two characters

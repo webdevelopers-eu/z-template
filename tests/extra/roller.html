@@ -2,13 +2,14 @@
     <head>
         <title>Z Template Tests</title>
         <link rel="stylesheet" type="text/css" href="../../javascript/template.css"/>
-        <script type="text/javascript" src="../../javascript/template.bundle.min.js"></script>
+        <script type="text/javascript" src="../../javascript/template.bundle.js"></script>
         <script type="text/javascript" src="../../javascript/extra/zcall.roller.js"></script>
         <link rel="stylesheet" type="text/css" href="../../javascript/extra/zcall.roller.css"/>
     </head>
     <body>
 
         <div id="test">
+            <h1 z-var="1.123 call roller(1000, 1000)">0.000</h1>
             <h1 z-var="name call roller">Some Name Comes Here</h1>
             <h1 z-var="name call roller">Name</h1>
             <h1 z-var="name call roller"></h1>

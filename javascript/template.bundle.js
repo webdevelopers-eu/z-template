@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-06T21:49:15+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-07T05:51:02+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -326,19 +326,21 @@ class Preparator {
     }
 
     #prepareArguments(tokens) {
-        const args = [];
+        let args = [];
         let expr = [];
 
         for (let i = 0; i < tokens.length; i++) {
             const token = tokens[i];
             if (token.type === 'separator') {
-                args.push(expr.length == 1 ? this.#getTokenValue(expr[0]) : this.#getTokenValue({"type": "block", "value": expr}));
+                args.push(expr);
                 expr = [];
             } else {
                 expr.push(token);
             }
         }
+        args.push(expr);
 
+        args = args.map(arg =>  arg.length == 1 ? this.#getTokenValue(arg[0]) : this.#getTokenValue({"type": "block", "value": arg}));
         return args;
     }
 
