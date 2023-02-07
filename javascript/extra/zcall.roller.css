@@ -4,15 +4,7 @@
  * @copyright  2023 Daniel Sevcik
  * @license    MIT
  */
-.z-roller:not(.z-roller-animate) {
-    display: contents;
-}
-
-.z-roller:not(.z-roller-animate):before {
-    content: "";
-}
-
-.z-roller.z-roller-animate {
+.z-roller {
     overflow: hidden;
     vertical-align: bottom;
     display: inline-block;
@@ -23,9 +15,9 @@
     visibility: hidden;
 }
 
-.z-roller.z-roller-animate:before {
+.z-roller:before {
     content: attr(data-z-face);
-    display: inline-block;
+    display: block;
     white-space: pre;
     line-height: 1em;
     animation-iteration-count: 1;
@@ -34,25 +26,37 @@
     animation-duration: var(--z-roller-speed, 1000ms);
     animation-delay: var(--z-roller-delay, 0ms);
     position: absolute;
-    
+}
+
+.z-roller:not(.z-roller-animate):before {
+    visibility: hidden;
 }
 
 .z-roller-up:before {
-    transform: translateY(0%);
+    transform: translateY(0);
     top: 0;
 }
 
 .z-roller-down:before {
-    transform: translateY(calc(-100% + 1em));
+    transform: translateY(0%);
     bottom: 0;
 }
 
-.z-roller.z-roller-up:before {
+.z-roller-animate.z-roller-up:before {
     animation-name: z-roller-up;
 }
 
-.z-roller.z-roller-down:before {
+.z-roller-animate.z-roller-down:before {
     animation-name: z-roller-down;
+}
+
+@keyframes z-roller-down {
+    0% {
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(calc(100% - 1em));
+    }
 }
 
 @keyframes z-roller-up {
@@ -61,14 +65,5 @@
     }
     100% {
         transform: translateY(calc(-100% + 1em));
-    }
-}
-
-@keyframes z-roller-down {
-    0% {
-        transform: translateY(calc(-100% + 1em));
-    }
-    100% {
-        transform: translateY(0%);
     }
 }
