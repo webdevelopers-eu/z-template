@@ -5,7 +5,7 @@
  * @license    MIT
  */
 .z-roller {
-    overflow: hidden;
+    clip-path: circle(50%);
     vertical-align: bottom;
     display: inline-block;
     position: relative;
