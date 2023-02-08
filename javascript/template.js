@@ -383,18 +383,26 @@ class Template {
 
     #cloneProto(zElement) {
         const proto = zElement.cloneNode(true); // we need deep clone because of options and such
+        const restore = [];
 
-        // Restore the original content if any - search for all z-var-content-* attributes
         const contentAttrs = Array.from(zElement.attributes)
               .filter((attr) => {
                   // Restore z-var-content-{ATRR_NAME} attribute
-                  const attrName = attr.name.replace(/^z-var-content-?/, '');
-                  if (!attrName) { // contents
-                      proto.textContent = attr.value;
-                  } else {
-                      proto.setAttribute(attrName, attr.value);
+                  if (attr.name.match(/^z-var-content-?/)) {
+                      restore.push(attr);
                   }
+                  proto.setAttribute(attr.name, attr.value);
               });
+
+        // Restore the original content if any - search for all z-var-content-* attributes
+        restore.forEach((attr) => {
+            const attrName = attr.name.replace(/^z-var-content-?/, '');
+            if (attrName) {
+                proto.setAttribute(attrName, attr.value);
+            } else {
+                proto.textContent = attr.value;
+            }
+        });
 
         proto.classList.remove(...[
             'dna-template-visible',
