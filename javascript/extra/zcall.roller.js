@@ -30,6 +30,11 @@ zTemplate.callbacks
         const len = Math.max(sourceText.length, targetText.length);
         const frag = document.createDocumentFragment();
 
+        if (sourceText === targetText || sourceText.length === 0) {
+            element.textContent = targetText;
+            return;
+        }
+
         // Set css variable --z-roller-speed
         element.style.setProperty('--z-roller-speed', speed + 'ms');
         element.classList.add('z-roller-rolling');
