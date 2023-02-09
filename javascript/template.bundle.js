@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-09T11:54:30+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-09T16:34:52+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -583,7 +583,7 @@ class Template {
         }
 
         const value = this.#getVariableValue(templateName);
-        let list = template.substr(0, 1) == '{' ? [value] : Array.from(value);
+        let list = template.substr(0, 1) == '{' ? [value] : Array.from(value[Symbol.iterator] ? value : []);
         if (typeof list[Symbol.iterator] !== 'function') {
             console.warn("Template value %s is not iterable on %o. The referenced value is %o", templateName, zTemplate, value);
             list = [];

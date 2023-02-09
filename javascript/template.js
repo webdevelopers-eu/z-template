@@ -86,7 +86,7 @@ class Template {
         }
 
         const value = this.#getVariableValue(templateName);
-        let list = template.substr(0, 1) == '{' ? [value] : Array.from(value);
+        let list = template.substr(0, 1) == '{' ? [value] : Array.from(value[Symbol.iterator] ? value : []);
         if (typeof list[Symbol.iterator] !== 'function') {
             console.warn("Template value %s is not iterable on %o. The referenced value is %o", templateName, zTemplate, value);
             list = [];
