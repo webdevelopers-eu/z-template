@@ -340,8 +340,6 @@ class Template {
             result = (template || '').replace(encodeURIComponent(varNameStr), encodeURIComponent(value));
         } else {
             result = value;
-        } else {
-            result = value;
         }
 
         // Backup
