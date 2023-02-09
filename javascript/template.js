@@ -336,7 +336,7 @@ class Template {
         // Does template contain the variable?
         if (varName && template && template.indexOf(varNameStr) !== -1) {
             result = (template || '').replace(varNameStr, value);
-        } else if (['src', 'href'].includes(id) && template.indexOf(encodeURIComponent(varNameStr)) !== -1) { // href and src attributes may be encoded
+        } else if (varName && template && ['src', 'href'].includes(id) && template.indexOf(encodeURIComponent(varNameStr)) !== -1) { // href and src attributes may be encoded
             result = (template || '').replace(encodeURIComponent(varNameStr), encodeURIComponent(value));
         } else {
             result = value;
