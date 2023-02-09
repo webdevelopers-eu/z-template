@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-08T13:03:04+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-09T11:51:47+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -833,6 +833,8 @@ class Template {
         // Does template contain the variable?
         if (varName && template && template.indexOf(varNameStr) !== -1) {
             result = (template || '').replace(varNameStr, value);
+        } else if (['src', 'href'].match(id) && template.indexOf(encodeURIComponent(varNameStr)) !== -1) { // href and src attributes may be encoded
+            result = (template || '').replace(encodeURIComponent(varNameStr), encodeURIComponent(value));
         } else {
             result = value;
         }
