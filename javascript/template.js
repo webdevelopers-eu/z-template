@@ -96,66 +96,101 @@ class Template {
             console.warn("Template value %s is not iterable on %o. The referenced value is %o", templateName, zTemplate, value);
             list = [];
         }
-        const clones = this.#getTemplateClones(zTemplate, list.length);
-
-        for (let i = 0; i < list.length; i++) {
+        const clones = this.#getTemplateClones(zTemplate, list);
+        let listIdx = list.length;
+        let beforeElement = zTemplate;
+        for (let i = clones.length - 1; i >= 0; i--) {
             const clone = clones[i];
-            const vars = typeof list[i] != 'object' ? { value: list[i], key: i } : list[i];
-            clone.forEach((element) => {
-                const template = new Template(element);
-                template.render(vars, this.#callbacks);
-                if (element.parentNode instanceof DocumentFragment) {
-                    zTemplate.parentNode.insertBefore(element, zTemplate);
+            switch (clone.action) {
+            case 'add':
+                const vars = typeof list[--listIdx] != 'object' ? { value: list[listIdx], key: listIdx } : list[listIdx];
+                for (let i2 = clone.elements.length - 1; i2 >= 0; i2--) {
+                    const element = clone.elements[i2];
+                    const template = new Template(element);
+                    template.render(vars, this.#callbacks);
+                    beforeElement.before(element);
+                    beforeElement = element;
                 }
-            });
+                break;
+            case 'reuse': // no change
+                listIdx--;
+                beforeElement = clone.elements[0];
+                break;
+            case 'remove':
+                clone.elements.forEach((element) => element.remove());
+                break;
+            }
         }
     }
 
-    #getTemplateClones(zTemplate, count) {
+    #getTemplateClones(zTemplate, list) {
         // Find all immediate preceding siblings having the same template-clone="${template}" attribute.
-        const template = zTemplate.getAttribute('template');
+        const count = list.length;
+        const templateAttrVal = zTemplate.getAttribute('template');
         const clones = [];
+        const existingClones = [];
 
         let previous = zTemplate.previousElementSibling;
-        let lastPos = -1;
-        while (previous && previous.getAttribute('template-clone') == template) {
-            const pos = previous.getAttribute('template-clone-pos');
-            if (lastPos == pos && pos !== null) {
-                clones[0].unshift(previous);
+        let lastId = -1;
+        let maxId = -1;
+        while (previous && previous.getAttribute('template-clone') == templateAttrVal) {
+            const id = previous.getAttribute('template-clone-id');
+            maxId = Math.max(maxId, id);
+            if (lastId == id && id !== null) {
+                existingClones[0].unshift(previous);
             } else {
-                clones.unshift([previous]);
+                existingClones.unshift([previous]);
             }
             previous = previous.previousElementSibling;
-            lastPos = pos;
+            lastId = id;
         }
 
-        // If there are more clones than items in the list, remove the extra clones.
-        for(let i = clones.length - count; i > 0; i--) {
-            clones.pop().forEach((el) => el.remove());
-        }
-
-        // If there are less clones than items in the list, create the missing clones.
-        const fragment = new DocumentFragment(); // Do not insert it into the DOM yet to minimize reflow.
-        for(let i = clones.length - count; i < 0; i++) {
-            const clone = [];
-            clones.push(clone);
-
-            if (zTemplate.content instanceof DocumentFragment) { // <template> tag
-                clone.push(...Array.from(zTemplate.content.children).map((el) => el.cloneNode(true)));
-            } else {
-                clone.push(zTemplate.cloneNode(true));
+        // We are trying to figure out what elements to remove, what to add and what to reuse
+        // so that we can animate the changes.
+        const listHashes = list.map((item) => this.#getHash(JSON.stringify(item)));
+        const attrHashes = existingClones.map((clone) => parseInt(clone[0].getAttribute('template-clone-hash')));
+        const checkCount = Math.max(listHashes.length, attrHashes.length);
+        for (let i = 0; i < checkCount; i++) {
+            const listHash = listHashes.shift();
+            const attrHash = attrHashes.shift();
+            if (listHash == attrHash) { // same
+                clones.push({"elements": existingClones.shift(), "action": "reuse"});
+            } else { // same list item?
+                const foundAttrIdx = attrHashes.indexOf(listHash);
+                const foundListIdx = listHashes.indexOf(attrHash);
+                if ((!attrHash || foundListIdx != -1) && (foundAttrIdx == -1 || foundListIdx < foundAttrIdx)) { // New list item + add element
+                    clones.push({"elements": this.#cloneTemplateElement(zTemplate, {
+                        "template-clone": templateAttrVal,
+                        "template-clone-id": ++maxId,
+                        "template-clone-hash": listHash,
+                    }), "action": "add"});
+                    attrHashes.unshift(attrHash);
+                } else { // Remove element - current listHash is the same as the next attrHash
+                    clones.push({"elements": existingClones.shift(), "action": "remove"});
+                    listHashes.unshift(listHash);
+                }
             }
-            clone.forEach((el) => {
-                el.classList.add('template-clone');
-                el.setAttribute('template-clone', template);
-                el.setAttribute('template-clone-pos', clones.length);
-                el.removeAttribute('template');
-                // zTemplate.parentNode.insertBefore(el, zTemplate); - put it into fragment to minimize reflow
-                fragment.appendChild(el);
-            });
         }
 
         return clones;
+    }
+
+    // It can be either element itself or <template> with DocumentFragment as content.
+    #cloneTemplateElement(zTemplate, attrs) {
+        const clone = [];
+        if (zTemplate.content instanceof DocumentFragment) { // <template> tag
+            clone.push(...Array.from(zTemplate.content.children).map((el) => el.cloneNode(true)));
+        } else {
+            clone.push(zTemplate.cloneNode(true));
+        }
+        clone.forEach((el) => {
+            el.classList.add('template-clone');
+            el.removeAttribute('template');
+            for (const [key, value] of Object.entries(attrs)) {
+                el.setAttribute(key, value);
+            }
+        });
+        return clone;
     }
 
     #processZElement(zElement) {
@@ -464,6 +499,25 @@ class Template {
             value = value[parts[i]];
         }
         return value;
+    }
+
+    #getHash(str) {
+        // CRC32 hash (not sure if correct, but it works practically for our needs)
+        var crcTable = [];
+        for (var i = 0; i < 256; i++) {
+            var c = i;
+            for (var j = 0; j < 8; j++) {
+                c = ((c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1));
+            }
+            crcTable[i] = c;
+        }
+
+        var crc = 0 ^ (-1);
+        for (var i = 0; i < str.length; i++) {
+            crc = (crc >>> 8) ^ crcTable[(crc ^ str.charCodeAt(i)) & 0xFF];
+        }
+
+        return (crc ^ (-1)) >>> 0;
     }
 }
 

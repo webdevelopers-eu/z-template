@@ -2,7 +2,7 @@
 import { zTemplate as zTemplateModule } from '../../javascript/template.js';
 
 const headerVars = {
-    "bundle": location.href.match(/bundle/),
+    "bundle": location.href.match(/bundle/) ? true : false,
     "pass": true,
 };
 
