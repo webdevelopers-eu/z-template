@@ -14,7 +14,7 @@
 *:where([template-clone], [z-removed]) {
     animation-timing-function: ease-in;
     animation-duration: var(--z-anim-speed, 0.32s);
-    animation-fill-mode: none;
+    animation-fill-mode: forwards;
     transform-origin: center center;
 }
 

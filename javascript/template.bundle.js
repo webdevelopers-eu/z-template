@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-10T22:35:49+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-10T22:49:08+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -530,12 +530,12 @@ class Template {
 
     #templateSelector = "*[starts-with(@template, '{') or starts-with(@template, '[')]";
 
-    #childrenScopeSelector = "*[(@template-scope and @template-scope != 'inherit') or (@z-scope-children and @z-scope-children != 'inherit')]";
+    #childrenScopeSelector = "*[@z-removed or (@template-scope and @template-scope != 'inherit') or (@z-scope-children and @z-scope-children != 'inherit')]";
 
     /**
      * @param string scopeSelector selector used to identify scope elements
      */
-    #scopeSelector = `*[self::${this.#templateSelector} or @z-scope or parent::${this.#childrenScopeSelector} or @template-clone]`;
+    #scopeSelector = `*[self::${this.#templateSelector} or @z-scope or parent::${this.#childrenScopeSelector} or @template-clone or ancestor::*/@z-removed]`;
 
     /**
      * @param string zElementSelector used to identify z-var elements that need processing
@@ -1048,12 +1048,16 @@ class Template {
             const dim = element.getBoundingClientRect();
             element.style.visibility = 'hidden';
             element.style.overflow = 'hidden';
+            element.style.height = dim.height + 'px';
+            element.style.width = dim.width + 'px';
+            element.innerHTML = ''; // TD tables and stuff may not shirnk otherwise
             element.animate([
                 { height: dim.height + 'px', width: dim.width + 'px'},
                 { height: '0px', width: '0px', opacity: 0 }
             ], {
                 duration: 200,
-                easing: 'ease-in-out'
+                easing: 'ease-in-out',
+                fill: 'forwards'
             }).onfinish = () => {
                 element.remove();
             };
