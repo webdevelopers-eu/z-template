@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-10T20:25:53+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-10T20:47:04+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -599,19 +599,18 @@ class Template {
         for (let i = clones.length - 1; i >= 0; i--) {
             const clone = clones[i];
             switch (clone.action) {
+            case 'reuse':
             case 'add':
                 const vars = typeof list[--listIdx] != 'object' ? { value: list[listIdx], key: listIdx } : list[listIdx];
                 for (let i2 = clone.elements.length - 1; i2 >= 0; i2--) {
                     const element = clone.elements[i2];
                     const template = new Template(element);
                     template.render(vars, this.#callbacks);
-                    beforeElement.before(element);
+                    if (clone.action == 'add') {
+                        beforeElement.before(element);
+                    }
                     beforeElement = element;
                 }
-                break;
-            case 'reuse': // no change
-                listIdx--;
-                beforeElement = clone.elements[0];
                 break;
             case 'remove':
                 clone.elements.forEach((element) => element.remove());
@@ -644,7 +643,7 @@ class Template {
 
         // We are trying to figure out what elements to remove, what to add and what to reuse
         // so that we can animate the changes.
-        const listHashes = list.map((item) => this.#getHash(JSON.stringify(item)));
+        const listHashes = list.map((item) => this.#getHash(item));
         const attrHashes = existingClones.map((clone) => parseInt(clone[0].getAttribute('template-clone-hash')));
         const checkCount = Math.max(listHashes.length, attrHashes.length);
         for (let i = 0; i < checkCount; i++) {
@@ -885,7 +884,7 @@ class Template {
         }
 
         // Backup
-        if (template !== result && template && !element.hasAttribute(bakAttrName)) {
+        if (template !== result && template && !element.hasAttribute(bakAttrName) && (template.indexOf('${') !== -1 || template.indexOf(encodeURIComponent('${')) !== -1)) {
             element.setAttribute(bakAttrName, template);
         }
 
@@ -998,7 +997,17 @@ class Template {
         return value;
     }
 
-    #getHash(str) {
+    #getHash(data) {
+        let str;
+        if (typeof data === 'object' && typeof data.id !== 'undefined') {
+            if (typeof data.id == 'string' || typeof data.id == 'number') {
+                return data.id; // use id right awayn
+            }
+            str = JSON.stringify(data.id);
+        } else {
+            str = JSON.stringify(data);
+        }
+
         // CRC32 hash (not sure if correct, but it works practically for our needs)
         var crcTable = [];
         for (var i = 0; i < 256; i++) {
