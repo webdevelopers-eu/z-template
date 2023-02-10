@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-09T16:35:34+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-10T13:02:32+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -583,6 +583,11 @@ class Template {
         }
 
         const value = this.#getVariableValue(templateName);
+        if (value === null) {
+            console.warn(`Template "${templateName}" not found in data`, this.#vars);
+            return;
+        }
+        
         let list = template.substr(0, 1) == '{' ? [value] : Array.from(value && value[Symbol.iterator] ? value : []);
         if (typeof list[Symbol.iterator] !== 'function') {
             console.warn("Template value %s is not iterable on %o. The referenced value is %o", templateName, zTemplate, value);
@@ -666,6 +671,11 @@ class Template {
         commands
             .forEach((command) => {
                 if (!command.condition) {
+                    return;
+                }
+
+                if (command.value === null) {
+                    console.warn(`The command %o's value is null. Skipping the condition. Variables: %o`, command, this.#vars);
                     return;
                 }
 
