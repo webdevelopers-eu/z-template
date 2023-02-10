@@ -116,7 +116,7 @@ class Template {
                 }
                 break;
             case 'remove':
-                clone.elements.forEach((element) => element.remove());
+                clone.elements.forEach((element) => this.#animateRemove(element));
                 break;
             }
         }
@@ -135,10 +135,12 @@ class Template {
         while (previous && previous.getAttribute('template-clone') == templateAttrVal) {
             const id = previous.getAttribute('template-clone-id');
             maxId = Math.max(maxId, id);
-            if (lastId == id && id !== null) {
-                existingClones[0].unshift(previous);
-            } else {
-                existingClones.unshift([previous]);
+            if (!previous.hasAttribute('z-removed')) {
+                if (lastId == id && id !== null) {
+                    existingClones[0].unshift(previous);
+                } else {
+                    existingClones.unshift([previous]);
+                }
             }
             previous = previous.previousElementSibling;
             lastId = id;
@@ -165,7 +167,8 @@ class Template {
                     }), "action": "add"});
                     attrHashes.unshift(attrHash);
                 } else { // Remove element - current listHash is the same as the next attrHash
-                    clones.push({"elements": existingClones.shift(), "action": "remove"});
+                    const elements = existingClones.shift();
+                     clones.push({"elements": elements, "action": "remove"});
                     listHashes.unshift(listHash);
                 }
             }
@@ -297,10 +300,9 @@ class Template {
 
     #cmdRemove(zElement, command) {
         if (!command.valueBool) {
-            zElement.remove();
+            this.#animateRemove(element);
         }
     }
-
 
     #cmdToggle(zProto, command) {
         if (zProto.classList.contains('z-template-hidden')) {
@@ -527,6 +529,38 @@ class Template {
         }
 
         return (crc ^ (-1)) >>> 0;
+    }
+
+    #animateRemove(element) {
+        const origAnimationName = window.getComputedStyle(element).animationName;
+        element.setAttribute('z-removed', 'true');
+        const currAnimationName = window.getComputedStyle(element).animationName;
+
+        if (origAnimationName !== currAnimationName) {
+            // Animation is running
+            const timer = setTimeout(slideUp, 2000); // to be sure
+            element.addEventListener('animationend', () => {
+                clearTimeout(timer);
+                slideUp();
+            });
+        } else {
+            slideUp();
+        }
+
+        function slideUp() {
+            const dim = element.getBoundingClientRect();
+            element.style.visibility = 'hidden';
+            element.style.overflow = 'hidden';
+            element.animate([
+                { height: dim.height + 'px', width: dim.width + 'px'},
+                { height: '0px', width: '0px', opacity: 0 }
+            ], {
+                duration: 200,
+                easing: 'ease-in-out'
+            }).onfinish = () => {
+                element.remove();
+            };
+        }
     }
 }
 

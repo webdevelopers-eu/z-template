@@ -1,5 +1,5 @@
 :root {
-    --z-anim-speed: 0.5s;
+    --z-anim-speed: 0.2s;
 }
 
 .z-template-hidden,
@@ -10,18 +10,24 @@
 
 /* Nonessential */
 /* Using :where() because of 0 specificity */
-*:where([z-content-rev], .z-fade-in, .dna-template-visible) {
-    animation-name: z-fade-in;
-    animation-easing: ease-in;
-    animation-duration: var(--z-anim-speed, 0.5s);
+*:where([z-content-rev], .z-fade-in, .dna-template-visible),
+*:where([template-clone], [z-removed]) {
+    animation-timing-function: ease-in;
+    animation-duration: var(--z-anim-speed, 0.32s);
     animation-fill-mode: none;
+    transform-origin: center center;
 }
 
-*:where([template-clone]) {
+*:where([z-content-rev], .z-fade-in, .dna-template-visible) {
+    animation-name: z-fade-in;
+}
+
+*:where([template-clone]), .z-slide-in {
     animation-name: z-slide-in;
-    animation-easing: ease-in;
-    animation-duration: var(--z-anim-speed, 0.5s);
-    animation-fill-mode: none;
+}
+
+*:where([z-removed]), .z-slide-out {
+    animation-name: z-slide-out;
 }
 
 @keyframes z-fade-in {
@@ -36,16 +42,21 @@
 @keyframes z-slide-in {
     0% {
 	opacity: 0;
-        transform: translateY(2em);
+        transform: translateY(1em);
     }
-    25% {
-        opacity: 0.1;
-    }
-    50% {
-        opacity: 0.4;
-    }
-    75% {
+    100% {
 	opacity: 1;
         transform: translateY(0px);
     }
 }
+@keyframes z-slide-out {
+    0% {
+	opacity: 1;
+        transform: translateX(0%) scale(1);
+    }
+    100% {
+	opacity: 0;
+        transform: translateX(100%) scale(1.2);
+    }
+}
+
