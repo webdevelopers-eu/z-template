@@ -536,36 +536,44 @@ class Template {
         element.setAttribute('z-removed', 'true');
         const currAnimationName = window.getComputedStyle(element).animationName;
 
-        if (origAnimationName !== currAnimationName) {
-            // Animation is running
-            const timer = setTimeout(slideUp, 2000); // to be sure
-            element.addEventListener('animationend', () => {
-                clearTimeout(timer);
-                slideUp();
-            });
-        } else {
-            slideUp();
-        }
+        const animPromise = new Promise((resolve) => {
+            if (origAnimationName !== currAnimationName) { // New animation is running after z-removed attr was set
+                element.addEventListener('animationend', resolve);
+                element.removeEventListener('animationcancel', resolve);
+                element.removeEventListener('animationiteration', resolve);
+            } else {
+                resolve();
+            }
+        });
 
-        function slideUp() {
+        // To be sure we remove the element even if something fails
+        const timeoutPromise = new Promise((resolve) => {
+            // @debug setTimeout(resolve, 2000);
+        });
+
+        // Shrink the space in a flow by setting negative margin.
+        const slideUpPromise = new Promise((resolve) => {
             const dim = element.getBoundingClientRect();
-            element.style.visibility = 'hidden';
-            element.style.overflow = 'hidden';
+            const style = window.getComputedStyle(element);
+            // Fixate the size of the element
             element.style.height = dim.height + 'px';
             element.style.width = dim.width + 'px';
-            element.innerHTML = ''; // TD tables and stuff may not shirnk otherwise
-            element.animate([
-                { height: dim.height + 'px', width: dim.width + 'px'},
-                { height: '0px', width: '0px', opacity: 0 }
-            ], {
-                duration: 200,
-                easing: 'ease-in-out',
-                fill: 'forwards'
-            }).onfinish = () => {
-                element.remove();
-            };
-        }
+
+            // We cannot use animation as it cancels the user animation, let's use transition instead
+            element.style.transition = 'none';
+            element.style.margin = `${style.marginTop} ${style.marginRight} ${style.marginBottom} ${style.marginLeft}`;
+
+            element.addEventListener('transitionend', resolve);
+
+            element.style.transition = 'margin 0.2s ease-in-out';
+            element.style.marginRight = `-${Math.ceil(dim.height + parseInt(style.marginLeft))}px`;
+            element.style.marginBottom = `-${Math.ceil(dim.height + parseInt(style.marginTop))}px`;
+        });
+
+        Promise.any([Promise.all([animPromise, slideUpPromise]), timeoutPromise])
+            .then(() => element.remove());
     }
+
 }
 
 function zTemplate (rootElement, vars, callbacks = {}) {

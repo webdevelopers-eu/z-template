@@ -49,14 +49,15 @@
         transform: translateY(0px);
     }
 }
+
 @keyframes z-slide-out {
     0% {
 	opacity: 1;
-        transform: translateX(0%) scale(1);
+        transform: translateX(0%);
     }
     100% {
 	opacity: 0;
-        transform: translateX(100%) scale(1.2);
+        transform: translateX(100%);
     }
 }
 

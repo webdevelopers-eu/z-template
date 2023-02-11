@@ -22,6 +22,9 @@ function *test() {
     list.shift();
     yield {list};
 
+    list.shift();
+    yield {list};
+
     list.splice(1, 0, {"id": 50, "value": "test5"});
     yield {list};
 
