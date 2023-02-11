@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-11T16:15:42+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-11T16:24:06+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -1045,7 +1045,8 @@ class Template {
 
         // To be sure we remove the element even if something fails
         const timeoutPromise = new Promise((resolve) => {
-            // @debug setTimeout(resolve, 2000);
+            // if element is display:none then animationend nor transitionend will be fired
+            setTimeout(resolve, 2000);
         });
 
         // Shrink the space in a flow by setting negative margin.

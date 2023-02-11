@@ -548,7 +548,8 @@ class Template {
 
         // To be sure we remove the element even if something fails
         const timeoutPromise = new Promise((resolve) => {
-            // @debug setTimeout(resolve, 2000);
+            // if element is display:none then animationend nor transitionend will be fired
+            setTimeout(resolve, 2000);
         });
 
         // Shrink the space in a flow by setting negative margin.
