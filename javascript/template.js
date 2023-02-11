@@ -253,9 +253,6 @@ class Template {
 
         later
             .forEach((command) => {
-                if (zElement.parentNode === null) { // Removed
-                    return;
-                }
                 switch (command.action) {
                 case "remove":
                     this.#cmdRemove(zElement, command);
@@ -532,6 +529,10 @@ class Template {
     }
 
     #animateRemove(element) {
+        if (elment.hasAttribute('z-removed') || !element.parentNode) { // alredy removed or being removed
+            return;
+        }
+
         const origAnimationName = window.getComputedStyle(element).animationName;
         element.setAttribute('z-removed', 'true');
         const style = window.getComputedStyle(element);

@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-11T17:12:37+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-11T17:28:38+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -750,9 +750,6 @@ class Template {
 
         later
             .forEach((command) => {
-                if (zElement.parentNode === null) { // Removed
-                    return;
-                }
                 switch (command.action) {
                 case "remove":
                     this.#cmdRemove(zElement, command);
@@ -1029,6 +1026,10 @@ class Template {
     }
 
     #animateRemove(element) {
+        if (elment.hasAttribute('z-removed') || !element.parentNode) { // alredy removed or being removed
+            return;
+        }
+
         const origAnimationName = window.getComputedStyle(element).animationName;
         element.setAttribute('z-removed', 'true');
         const style = window.getComputedStyle(element);
