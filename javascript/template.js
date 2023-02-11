@@ -150,7 +150,7 @@ class Template {
         // so that we can animate the changes.
         const listHashes = list.map((item) => this.#getHash(item));
         const attrHashes = existingClones.map((clone) => clone[0].getAttribute('template-clone-hash'));
-        while (listHashes.length) {
+        while (listHashes.length || attrHashes.length) {
             const listHash = listHashes.shift();
             const attrHash = attrHashes.shift();
             if (listHash == attrHash) { // same
@@ -158,17 +158,17 @@ class Template {
             } else { // same list item?
                 const foundAttrIdx = attrHashes.indexOf(listHash);
                 const foundListIdx = listHashes.indexOf(attrHash);
-                if ((!attrHash || foundListIdx != -1) && (foundAttrIdx == -1 || foundListIdx < foundAttrIdx)) { // New list item + add element
+                if (listHash && (!attrHash || foundListIdx != -1) && (foundAttrIdx == -1 || foundListIdx < foundAttrIdx)) { // New list item + add element
                     clones.push({"elements": this.#cloneTemplateElement(zTemplate, {
                         "template-clone": templateAttrVal,
                         "template-clone-id": ++maxId,
                         "template-clone-hash": listHash,
                     }), "action": "add"});
-                    attrHashes.unshift(attrHash);
+                    if (attrHash) attrHashes.unshift(attrHash);
                 } else { // Remove element - current listHash is the same as the next attrHash
                     const elements = existingClones.shift();
-                     clones.push({"elements": elements, "action": "remove"});
-                    listHashes.unshift(listHash);
+                    clones.push({"elements": elements, "action": "remove"});
+                    if (listHash) listHashes.unshift(listHash);
                 }
             }
         }

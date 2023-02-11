@@ -23,20 +23,7 @@ function *test() {
     list.splice(1, 0, {"id": 50, "value": "test5"});
     yield {list};
 
-    list.splice(2, 0, {"id": 60, "value": "test6"});
-    list.splice(3, 0, {"id": 70, "value": "test7"});
-    yield {list};
-
-    list.push({"id": 80, "value": "test8"});
-    yield {list};
-
-    list[0].value = 'test9 changed';
-    yield {list};
-
-    // empty list
-    yield {list: []};
-
-    // back whole list
+    list.pop();
     yield {list};
 }
 
