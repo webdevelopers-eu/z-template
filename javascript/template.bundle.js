@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-11T16:58:51+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-11T17:12:37+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -646,7 +646,7 @@ class Template {
         // We are trying to figure out what elements to remove, what to add and what to reuse
         // so that we can animate the changes.
         const listHashes = list.map((item) => this.#getHash(item));
-        const attrHashes = existingClones.map((clone) => parseInt(clone[0].getAttribute('template-clone-hash')));
+        const attrHashes = existingClones.map((clone) => clone[0].getAttribute('template-clone-hash'));
         const checkCount = Math.max(listHashes.length, attrHashes.length);
         for (let i = 0; i < checkCount; i++) {
             const listHash = listHashes.shift();
@@ -1025,7 +1025,7 @@ class Template {
             crc = (crc >>> 8) ^ crcTable[(crc ^ str.charCodeAt(i)) & 0xFF];
         }
 
-        return (crc ^ (-1)) >>> 0;
+        return '' + ((crc ^ (-1)) >>> 0);
     }
 
     #animateRemove(element) {
