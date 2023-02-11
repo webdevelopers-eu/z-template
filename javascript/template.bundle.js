@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-11T17:28:38+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-11T17:32:08+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -794,7 +794,7 @@ class Template {
 
     #cmdRemove(zElement, command) {
         if (!command.valueBool) {
-            this.#animateRemove(element);
+            this.#animateRemove(zElement);
         }
     }
 
