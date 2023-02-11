@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-11T16:33:44+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-11T16:58:51+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -1033,6 +1033,8 @@ class Template {
         element.setAttribute('z-removed', 'true');
         const style = window.getComputedStyle(element);
         const currAnimationName = style.animationName;
+        const animationDuration = ((parseFloat(style.animationDuration) || 0) + (parseFloat(style.animationDelay) || 0)) * 1000;
+        const duration = Math.max(200, animationDuration);
 
         const animPromise = new Promise((resolve) => {
             if (origAnimationName !== currAnimationName) { // New animation is running after z-removed attr was set
@@ -1047,7 +1049,7 @@ class Template {
         // To be sure we remove the element even if something fails
         const timeoutPromise = new Promise((resolve) => {
             // if element is display:none then animationend nor transitionend will be fired
-            setTimeout(resolve, Math.min(2000, (parseFloat(style.animationDuration || 0) + parseFloat(style.animationDelay || 0)) * 1000));
+            setTimeout(resolve, duration);
         });
 
         // Shrink the space in a flow by setting negative margin.
@@ -1063,7 +1065,7 @@ class Template {
 
             element.addEventListener('transitionend', resolve);
 
-            element.style.transition = 'margin 0.2s ease-in-out';
+            element.style.transition = `margin ${duration}ms ease-in-out`;
             element.style.marginRight = `-${Math.ceil(dim.height + parseInt(style.marginLeft))}px`;
             element.style.marginBottom = `-${Math.ceil(dim.height + parseInt(style.marginTop))}px`;
         });
