@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-11T16:24:06+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-11T16:33:44+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -1031,7 +1031,8 @@ class Template {
     #animateRemove(element) {
         const origAnimationName = window.getComputedStyle(element).animationName;
         element.setAttribute('z-removed', 'true');
-        const currAnimationName = window.getComputedStyle(element).animationName;
+        const style = window.getComputedStyle(element);
+        const currAnimationName = style.animationName;
 
         const animPromise = new Promise((resolve) => {
             if (origAnimationName !== currAnimationName) { // New animation is running after z-removed attr was set
@@ -1046,13 +1047,12 @@ class Template {
         // To be sure we remove the element even if something fails
         const timeoutPromise = new Promise((resolve) => {
             // if element is display:none then animationend nor transitionend will be fired
-            setTimeout(resolve, 2000);
+            setTimeout(resolve, Math.min(2000, (parseFloat(style.animationDuration || 0) + parseFloat(style.animationDelay || 0)) * 1000));
         });
 
         // Shrink the space in a flow by setting negative margin.
         const slideUpPromise = new Promise((resolve) => {
             const dim = element.getBoundingClientRect();
-            const style = window.getComputedStyle(element);
             // Fixate the size of the element
             element.style.height = dim.height + 'px';
             element.style.width = dim.width + 'px';
