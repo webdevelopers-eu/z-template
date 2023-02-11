@@ -297,7 +297,7 @@ class Template {
 
     #cmdRemove(zElement, command) {
         if (!command.valueBool) {
-            this.#animateRemove(element);
+            this.#animateRemove(zElement);
         }
     }
 
