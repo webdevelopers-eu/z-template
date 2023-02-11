@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-11T17:32:08+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-11T17:39:50+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -647,8 +647,7 @@ class Template {
         // so that we can animate the changes.
         const listHashes = list.map((item) => this.#getHash(item));
         const attrHashes = existingClones.map((clone) => clone[0].getAttribute('template-clone-hash'));
-        const checkCount = Math.max(listHashes.length, attrHashes.length);
-        for (let i = 0; i < checkCount; i++) {
+        while (listHashes.length) {
             const listHash = listHashes.shift();
             const attrHash = attrHashes.shift();
             if (listHash == attrHash) { // same
@@ -1026,7 +1025,7 @@ class Template {
     }
 
     #animateRemove(element) {
-        if (elment.hasAttribute('z-removed') || !element.parentNode) { // alredy removed or being removed
+        if (element.hasAttribute('z-removed') || !element.parentNode) { // alredy removed or being removed
             return;
         }
 

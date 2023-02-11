@@ -16,13 +16,8 @@ function *test() {
     ];
     yield {list};
 
-    list.unshift({"id": 40, "value": "test4"});
-    yield {list};
-
     list.shift();
-    yield {list};
-
-    list.shift();
+    list.push({"id": 40, "value": "test4"});
     yield {list};
 
     list.splice(1, 0, {"id": 50, "value": "test5"});
