@@ -15,6 +15,7 @@
     vertical-align: bottom;
     display: inline-block;
     position: relative;
+    line-height: var(--z-roller-line-height, 1.2em);
 }
 
 .z-roller.z-roller-animate > .z-roller-letter {
