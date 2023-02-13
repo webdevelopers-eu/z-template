@@ -108,10 +108,10 @@ class Template {
                 for (let i2 = clone.elements.length - 1; i2 >= 0; i2--) {
                     const element = clone.elements[i2];
                     const template = new Template(element);
-                    template.render(vars, this.#callbacks);
                     if (clone.action == 'add') {
                         beforeElement.before(element);
                     }
+                    template.render(vars, this.#callbacks); // must be after before() - some logic relies on it.
                     beforeElement = element;
                 }
                 break;
@@ -252,6 +252,9 @@ class Template {
 
         later
             .forEach((command) => {
+                if (!zElement.parentNode) {
+                    console.warn("The element %o was removed from the DOM. Something may break when executing the command %o", zElement, command);
+                }
                 switch (command.action) {
                 case "remove":
                     this.#cmdRemove(zElement, command);
