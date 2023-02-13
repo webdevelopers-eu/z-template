@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-13T11:31:56+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-13T12:05:18+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -604,10 +604,10 @@ class Template {
                 const vars = typeof list[--listIdx] != 'object' ? { value: list[listIdx], key: listIdx } : list[listIdx];
                 for (let i2 = clone.elements.length - 1; i2 >= 0; i2--) {
                     const element = clone.elements[i2];
-                    const template = new Template(element);
                     if (clone.action == 'add') {
                         beforeElement.before(element);
                     }
+                    const template = new Template(element);
                     template.render(vars, this.#callbacks); // must be after before() - some logic relies on it.
                     beforeElement = element;
                 }

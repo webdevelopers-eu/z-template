@@ -30,6 +30,17 @@
     </div>
 
     <ol id="tests">
+        <li data='{"sites": [{"id": "fe72858c1c88cd3733194c44230cd79f", "domains": ["test-1.aspiresoft.dev"]}]}'>
+            <article>
+                <div template="[sites]">
+                    <div role="site" z-var="serverName @data-server-name">
+	                <div template="[domains]">
+	                    <a target="_blank" z-var="true debugger, value ., value @href" href="https://${value}/">?</a>
+	                </div>
+                    </div>
+                </div>
+            </article>
+        </li>
         <li data='{"list": [{"name": "one", "show": true}, {"name": "two", "show": false}, {"name": "three", "show": true}]}'>
             <article>
                 <div template="[list]" z-var="name text, show !">Name: {name}</div>
