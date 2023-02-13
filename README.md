@@ -772,6 +772,17 @@ Note: The `z-scope-children` is equivalent to `template-scope`
 attribute from the previous version 1.0. The current version is
 backward compatible and supports both attributes.
 
+## Reserved Keywords
+
+There are some reserved variable names that cannot be used as references:
+* `true`, `always` - always evaluates to `true`
+* `false`, `never` - always evaluates to `false`
+* `null`, `none` - always evaluates to `null`
+* `undefined` - always evaluates to `undefined`
+* `z` - reserved for future use. This cannot be used as a top level reference such as `z.foo` or `z`.
+
+You can use these keywords in `VALUE`, `ARGUMENTS` or `CONDITION` expressions.
+
 ## Typecasting
 
 ### Boolean
@@ -825,6 +836,22 @@ CSS. Here's an example:
    
     <ol class="my-list">...</ol>
 
+### Animating List Item Removal
+
+The list item element gets the `z-removed` attribute before it is removed.
+
+You can create your own removal animation as follows:
+
+ *[z-removed] {
+     animation: my-animation ...;
+ }
+ @keyframes my-animation {
+     from { ... }
+     to { ... }
+ }
+
+You can check how the default animation works in `template.css`.
+ 
 ### Animating Changed Elements
 
 With Z Template, whenever an element's contents change as a result of

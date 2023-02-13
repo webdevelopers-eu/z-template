@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-13T12:05:18+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-13T16:17:42+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -269,21 +269,26 @@ class Preparator {
     }
 
     #getVariableValue(variable) {
+        const parts = variable.split('.');
+
         // reserved keywords
-        switch(variable) {
-            case 'true':
-                return true;
-            case 'false':
-                return false;
-            case 'null':
-                return null;
-            case 'undefined':
-                return undefined;
+        switch(parts[0]) {
+        case 'true':
+        case 'always':
+            return true;
+        case 'false':
+        case 'never':
+            return false;
+        case 'null':
+        case 'none':
+            return null;
+        case 'undefined':
+        case 'z':
+            return undefined;
         }
 
         // Split the variable into parts separated by dot and get the corresponding value from this.#vars object.
         // Example: "user.name" => this.#vars.user.name
-        const parts = variable.split('.');
         let value = this.#vars;
         for (let i = 0; i < parts.length; i++) {
             if (typeof value[parts[i]] === 'undefined') {

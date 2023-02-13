@@ -147,21 +147,26 @@ class Preparator {
     }
 
     #getVariableValue(variable) {
+        const parts = variable.split('.');
+
         // reserved keywords
-        switch(variable) {
-            case 'true':
-                return true;
-            case 'false':
-                return false;
-            case 'null':
-                return null;
-            case 'undefined':
-                return undefined;
+        switch(parts[0]) {
+        case 'true':
+        case 'always':
+            return true;
+        case 'false':
+        case 'never':
+            return false;
+        case 'null':
+        case 'none':
+            return null;
+        case 'undefined':
+        case 'z':
+            return undefined;
         }
 
         // Split the variable into parts separated by dot and get the corresponding value from this.#vars object.
         // Example: "user.name" => this.#vars.user.name
-        const parts = variable.split('.');
         let value = this.#vars;
         for (let i = 0; i < parts.length; i++) {
             if (typeof value[parts[i]] === 'undefined') {
