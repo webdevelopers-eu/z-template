@@ -29,6 +29,7 @@ zTemplate.callbacks
         const targetText = detail.value + '';
         const len = Math.max(sourceText.length, targetText.length);
         const frag = document.createDocumentFragment();
+        const height = element.getBoundingClientRect().height;
 
         if (sourceText === targetText || sourceText.length === 0) {
             element.textContent = targetText;
@@ -36,7 +37,6 @@ zTemplate.callbacks
         }
 
         // Set css variable --z-roller-speed
-        element.style.setProperty('--z-roller-speed', speed + 'ms');
         element.classList.add('z-roller-rolling');
         
         for (let i = 0; i < len; i++) {
@@ -58,7 +58,10 @@ zTemplate.callbacks
 
             // We use :before to avoid multiplying the textContents
             // when multiple callbacks are applied in short succession
+            div.style.setProperty('--z-roller-speed', speed + 'ms');
+            div.style.setProperty('--z-roller-line-height', height + 'px');
             div.setAttribute('data-z-face', chars.join("\n"));
+
         }
 
         element.replaceChildren(frag);

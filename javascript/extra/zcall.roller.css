@@ -61,7 +61,7 @@
         transform: translateY(0%);
     }
     100% {
-        transform: translateY(calc(100% - 1em));
+        transform: translateY(calc(100% - var(--z-roller-line-height, 1.2em)));
     }
 }
 
@@ -70,6 +70,6 @@
         transform: translateY(0%);
     }
     100% {
-        transform: translateY(calc(-100% + 1em));
+        transform: translateY(calc(-100% + var(--z-roller-line-height, 1.2em)));
     }
 }
