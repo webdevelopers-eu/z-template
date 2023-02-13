@@ -694,6 +694,28 @@ inverts the [boolean value](#boolean) of `bar` (empty array evaluates to `false`
 so that the hidden class will be toggled *on* if `bar` is an empty
 array. The same condition can be expressed with the `{bar == 0} class hidden`.
 
+#### Smart List Rendering
+
+When the list changes (e.g. new item is added or old removed), the Z
+Template will compare previous and new list and will only update the
+items that changed. Items that were removed will be removed from the
+DOM, and items that were added will be added to the DOM. If the item
+is the same as previous item, it will be reused. This allows for
+efficient list rendering. If the item is the same or not is determined
+by the applied variables itself. If the variable is an object with `id`
+property then the `id` property is used to determine if the item is
+the same. 
+
+For example following template will use only the `id` property to
+determine if the item is the same:
+
+    zTemplate(el, {items: [{id: 1, name: 'a'}, {id: 2, name: 'b'}]})
+
+If the `id` property is not present, then the item is compared by
+the whole `{name: ...}` object. 
+
+    zTemplate(el, {items: [{name: 'a'}, {name: 'b'}]})
+
 ### Contexts
 
 If you have complex JSON data with nested objects, you can use the
