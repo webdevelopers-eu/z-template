@@ -58,6 +58,7 @@ Are you curious what is so special about our library? Check out the
             - [Simple Example](#simple-example)
             - [Advanced Example](#advanced-example)
             - [Nested Lists](#nested-lists)
+            - [Smart List Rendering](#smart-list-rendering)
         - [Contexts](#contexts)
         - [Scopes](#scopes)
     - [Reserved Keywords](#reserved-keywords)
