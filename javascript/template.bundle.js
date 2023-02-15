@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-13T16:17:42+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-15T15:33:21+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -922,7 +922,7 @@ class Template {
         }
 
         if (contentChanged) {
-            const rev = (zElement.getAttribute('z-content-rev') || 0) + 1;
+            const rev = parseInt(zElement.getAttribute('z-content-rev') || 0) + 1;
             zElement.removeAttribute('z-content-rev'); // so we can re-trigger CSS animations
             // When we do it fast the DOM does not get updated, so we need to wait a bit
             setTimeout(() => zElement.setAttribute('z-content-rev', rev), 0);

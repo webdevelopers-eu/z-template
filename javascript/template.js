@@ -420,7 +420,7 @@ class Template {
         }
 
         if (contentChanged) {
-            const rev = (zElement.getAttribute('z-content-rev') || 0) + 1;
+            const rev = parseInt(zElement.getAttribute('z-content-rev') || 0) + 1;
             zElement.removeAttribute('z-content-rev'); // so we can re-trigger CSS animations
             // When we do it fast the DOM does not get updated, so we need to wait a bit
             setTimeout(() => zElement.setAttribute('z-content-rev', rev), 0);

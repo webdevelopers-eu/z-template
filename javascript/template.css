@@ -2,6 +2,10 @@
     --z-anim-speed: 0.2s;
 }
 
+.z-no-anim {
+    --z-anim-speed: 0s;
+}
+
 .z-template-hidden,
 .dna-template-hidden,
 [template] {

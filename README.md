@@ -838,6 +838,8 @@ animation for changed elements and slide-in animation for new list
 elements. If you prefer to disable it, simply set the `--z-anim-speed`
 CSS variable to `0` in either the HTML element or the CSS.
 
+The same can be achieved by add `z-no-anim` class to the element.
+
     <style>
         .my-list {
             --z-anim-speed: 0;
