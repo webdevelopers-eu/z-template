@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-15T15:33:21+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-02-17T15:41:07+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -600,7 +600,7 @@ class Template {
         }
         const clones = this.#getTemplateClones(zTemplate, list);
         let listIdx = list.length;
-        let beforeElement = zTemplate;
+        let beforeElements = [zTemplate];
         for (let i = clones.length - 1; i >= 0; i--) {
             const clone = clones[i];
             switch (clone.action) {
@@ -610,11 +610,15 @@ class Template {
                 for (let i2 = clone.elements.length - 1; i2 >= 0; i2--) {
                     const element = clone.elements[i2];
                     if (clone.action == 'add') {
-                        beforeElement.before(element);
+                        // If before element was removed by something else, we need to find the next one.
+                        while(beforeElements.length && !beforeElements[0].parentNode) {
+                            beforeElements.shift();
+                        }
+                        beforeElements[0].before(element);
                     }
                     const template = new Template(element);
                     template.render(vars, this.#callbacks); // must be after before() - some logic relies on it.
-                    beforeElement = element;
+                    beforeElements.unshift(element);
                 }
                 break;
             case 'remove':
