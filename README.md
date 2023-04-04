@@ -345,9 +345,9 @@ Toggle a CSS class on the current element.
 
 Syntax:
 
-    BOOL_EXPRESSION class "[!]CLASS_NAME1 CLASS_NAME2 …" [ CONDITION ]
+    BOOL_EXPRESSION class "[!]CLASS_NAME1 [!]CLASS_NAME2 …" [ CONDITION ]
 
-Syntax sugar:
+Syntax sugar (does not support the logic invertion symbol "!"):
 
     BOOL_EXPRESSION .CLASS_NAME1.CLASS_NAME2… [ CONDITION ]
 
