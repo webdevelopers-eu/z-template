@@ -56,6 +56,7 @@ Are you curious what is so special about our library? Check out the
     - [Lists, Contexts, and Scopes](#lists-contexts-and-scopes)
         - [Lists](#lists)
             - [Simple Example](#simple-example)
+            - [Iterating over an Object](#iterating-over-an-object)
             - [Advanced Example](#advanced-example)
             - [Nested Lists](#nested-lists)
             - [Smart List Rendering](#smart-list-rendering)
@@ -594,26 +595,48 @@ is the value of the item.
 
 The template will be repeated for each item in the list.
 
+You can use `_parent_` value reference to access the parent object.
+
 #### Simple Example
 
 Example:
 
     <script>
         zTemplate(
-            document.querySelector('ol),
-            {"foo": ["bar", "baz", "qux"]}
+            document.querySelector('ol'),
+            {"title": "boa", "foo": ["bar", "baz", "qux"]}
         );
     </script>
     <ol>
-        <template template="[foo]"><li z-var="value text"></li></template>
+        <template template="[foo]"><li z-var="value text, _parent_.title attr title"></li></template>
     </ol>
 
 Result:
 
     <ol>
-        <li>bar</li>
-        <li>baz</li>
-        <li>qux</li>
+        <li title="boa">bar</li>
+        <li title="boa">baz</li>
+        <li title="boa">qux</li>
+    </ol>
+
+#### Iterating over an Object
+
+    <script>
+        zTemplate(
+            document.querySelector('ol'),
+            {"foo": {"barKey": "bar", "bazKey": "baz", "quxKey": "qux"}}
+        );
+    </script>
+    <ol>
+        <template template="[foo]"><li z-var="value text, key attr title"></li></template>
+    </ol>
+
+Result:
+
+    <ol>
+        <li title="barKey">bar</li>
+        <li title="bazKey">baz</li>
+        <li title="quxKey">qux</li>
     </ol>
 
 #### Advanced Example

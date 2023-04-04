@@ -91,11 +91,18 @@ class Template {
             return;
         }
         
-        let list = template.substr(0, 1) == '{' ? [value] : Array.from(value && value[Symbol.iterator] ? value : []);
-        if (typeof list[Symbol.iterator] !== 'function') {
-            console.warn("Template value %s is not iterable on %o. The referenced value is %o", templateName, zTemplate, value);
+        let list;
+        if (template.substr(0, 1) == '{') {
+            list = [value];
+        } else if (value && value[Symbol.iterator]) {
+            list = Array.from(value);
+        } else if (typeof value == 'object') {
+            list = Object.entries(value).map(([key, value]) => ({key, value}));
+        } else {
+            console.warn("Template value '%s' is not iterable: %o. Template: %o", templateName, value, zTemplate);
             list = [];
         }
+
         const clones = this.#getTemplateClones(zTemplate, list);
         let listIdx = list.length;
         let beforeElements = [zTemplate];
@@ -105,6 +112,7 @@ class Template {
             case 'reuse':
             case 'add':
                 const vars = typeof list[--listIdx] != 'object' ? { value: list[listIdx], key: listIdx } : list[listIdx];
+                vars._parent_ = this.#vars;
                 for (let i2 = clone.elements.length - 1; i2 >= 0; i2--) {
                     const element = clone.elements[i2];
                     if (clone.action == 'add') {
@@ -513,7 +521,14 @@ class Template {
             }
             str = JSON.stringify(data.id);
         } else {
-            str = JSON.stringify(data);
+            str = JSON.stringify(data,  (key, value) => {
+                if (key == '_parent_') {
+                    // Circular reference found - ignore it
+                    return undefined;
+                } else {
+                    return value;
+                }
+            });
         }
 
         // CRC32 hash (not sure if correct, but it works practically for our needs)
