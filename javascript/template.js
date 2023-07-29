@@ -371,7 +371,7 @@ class Template {
     }
 
     #cmdText(zProto, command) {
-        zProto.textContent = this.#getReplaceText(zProto, zProto.textContent, command.variable, command.value || '', '');
+        zProto.textContent = this.#getReplaceText(zProto, zProto.textContent, command.variable, command.value === undefined || command.value === null || command.value === false ? '' : command.value, '');
     }
 
     #cmdAttr(zProto, command) {

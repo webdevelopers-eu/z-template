@@ -44,6 +44,16 @@
                 [<article>EXPECTED OUTPUT. IF MISSING OLD $.template() WILL BE USED TO GENERATE IT</article>]
             </li>
         -->
+        <li data='{"foo": 0, "bar": 1}'>
+            <article>
+                <div z-var="foo ."></div>
+                <div z-var="bar ."></div>
+            </article>
+            <article>
+                <div z-var="foo ." z-content-rev="1">0</div>
+                <div z-var="bar ." z-content-rev="1">1</div>
+            </article>                
+        </li>
         <li data='{"foo": [1, 2, 3], "bar": {"a": 1, "b": 2, "c": 3}}'>
             <article>
                 <div z-var="'Hello world!' call cbTest1 {foo}"></div>

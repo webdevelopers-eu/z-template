@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-04-04T01:28:45+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-07-29T14:11:19+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -873,7 +873,7 @@ class Template {
     }
 
     #cmdText(zProto, command) {
-        zProto.textContent = this.#getReplaceText(zProto, zProto.textContent, command.variable, command.value || '', '');
+        zProto.textContent = this.#getReplaceText(zProto, zProto.textContent, command.variable, command.value === undefined || command.value === null || command.value === false ? '' : command.value, '');
     }
 
     #cmdAttr(zProto, command) {
