@@ -787,10 +787,10 @@ Example:
         );
     </script>
     <ol>
-        <li template-scope="my-scope">
+        <li z-scope="my-scope">
             <div z-var="foo text"></div>
         </li>
-        <li template-scope="inherit">
+        <li z-scope="inherit">
             <div z-var="foo text"></div>
         </li>
         <li>
