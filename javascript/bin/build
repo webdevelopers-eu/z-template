@@ -4,30 +4,39 @@
 pushd `dirname "$0"` > /dev/null 2>&1;
 trap "popd > /dev/null" EXIT;
 
-function demodule {
-    # Remove the module wrapper
-    cat "$1" | grep -vE "^\s*(import|export|module)\s";
-}
-
-SCRIPT_TOKENIZE="`demodule ../tokenize.js`";
-SCRIPT_EVALUATE="`demodule ../prepare.js`";
-SCRIPT_TEMPLATE="`demodule ../template.js`";
+BUNDLE=(
+    "../tokenize.js"
+    "../prepare.js"
+    "../template.js"
+);
 
 # Print all up to a line having keyword @INSERT
+echo "Generating template.bundle.js...";
 (
     echo "/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build `date -u -Iseconds` */";
     echo "window.zTemplate = (function() {";
-    echo "$SCRIPT_TOKENIZE";
-    echo "$SCRIPT_EVALUATE";
-    echo "$SCRIPT_TEMPLATE";
+    cat "${BUNDLE[@]}" | grep -vE "^\s*(import|export|module)\s";
     echo " return zTemplate;})();";
 ) > ../template.bundle.js
 
-#cat ../template.bundle.js | uglifyjs --source-map "url='template.bundle.min.js.map'" --comments "/^!/" -o ../template.bundle.min.js --compress --mangle --toplevel --mangle-props reserved=['zTemplate'];
-babel-minify ../template.bundle.js --mangle --simplify --booleans --memberExpressions --mergeVars --numericLiterals --propertyLiterals -o ../template.bundle.min.js
 
+# Print all up to a line having keyword @INSERT
+echo "Generating template.bundle.module.js...";
+(
+    echo "/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build `date -u -Iseconds` */";
+    cat "${BUNDLE[@]}" | grep -vE "^\s*import|export\s";
+    echo -n "export {zTemplate};"; 
+) > ../template.bundle.module.js
+
+#cat ../template.bundle.js | uglifyjs --source-map "url='template.bundle.min.js.map'" --comments "/^!/" -o ../template.bundle.min.js --compress --mangle --toplevel --mangle-props reserved=['zTemplate'];
+echo "Minifying template.bundle.js...";
+babel-minify ../template.bundle.js --mangle --simplify --booleans --memberExpressions --mergeVars --numericLiterals --propertyLiterals -o ../template.bundle.min.js;
+
+echo "Minifying template.bundle.module.js...";
+babel-minify ../template.bundle.module.js --mangle --simplify --booleans --memberExpressions --mergeVars --numericLiterals --propertyLiterals --sourceType module -o ../template.bundle.module.min.js;
 
 ls -lah `readlink -f ../template.bundle.min.js`;
+ls -lah `readlink -f ../template.bundle.module.min.js`;
 
 popd > /dev/null;
 trap "" EXIT;

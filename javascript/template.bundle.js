@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2023-07-29T14:11:19+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2024-02-13T07:13:35+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -120,6 +120,7 @@ function tokenize(input) {
   result.tokenize();
   return result;
 }
+
 /**
  *
  *
@@ -502,6 +503,7 @@ function prepare(tokens, vars) {
 
 
 // exports.prepare = prepare;
+
 
 /**
  *
@@ -1117,4 +1119,6 @@ zTemplate.callbacks = new Map();
 if (typeof jQuery !== 'undefined' && !jQuery.fn.template) {
     jQuery.fn.template = function(vars) {this.each((i, el) => zTemplate(el, vars)); return this;};
 }
+
+
  return zTemplate;})();
