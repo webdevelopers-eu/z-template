@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2024-02-13T07:13:35+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2024-02-26T19:53:11+00:00 */
 /**
  *
  *
@@ -1120,4 +1120,4 @@ if (typeof jQuery !== 'undefined' && !jQuery.fn.template) {
 }
 
 
-export {zTemplate};
+export default zTemplate;

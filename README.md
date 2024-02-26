@@ -177,7 +177,7 @@ HTML file and replace the "…" with the path to the library:
 
 If you're a fan of using modules, you can import zTemplate straight from the `template.js` module or `template.bundle.module.min.js`. Simply add the following code to your project:
 
-    import { zTemplate } from '…/javascript/emplate.bundle.module.min.js';
+    import zTemplate from '…/javascript/emplate.bundle.module.min.js';
 
 And, if you have `jQuery` loaded, `jQuery.template(…)` method will also be available. No worries if you don't have `jQuery`, you can call `zTemplate(…)` method directly.
 

@@ -25,7 +25,7 @@ echo "Generating template.bundle.module.js...";
 (
     echo "/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build `date -u -Iseconds` */";
     cat "${BUNDLE[@]}" | grep -vE "^\s*import|export\s";
-    echo -n "export {zTemplate};"; 
+    echo -n "export default zTemplate;"; 
 ) > ../template.bundle.module.js
 
 #cat ../template.bundle.js | uglifyjs --source-map "url='template.bundle.min.js.map'" --comments "/^!/" -o ../template.bundle.min.js --compress --mangle --toplevel --mangle-props reserved=['zTemplate'];
