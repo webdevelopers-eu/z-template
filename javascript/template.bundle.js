@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2024-02-26T19:53:11+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2024-02-27T07:31:01+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -1058,12 +1058,15 @@ class Template {
             return;
         }
 
-        const origAnimationName = window.getComputedStyle(element).animationName;
+        const computedStyle = window.getComputedStyle(element);
+        const origAnimationName = computedStyle.animationName;
+        const userSpeed = parseInt(computedStyle.getPropertyValue('--z-anim-speed')); // user customizable speed using CSS variable
+        
         element.setAttribute('z-removed', 'true');
         const style = window.getComputedStyle(element);
         const currAnimationName = style.animationName;
         const animationDuration = ((parseFloat(style.animationDuration) || 0) + (parseFloat(style.animationDelay) || 0)) * 1000;
-        const duration = Math.max(200, animationDuration);
+        const duration = Math.min(userSpeed, Math.max(200, animationDuration));
 
         const animPromise = new Promise((resolve) => {
             if (origAnimationName !== currAnimationName) { // New animation is running after z-removed attr was set
