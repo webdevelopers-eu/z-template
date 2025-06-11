@@ -188,7 +188,7 @@ class Preparator {
             return result;
         } else if (result.value === null && result.condition.type == "generic") {
             result.value = this.#toValue(result.condition, result.negateValue);
-        } else if (typeof result.value == 'object') {
+        } else if (result.value !== null && typeof result.value == 'object') {
             result.value = this.#toValue(result.value, result.negateValue);
         } else {
             result.value = this.#negate(result.value, result.negateValue);
@@ -240,7 +240,7 @@ class Preparator {
         case "string":
             return val.length !== 0;
         case "object":
-            return val !== null && Object.keys(val).length !== 0;
+            return val === null ? false : Object.keys(val).length !== 0;
         case "number":
             return val !== 0;
         case "boolean":

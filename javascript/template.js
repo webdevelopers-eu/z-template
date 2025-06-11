@@ -225,7 +225,7 @@ class Template {
                     return;
                 }
 
-                if (command.value === null) {
+                if (command.value === null && !command.negateValue) {
                     console.warn(`The command %o's value is null. Skipping the condition. Variables: %o`, command, this.#vars);
                     return;
                 }

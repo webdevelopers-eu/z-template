@@ -425,6 +425,16 @@
             <article z-var="name attr title, name text">???</article>
             <article z-var="name attr title, name text" title="John Doe" z-content-rev="1">John Doe</article>
         </li>
+
+        <li data='{"nullable": null}'>
+            <article z-var="!nullable ?">VISIBLE</article>
+            <article z-var="!nullable ?" class="z-template-visible">VISIBLE</article>
+        </li>
+
+        <li data='{"nullable": null}'>
+            <article z-var="!!nullable ?">VISIBLE</article>
+            <article z-var="!!nullable ?" class="z-template-hidden">VISIBLE</article>
+        </li>
     </ol>
 
 </body>
