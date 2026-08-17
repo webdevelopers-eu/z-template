@@ -188,6 +188,8 @@ class Preparator {
             return result;
         } else if (result.value === null && result.condition.type == "generic") {
             result.value = this.#toValue(result.condition, result.negateValue);
+        } else if (result.value === null && result.negateValue > 0) {
+              result.value = this.#negate(result.value, result.negateValue);
         } else if (result.value !== null && typeof result.value == 'object') {
             result.value = this.#toValue(result.value, result.negateValue);
         } else {
@@ -316,7 +318,8 @@ class Preparator {
         }
 
         if (value === null) {
-            return value; // Number(null) === 0
+            return this.#negate(value, negate); // Number(null) === 0, but still apply negate
+            // return value; // Number(null) === 0
         } else if (value instanceof Array) {
             value = value.length;
         } else if (value instanceof Number) {

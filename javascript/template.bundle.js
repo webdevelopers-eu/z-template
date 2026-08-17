@@ -1,4 +1,4 @@
-/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2025-06-11T05:36:48+00:00 */
+/*! Z Template | (c) Daniel Sevcik | MIT License | https://github.com/webdevelopers-eu/z-template | build 2026-08-17T20:40:46+00:00 */
 window.zTemplate = (function() {
 /**
  *
@@ -311,6 +311,8 @@ class Preparator {
             return result;
         } else if (result.value === null && result.condition.type == "generic") {
             result.value = this.#toValue(result.condition, result.negateValue);
+        } else if (result.value === null && result.negateValue > 0) {
+              result.value = this.#negate(result.value, result.negateValue);
         } else if (result.value !== null && typeof result.value == 'object') {
             result.value = this.#toValue(result.value, result.negateValue);
         } else {
@@ -439,7 +441,8 @@ class Preparator {
         }
 
         if (value === null) {
-            return value; // Number(null) === 0
+            return this.#negate(value, negate); // Number(null) === 0, but still apply negate
+            // return value; // Number(null) === 0
         } else if (value instanceof Array) {
             value = value.length;
         } else if (value instanceof Number) {
